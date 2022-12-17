@@ -51,7 +51,6 @@ int main(int argc, char **argv, char **envp)
 
 	res = 1;
 	cmd = NULL;
-	//criar uma função e por dentro do argc
 	if (argc == 1)
 	{
 		init(cmd, argv, envp);
