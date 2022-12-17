@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void init_list(t_sh *cmd, char **argv, char **envp)
+static void init(t_sh *cmd, char **argv, char **envp)
 {
 	cmd = malloc (sizeof(t_sh));
 	cmd->envp = copy_env(envp, 0);
@@ -10,6 +10,7 @@ static void init_list(t_sh *cmd, char **argv, char **envp)
 	cmd->str = 0;
 	cmd->children = 0;
 	cmd->back = 0;
+	signal(SIGQUIT, handle_sig);
 }
 
 static void prompt(char **envp)
@@ -50,11 +51,10 @@ int main(int argc, char **argv, char **envp)
 
 	res = 1;
 	cmd = NULL;
-	//criar uma função
-	init_list(cmd, argv, envp);
-	signal(SIGQUIT, handle_sig);
+	//criar uma função e por dentro do argc
 	if (argc == 1)
 	{
+		init(cmd, argv, envp);
 		while (cmd->finish)
 		{
 			if (res)
@@ -69,5 +69,6 @@ int main(int argc, char **argv, char **envp)
 				print_logout();
 		}
 	}
-	return (1);
+	else
+		return (res);
 }
