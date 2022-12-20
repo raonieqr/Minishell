@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static void init(t_sh *cmd, char **argv, char **envp)
+static void	init(t_sh *cmd, char **argv, char **envp)
 {
-	cmd = malloc (sizeof(t_sh));
+	cmd = malloc(sizeof(t_sh));
 	cmd->envp = copy_env(envp, 0);
 	cmd->exp = ft_calloc(sizeof(char *), 1);
 	cmd->argv = argv;
@@ -13,12 +13,12 @@ static void init(t_sh *cmd, char **argv, char **envp)
 	signal(SIGQUIT, handle_sig);
 }
 
-static void prompt(char **envp)
+static void	prompt(char **envp)
 {
-	char *home;
-	char *path;
-	char cwd[1001];
-	int len;
+	char	*home;
+	char	*path;
+	char	cwd[1001];
+	int		len;
 
 	home = get_env(envp, "HOME");
 	len = ft_strlen(home);
@@ -31,23 +31,22 @@ static void prompt(char **envp)
 	free(path);
 }
 
-void handle_sig(int sig)
+void	handle_sig(int sig)
 {
-	char cwd[1001];
+	char	cwd[1001];
 
 	if (sig == SIGINT)
 	{
 		getcwd(cwd, 1000);
-
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_sh *cmd;
-	int	res;
-	int res2;
-	char letter;
+	t_sh	*cmd;
+	int		res;
+	int		res2;
+	char	letter;
 
 	res = 1;
 	cmd = NULL;
@@ -63,7 +62,7 @@ int main(int argc, char **argv, char **envp)
 				char_copy(&cmd->str, letter);
 			res2 = ft_strlen(cmd->str);
 			if (letter == 10)
-				set_command(cmd);
+				// set_command(cmd);
 			if (!res && !res2)
 				print_logout();
 		}

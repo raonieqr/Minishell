@@ -29,4 +29,12 @@ char		*get_env(char **envp, char *env);
 char		**copy_env(char **envp, int adc);
 void		char_copy(char **str, char c);
 void		handle_sig(int sig);
+int	size_not_letter(char *str, char c);
+int	size_env(char *str);
+int	special_checks(char c);
+void	char_copy(char **str, char c);
+char	*get_env(char **envp, char *env);
+char	**copy_env(char **envp, int adc);
+void	freethree_ptrs(char *s, char *s2, char *s3);
+void	freetwo_ptrs(char *s, char *s2);
 #endif

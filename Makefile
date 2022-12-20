@@ -6,7 +6,7 @@
 #    By: rasilva <rasilva@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/13 18:00:02 by rasilva           #+#    #+#              #
-#    Updated: 2022/12/16 16:21:42 by rasilva          ###   ########.fr        #
+#    Updated: 2022/12/19 13:40:29 by rasilva          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ LIBFTPRINTF	=	./ft_printf/libftprintf.a
 
 CFLAGS	=	-g -Wall -Werror -Wextra
 
-SRCS	=	utils.c minishell.c
+SRCS	=	utils_checkers.c minishell.c utils_len.c \
+			utils_print_env.c parser.c freedom_sings.c
 
 OBJS	=	$(SRCS:.c=.o)
 
