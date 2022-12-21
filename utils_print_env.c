@@ -7,11 +7,10 @@ void	print_prompt(t_sh *cmd)
 	cmd->temp = ft_strjoin("Minishell@ubuntu:", cmd->envp);
 	cmd->prompt = readline(cmd->temp);
 	freetwo_ptrs(cmd->envp, cmd->temp);
+	signal(SIGQUIT, SIG_IGN);	
 	if (cmd->temp && *cmd->temp)
 		add_history (cmd->prompt);
 }
-
-
 
 
 void	print_logout(void)

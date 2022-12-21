@@ -42,6 +42,7 @@ void	print_jump(void)
 	temp = ft_strjoin("Minishell@ubuntu:", envp);
 	prompt = readline(temp);
 	freetwo_ptrs(envp, temp);
+	signal(SIGQUIT, print_prompt);
 	(void)prompt;
 	if (temp && *temp)
 		add_history (temp);
@@ -55,10 +56,6 @@ void	handle_sig(int sig)
 		// char *prompt;
 		// char *temp;
 		printf("\n");
-<<<<<<< HEAD
-		print_jump();
-=======
->>>>>>> 9c583a301959cbf3dfa4cef320b0647f6a5539d2
 		// envp = return_path();
 		// envp = ft_strjoin(envp, "$ ");
 		// temp = ft_strjoin("Minishell@ubuntu:", envp);
@@ -82,14 +79,17 @@ int	main(int argc, char **argv)
 	res2 = 1;
 	// int argc = 1;
 	// signal(SIGQUIT, handle_sig);
+	signal(SIGQUIT, SIG_IGN);	
 	(void)argv;
 	if (argc == 1)
 	{
 		init(&cmd);
 		while (1)
 		{
+			signal(SIGQUIT, SIG_IGN);	
 			if (res)
 				print_prompt(&cmd);	
+			signal(SIGQUIT, SIG_IGN);	
 			signal(SIGINT, handle_sig);
 			// signal(SIGINT, handle_sig);
 			// while ((res = read(1, &letter, 1)) && letter != 10)
