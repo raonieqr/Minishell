@@ -37,4 +37,5 @@ void	char_copy(char **str, char c);
 // char	**copy_env(char *envp, int adc);
 void	freethree_ptrs(char *s, char *s2, char *s3);
 void	freetwo_ptrs(char *s, char *s2);
+void	print_jump(t_sh *cmd);
 #endif

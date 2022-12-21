@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-// static void	init(t_sh *cmd)
-// {
-// 	cmd = malloc(sizeof(t_sh));
-// 	cmd->envp = NULL;
-// 	cmd->exp = ft_calloc(sizeof(char *), 1);
-// 	cmd->finish = 1;
-// 	cmd->str = 0;
-// 	cmd->children = 0;
-// 	cmd->back = 0;
-// 	// signal(SIGQUIT, handle_sig);
-// }
+static void	init(t_sh *cmd)
+{
+	cmd = malloc(sizeof(t_sh));
+	cmd->envp = NULL;
+	cmd->exp = ft_calloc(sizeof(char *), 1);
+	cmd->finish = 1;
+	cmd->str = 0;
+	cmd->children = 0;
+	cmd->back = 0;
+	signal(SIGQUIT, print_prompt);
+}
 
 void	handle_sig(int sig)
 {
@@ -35,13 +35,14 @@ int	main(int argc, char **argv)
 	(void)argv;
 	if (argc == 1)
 	{
-		// init(cmd);
+		init(&cmd);
 		while (1)
 		{
 			if (res)
 			{
 				print_prompt(&cmd);	
 			}
+			signal(SIGINT, print_jump));
 			// signal(SIGINT, handle_sig);
 			// while ((res = read(1, &letter, 1)) && letter != 10)
 			// 	char_copy(&cmd->str, letter);

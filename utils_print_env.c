@@ -10,10 +10,24 @@ void	print_prompt(t_sh *cmd)
 		add_history (cmd->temp);
 }
 
+
+void	print_jump()
+{
+	char *promp;
+	char *temp;
+	char cwd[1001];
+
+	getcwd(cwd, 1000);
+
+	prompt = readline("Minishell@ubuntu:~");
+	if (cmd->temp && *cmd->temp)
+		add_history (cmd->temp);
+}
+
 void	print_logout(void)
 {
 	ft_printf("\nexit\n");
-	exit(0);
+	// exit(0);
 }
 
 void	char_copy(char **str, char c)
