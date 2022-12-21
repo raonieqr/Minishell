@@ -2,27 +2,17 @@
 
 void	print_prompt(t_sh *cmd)
 {
-	cmd->envp = getenv("HOME");
+	cmd->envp = return_path();
 	cmd->envp = ft_strjoin(cmd->envp, "$ ");
-	cmd->temp = ft_strjoin("Minishell@ubuntu:~", cmd->envp);
+	cmd->temp = ft_strjoin("Minishell@ubuntu:", cmd->envp);
 	cmd->prompt = readline(cmd->temp);
+	freetwo_ptrs(cmd->envp, cmd->temp);
 	if (cmd->temp && *cmd->temp)
 		add_history (cmd->temp);
 }
 
 
-void	print_jump()
-{
-	char *promp;
-	char *temp;
-	char cwd[1001];
 
-	getcwd(cwd, 1000);
-
-	prompt = readline("Minishell@ubuntu:~");
-	if (cmd->temp && *cmd->temp)
-		add_history (cmd->temp);
-}
 
 void	print_logout(void)
 {

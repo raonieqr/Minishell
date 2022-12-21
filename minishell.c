@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+
+char *return_path(void)
+{
+	char	*home;
+	char	cwd[4098];
+	char	*path;
+
+	home = getenv("HOME");
+	getcwd(cwd, 4097);
+	if (ft_memcmp(home, cwd, ft_strlen(home)))
+		path = ft_strdup(home);
+	else
+		path = ft_strjoin("~", cwd + ft_strlen(home));
+	return (path);
+}
+
 static void	init(t_sh *cmd)
 {
 	cmd = malloc(sizeof(t_sh));
@@ -12,13 +28,31 @@ static void	init(t_sh *cmd)
 	signal(SIGQUIT, print_prompt);
 }
 
+void	print_jump(void)
+{
+	char *prompt;
+	char *temp;
+	char	*envp;
+
+	//ft_putstr_fd("\033[2D\033[0K", 2);
+	
+	printf("\n");
+	envp = return_path();
+	envp = ft_strjoin(envp, "$ ");
+	temp = ft_strjoin("Minishell@ubuntu:", envp);
+	prompt = readline(temp);
+	freetwo_ptrs(envp, temp);
+	(void)prompt;
+	if (temp && *temp)
+		add_history (temp);
+}
+
 void	handle_sig(int sig)
 {
-	char	cwd[1001];
 
 	if (sig == SIGINT)
 	{
-		getcwd(cwd, 1000);
+		print_jump();
 	}
 }
 
@@ -31,6 +65,7 @@ int	main(int argc, char **argv)
 	// char	letter;
 
 	res = 1;
+	res2 = 1;
 	// int argc = 1;
 	(void)argv;
 	if (argc == 1)
@@ -42,7 +77,7 @@ int	main(int argc, char **argv)
 			{
 				print_prompt(&cmd);	
 			}
-			signal(SIGINT, print_jump));
+			signal(SIGINT, handle_sig);
 			// signal(SIGINT, handle_sig);
 			// while ((res = read(1, &letter, 1)) && letter != 10)
 			// 	char_copy(&cmd->str, letter);
