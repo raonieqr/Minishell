@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 char *return_path(void)
 {
 	char	*home;
@@ -65,16 +64,27 @@ void	handle_sig(int sig)
 		// if (temp && *temp)
 		// 	add_history (temp);
 	}
+	else if (sig == SIGTSTP)
+		print_logout();
+	else if (sig == SIGQUIT)
+		signal(SIGQUIT, SIG_IGN);	
+
 }
 
 int	main(int argc, char **argv)
 {
 	t_sh	cmd;
+	struct sigaction	act;
 	// char cwd[1001];
 	int		res;
 	int		res2;
 	// char	letter;
 
+	act.sa_sigaction = (void *)handle_sig;
+	act.sa_flags = SA_SIGINFO;
+	sigaction (SIGQUIT, &act, NULL);
+	sigaction (SIGINT, &act, NULL);
+	sigaction (SIGTSTP, &act, NULL);
 	res = 1;
 	res2 = 1;
 	// int argc = 1;
@@ -86,11 +96,11 @@ int	main(int argc, char **argv)
 		init(&cmd);
 		while (1)
 		{
-			signal(SIGQUIT, SIG_IGN);	
+			//signal(SIGQUIT, SIG_IGN);	
 			if (res)
 				print_prompt(&cmd);	
-			signal(SIGQUIT, SIG_IGN);	
-			signal(SIGINT, handle_sig);
+			//signal(SIGQUIT, SIG_IGN);	
+			//signal(SIGINT, handle_sig);
 			// signal(SIGINT, handle_sig);
 			// while ((res = read(1, &letter, 1)) && letter != 10)
 			// 	char_copy(&cmd->str, letter);
@@ -99,7 +109,6 @@ int	main(int argc, char **argv)
 			// 	// set_command(cmd);
 			if (!res && !res2)
 				print_logout();
-			
 		}
 	}
 	else
