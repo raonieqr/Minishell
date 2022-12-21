@@ -9,10 +9,12 @@
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_cmd
 {
-	char	**envp;
+	char	*envp;
 	char	**exp;
 	char	**cmd;
 	char	**argv;
@@ -23,18 +25,14 @@ typedef struct s_cmd
 	int		children;
 }			t_sh;
 
-void		print_prompt(char *path);
+void		print_prompt();
 void		print_logout(void);
-char		*get_env(char **envp, char *env);
-char		**copy_env(char **envp, int adc);
-void		char_copy(char **str, char c);
 void		handle_sig(int sig);
 int	size_not_letter(char *str, char c);
 int	size_env(char *str);
 int	special_checks(char c);
 void	char_copy(char **str, char c);
-char	*get_env(char **envp, char *env);
-char	**copy_env(char **envp, int adc);
+// char	**copy_env(char *envp, int adc);
 void	freethree_ptrs(char *s, char *s2, char *s3);
 void	freetwo_ptrs(char *s, char *s2);
 #endif

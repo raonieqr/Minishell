@@ -1,9 +1,13 @@
 #include "minishell.h"
 
-void	print_prompt(char *path)
+void	print_prompt()
 {
-	ft_printf("Minishell@Cheetahs");
-	ft_printf(":%s", path);
+	char *prompt;
+
+	prompt = readline("Mini");
+	// ft_printf("Minishell@Cheetahs");
+	// ft_printf(":%s", path);
+	(void)prompt;
 }
 
 void	print_logout(void)
@@ -28,39 +32,20 @@ void	char_copy(char **str, char c)
 	*str = aux;
 }
 
-char	*get_env(char **envp, char *env)
-{
-	int		i;
-	int		len;
-	char	*tmp;
+// char	**copy_env(t_sh *cmd, int adc)
+// {
+// 	int		len;
+// 	int		i;
+// 	char	**copy;
 
-	env = ft_strjoin(env, "=");
-	len = ft_strlen(env);
-	i = 0;
-	while (envp[i] && ft_memcmp(env, envp[i], len))
-		i++;
-	if (envp[i])
-		tmp = envp[i] + len;
-	else
-		tmp = 0;
-	free(env);
-	return (tmp);
-}
-
-char	**copy_env(char **envp, int adc)
-{
-	int		len;
-	int		i;
-	char	**copy;
-
-	len = 0;
-	i = 0;
-	while (envp[len])
-		len++;
-	copy = (char **)malloc(sizeof(char *) * (len + adc + 1));
-	if (!copy)
-		return (NULL);
-	while (i++ < len)
-		copy[i] = ft_strdup(envp[i]);
-	return (copy);
-}
+// 	len = 0;
+// 	i = 0;
+// 	while (envp[len])
+// 		len++;
+// 	copy = (char **)malloc(sizeof(char *) * (len + adc + 1));
+// 	if (!copy)
+// 		return (NULL);
+// 	while (i++ < len)
+// 		copy[i] = ft_strdup(envp[i]);
+// 	return (copy);
+// }

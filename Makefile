@@ -6,7 +6,7 @@
 #    By: rasilva <rasilva@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/13 18:00:02 by rasilva           #+#    #+#              #
-#    Updated: 2022/12/19 13:40:29 by rasilva          ###   ########.fr        #
+#    Updated: 2022/12/21 11:53:11 by rasilva          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,11 @@ SRCS	=	utils_checkers.c minishell.c utils_len.c \
 OBJS	=	$(SRCS:.c=.o)
 
 %.o: %.c 
-	@ $(CC) $(CFLAGS) -c $< -o $@
+	@ $(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME):	$(OBJS)
 		@ make -s -C ./ft_printf
-		@ cc $(OBJS) -o $(NAME) $(LIBFTPRINTF)
+		@ cc $(OBJS) -o $(NAME) $(LIBFTPRINTF) -lreadline
 		@echo ">> Minishell Compiled 🐚"
 		@echo ">> OK ✅"
 
