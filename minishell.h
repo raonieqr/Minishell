@@ -19,6 +19,8 @@ typedef struct s_cmd
 	char	**cmd;
 	char	**argv;
 	char	*str;
+	char 	*prompt;
+	char 	*temp;
 	int		back;
 	int		argc;
 	int		finish;

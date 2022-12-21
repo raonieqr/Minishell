@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-void	print_prompt()
+void	print_prompt(t_sh *cmd)
 {
-	char *prompt;
-
-	prompt = readline("Mini");
-	// ft_printf("Minishell@Cheetahs");
-	// ft_printf(":%s", path);
-	(void)prompt;
+	cmd->envp = getenv("HOME");
+	cmd->envp = ft_strjoin(cmd->envp, "$ ");
+	cmd->temp = ft_strjoin("Minishell@ubuntu:~", cmd->envp);
+	cmd->prompt = readline(cmd->temp);
+	if (cmd->temp && *cmd->temp)
+		add_history (cmd->temp);
 }
 
 void	print_logout(void)

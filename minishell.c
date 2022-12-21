@@ -28,8 +28,6 @@ int	main(int argc, char **argv)
 	// char cwd[1001];
 	int		res;
 	int		res2;
-	char *prompt;
-	char *prompt2;
 	// char	letter;
 
 	res = 1;
@@ -42,13 +40,7 @@ int	main(int argc, char **argv)
 		{
 			if (res)
 			{
-				// getcwd(cwd, 1000);
-				cmd.envp = getenv("HOME");
-				// char *home = ft_strjoin(b, "$ ");
-				prompt2 = ft_strjoin("Minishell@ubuntu:~", cmd.envp);
-				prompt = readline(prompt2);
-				if (prompt && *prompt)
-    				add_history (prompt);
+				print_prompt(&cmd);	
 			}
 			// signal(SIGINT, handle_sig);
 			// while ((res = read(1, &letter, 1)) && letter != 10)
@@ -58,8 +50,7 @@ int	main(int argc, char **argv)
 			// 	// set_command(cmd);
 			if (!res && !res2)
 				print_logout();
-			(void)prompt;
-			(void)prompt2;
+			
 		}
 	}
 	else
