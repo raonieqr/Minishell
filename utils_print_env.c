@@ -8,7 +8,7 @@ void	print_prompt(t_sh *cmd)
 	cmd->prompt = readline(cmd->temp);
 	freetwo_ptrs(cmd->envp, cmd->temp);
 	if (cmd->temp && *cmd->temp)
-		add_history (cmd->temp);
+		add_history (cmd->prompt);
 }
 
 

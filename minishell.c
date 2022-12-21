@@ -52,7 +52,19 @@ void	handle_sig(int sig)
 
 	if (sig == SIGINT)
 	{
+		// char *prompt;
+		// char *temp;
+		printf("\n");
+		sig = SIGUSR2;
 		print_jump();
+		// envp = return_path();
+		// envp = ft_strjoin(envp, "$ ");
+		// temp = ft_strjoin("Minishell@ubuntu:", envp);
+		// printf("%s", temp);
+		// freetwo_ptrs(envp, temp);
+		// (void)prompt;
+		// if (temp && *temp)
+		// 	add_history (temp);
 	}
 }
 
@@ -67,6 +79,7 @@ int	main(int argc, char **argv)
 	res = 1;
 	res2 = 1;
 	// int argc = 1;
+	// signal(SIGQUIT, handle_sig);
 	(void)argv;
 	if (argc == 1)
 	{
@@ -74,9 +87,7 @@ int	main(int argc, char **argv)
 		while (1)
 		{
 			if (res)
-			{
 				print_prompt(&cmd);	
-			}
 			signal(SIGINT, handle_sig);
 			// signal(SIGINT, handle_sig);
 			// while ((res = read(1, &letter, 1)) && letter != 10)
