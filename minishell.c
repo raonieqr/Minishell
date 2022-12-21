@@ -55,7 +55,10 @@ void	handle_sig(int sig)
 		// char *prompt;
 		// char *temp;
 		printf("\n");
+<<<<<<< HEAD
 		print_jump();
+=======
+>>>>>>> 9c583a301959cbf3dfa4cef320b0647f6a5539d2
 		// envp = return_path();
 		// envp = ft_strjoin(envp, "$ ");
 		// temp = ft_strjoin("Minishell@ubuntu:", envp);
