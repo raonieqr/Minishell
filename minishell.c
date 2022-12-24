@@ -1,5 +1,45 @@
 #include "minishell.h"
 
+void	print_start(void)
+{
+	printf(",--.   ,--.,--.        ,--.       ,--.            ,--.,--. \n");
+	printf("|   `.'   |`--',--,--, `--' ,---. |  ,---.  ,---. |  ||  | \n");
+	printf("|  |'.'|  |,--.|      |,--.(  .-' |  .-.  || .-. :|  ||  | \n");
+	printf("|  |   |  ||  ||  ||  ||  |.-'  `)|  | |  ||   --.|  ||  | \n");
+	printf("`--'   `--'`--'`--''--'`--'`----' `--' `--' `----'`--'`--' \n");
+}
+
+// char	*expand_vars(char *input)
+// {
+// 	//check if is inside single quotes.
+// 	//check /
+// 	//check ;
+// 	//UPPERCASE
+// 	int	single_quote;
+// 	int	pos;
+// 	int	pos2;
+
+// 	single_quote = 0;
+// 	while (input[pos])
+// 	{
+// 		if(input[pos] == 39 && single_quote == 0)
+// 			single_quote++;
+// 		else if (input[pos] == 39 && single_quote == 1)
+// 			single_quote--;
+// 		if (input[pos] == '$' && single_quote == 0)
+// 		{
+// 			pos2 = pos;
+// 			while (input[pos2] != ' ' && input[pos2])
+// 			{
+// 				pos++;
+// 				pos2++;
+// 			}
+// 		}	
+// 		pos++;
+// 	}
+// 	return (NULL);
+// }
+
 char *return_path(void)
 {
 	char	*home;
@@ -42,9 +82,9 @@ void	print_jump(void)
 	prompt = readline(temp);
 	freetwo_ptrs(envp, temp);
 	signal(SIGQUIT, print_prompt);
-	(void)prompt;
+	//(void)prompt;
 	if (temp && *temp)
-		add_history (temp);
+		add_history (prompt);
 }
 
 void	handle_sig(int sig)
@@ -52,23 +92,15 @@ void	handle_sig(int sig)
 
 	if (sig == SIGINT)
 	{
-		// char *prompt;
-		// char *temp;
 		printf("\n");
-		// envp = return_path();
-		// envp = ft_strjoin(envp, "$ ");
-		// temp = ft_strjoin("Minishell@ubuntu:", envp);
-		// printf("%s", temp);
-		// freetwo_ptrs(envp, temp);
-		// (void)prompt;
-		// if (temp && *temp)
-		// 	add_history (temp);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	else if (sig == SIGTSTP)
 		print_logout();
 	else if (sig == SIGQUIT)
 		signal(SIGQUIT, SIG_IGN);	
-
 }
 
 int	main(int argc, char **argv)
@@ -87,6 +119,7 @@ int	main(int argc, char **argv)
 	sigaction (SIGTSTP, &act, NULL);
 	res = 1;
 	res2 = 1;
+	print_start();
 	// int argc = 1;
 	// signal(SIGQUIT, handle_sig);
 	signal(SIGQUIT, SIG_IGN);	
