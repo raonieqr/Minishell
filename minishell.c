@@ -44,12 +44,14 @@ void	print_jump(void)
 	signal(SIGQUIT, print_prompt);
 	(void)prompt;
 	if (temp && *temp)
-		add_history (temp);
+		add_history (prompt);
 }
 
-void	handle_sig(int sig)
+void	handle_sig(int sig, siginfo_t *info, void *algo)
 {
 
+	(void) algo;
+	(void) *info;
 	if (sig == SIGINT)
 	{
 		// char *prompt;
@@ -94,7 +96,7 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 	{
 		init(&cmd);
-		while (1)
+		while (cmd.finish)
 		{
 			//signal(SIGQUIT, SIG_IGN);	
 			if (res)

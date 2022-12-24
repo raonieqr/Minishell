@@ -29,7 +29,7 @@ typedef struct s_cmd
 
 void		print_prompt();
 void		print_logout(void);
-void		handle_sig(int sig);
+void		handle_sig(int sig, siginfo_t *info, void *algo);
 int	size_not_letter(char *str, char c);
 int	size_env(char *str);
 int	special_checks(char c);
