@@ -9,37 +9,6 @@ void	print_start(void)
 	printf("`--'   `--'`--'`--''--'`--'`----' `--' `--' `----'`--'`--' \n");
 }
 
-// char	*expand_vars(char *input)
-// {
-// 	//check if is inside single quotes.
-// 	//check /
-// 	//check ;
-// 	//UPPERCASE
-// 	int	single_quote;
-// 	int	pos;
-// 	int	pos2;
-
-// 	single_quote = 0;
-// 	while (input[pos])
-// 	{
-// 		if(input[pos] == 39 && single_quote == 0)
-// 			single_quote++;
-// 		else if (input[pos] == 39 && single_quote == 1)
-// 			single_quote--;
-// 		if (input[pos] == '$' && single_quote == 0)
-// 		{
-// 			pos2 = pos;
-// 			while (input[pos2] != ' ' && input[pos2])
-// 			{
-// 				pos++;
-// 				pos2++;
-// 			}
-// 		}	
-// 		pos++;
-// 	}
-// 	return (NULL);
-// }
-
 char *return_path(void)
 {
 	char	*home;
@@ -55,8 +24,9 @@ char *return_path(void)
 	return (path);
 }
 
-static void	init(t_sh *cmd)
+static t_sh	*init(void)
 {
+	t_sh *cmd;
 	cmd = malloc(sizeof(t_sh));
 	cmd->envp = NULL;
 	cmd->exp = ft_calloc(sizeof(char *), 1);
@@ -64,27 +34,7 @@ static void	init(t_sh *cmd)
 	cmd->str = 0;
 	cmd->children = 0;
 	cmd->back = 0;
-	signal(SIGQUIT, print_prompt);
-}
-
-void	print_jump(void)
-{
-	char *prompt;
-	char *temp;
-	char	*envp;
-
-	//ft_putstr_fd("\033[2D\033[0K", 2);
-	
-	printf("\n");
-	envp = return_path();
-	envp = ft_strjoin(envp, "$ ");
-	temp = ft_strjoin("Minishell@ubuntu:", envp);
-	prompt = readline(temp);
-	freetwo_ptrs(envp, temp);
-	signal(SIGQUIT, print_prompt);
-	//(void)prompt;
-	if (temp && *temp)
-		add_history (prompt);
+	return (cmd);
 }
 
 void	handle_sig(int sig, siginfo_t *info, void *algo)
@@ -105,38 +55,38 @@ void	handle_sig(int sig, siginfo_t *info, void *algo)
 		signal(SIGQUIT, SIG_IGN);	
 }
 
-int	main(int argc, char **argv)
+void	signals(void)
 {
-	t_sh	cmd;
 	struct sigaction	act;
-	// char cwd[1001];
-	int		res;
-	int		res2;
-	// char	letter;
 
 	act.sa_sigaction = (void *)handle_sig;
 	act.sa_flags = SA_SIGINFO;
 	sigaction (SIGQUIT, &act, NULL);
 	sigaction (SIGINT, &act, NULL);
 	sigaction (SIGTSTP, &act, NULL);
+}
+
+int	main(int argc, char **argv)
+{
+	t_sh	*cmd;
+	// char cwd[1001];
+	int		res;
+	int		res2;
+	// char	letter;
+
 	res = 1;
 	res2 = 1;
 	print_start();
 	// int argc = 1;
-	// signal(SIGQUIT, handle_sig);
-	signal(SIGQUIT, SIG_IGN);	
+	signals();
 	(void)argv;
 	if (argc == 1)
 	{
-		init(&cmd);
-		while (cmd.finish)
+		cmd = init();
+		while (cmd->finish)
 		{
-			//signal(SIGQUIT, SIG_IGN);	
 			if (res)
-				print_prompt(&cmd);	
-			//signal(SIGQUIT, SIG_IGN);	
-			//signal(SIGINT, handle_sig);
-			// signal(SIGINT, handle_sig);
+				print_prompt(cmd);	
 			// while ((res = read(1, &letter, 1)) && letter != 10)
 			// 	char_copy(&cmd->str, letter);
 			// res2 = ft_strlen(cmd->str);
