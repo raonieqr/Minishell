@@ -92,6 +92,7 @@ int	main(int argc, char **argv)
 			// res2 = ft_strlen(cmd->str);
 			// if (letter == 10)
 			// 	// set_command(cmd);
+			check_input(cmd->prompt, cmd);
 			if (!res && !res2)
 				print_logout();
 		}

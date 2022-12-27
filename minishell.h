@@ -28,6 +28,7 @@ typedef struct s_cmd
 }			t_sh;
 
 void		print_prompt();
+void	*check_input(char	*prompt, t_sh	*cmd);
 void		print_logout(void);
 void		handle_sig(int sig, siginfo_t *info, void *algo);
 int	size_not_letter(char *str, char c);

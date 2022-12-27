@@ -3,76 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasilva <rasilva@student.42.rio>           +#+  +:+       +#+        */
+/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:51:43 by rasilva           #+#    #+#             */
-/*   Updated: 2022/05/16 09:11:19 by rasilva          ###   ########.fr       */
+/*   Updated: 2022/12/27 15:02:41 by sdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-static int	count_word(char const *s, char c);
-static int	countsize_word(char const *s, char c, int i);
+static size_t	ft_len(char const *s, int c)
+{
+	size_t	j;
+
+	j = 0;
+	while (s[j] != c && s[j] != '\0')
+	{
+		if (s[j] == '"')
+		{
+			j++;
+			while (s[j] != '"')
+				j++;
+		}
+		if (s[j] == 39)
+		{
+			j++;
+			while (s[j] != 39)
+				j++;
+		}
+		j++;
+	}
+	return (j);
+}
+
+static size_t	ft_count(char const *s, int c)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 1;
+	j = -1;
+	while (*s && *s == c)
+		s++;
+	while (s[++j])
+	{	
+		if (s[j] != c && s[j - 1] == c)
+			i++;
+		if (s[j] == '"')
+		{
+			j++;
+			while (s[j] != '"')
+				j++;
+		}
+		if (s[j] == 39)
+		{
+			j++;
+			while (s[j] != 39)
+				j++;
+		}
+	}
+	return (i);
+}
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	int		j;
-	int		size_word;
-	int		count;
-	char	**vector;
+	char	**str;
+	size_t	j;
+	char	*str1;
+	int		substr;
 
-	i = 0;
+	str1 = (char *)s;
 	j = 0;
-	count = count_word(s, c);
-	vector = (char **)malloc((count + 1) * sizeof(char *));
-	if (!(vector))
-		return ((void *)0);
-	while (j < count)
+	if (!s)
+		return (NULL);
+	str = (char **) malloc((ft_count(s, c) + 1) * sizeof(char *));
+	if (!str)
+		return (NULL);
+	while (j < ft_count(s, c))
 	{
-		while (s[i] == c)
-			i++;
-		size_word = countsize_word(s, c, i);
-		vector[j] = ft_substr(s, i, size_word);
-		if (!(vector[j]))
-			return ((void *)0);
+		while (*str1 == c && *str1)
+			str1++;
+		substr = ft_len(str1, c);
+		str[j] = ft_substr(str1, 0, substr);
 		j++;
-		i += size_word;
+		str1 += substr;
 	}
-	vector[j] = 0;
-	return (vector);
+	str[j] = NULL;
+	return (str);
 }
 
-static int	countsize_word(char const *s, char c, int i)
-{
-	int	count;
 
-	count = 0;
-	while (s[i] != c && s[i])
-	{
-		i++;
-		count++;
-	}
-	return (count);
-}
-
-static int	count_word(char const *s, char c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (!(s[i] == c))
-		{
-			count++;
-			while (s[i] && s[i] != c)
-				i++;
-		}
-		else
-			i++;
-	}
-	return (count);
-}

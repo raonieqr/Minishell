@@ -1,5 +1,34 @@
 #include "minishell.h"
 
+void	*check_input(char	*prompt, t_sh	*cmd)
+{
+	char **a;
+
+	if (!prompt)
+	{
+		printf("\nError\n");
+		return (NULL);
+	}
+	if (!prompt[0])
+		return (NULL);
+	a = ft_split(prompt, ' ');
+	free(prompt);
+	//if (!a)
+	//	mini_error()
+	if (!a)
+		return ("");
+
+	return (cmd);
+}
+
+
+
+
+
+
+
+
+
 // static int	check_char_and_env(char **str, int i, int keys)
 // {
 // 	int	len_char;
