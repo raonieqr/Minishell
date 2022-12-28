@@ -1,5 +1,54 @@
 #include "minishell.h"
 
+char    **ft_new_trim(char **cmd)
+{
+    int    i;
+	char	*temp;
+
+    i = 0;
+    while (cmd[i])
+    {
+		temp = NULL;
+		if (cmd[i][0] == '\'') 
+			temp = ft_strtrim(cmd[i], "\'");
+        else if (cmd[i][0] == '\"')
+			temp = ft_strtrim(cmd[i], "\"");
+		if (temp)
+		{
+			free(cmd[i]);
+			cmd[i] = temp;
+		}
+        i++;
+    }
+    return (cmd);
+}
+
+void	*check_input(char	*prompt, t_sh	*cmd)
+{
+	char **a;
+
+	if (!prompt)
+	{
+		printf("\nError\n");
+		return (NULL);
+	}
+	if (!prompt[0])
+		return (NULL);
+	a = ft_split(prompt, ' ');
+	free(prompt);
+	//if (!a)
+	//	mini_error()
+	if (!a)
+		return ("");
+	a = ft_new_trim(a);
+	expand(a);
+	return (cmd);
+}
+
+
+
+
+
 // static int	check_char_and_env(char **str, int i, int keys)
 // {
 // 	int	len_char;

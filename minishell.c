@@ -80,6 +80,7 @@ int	main(int argc, char **argv)
 	// int argc = 1;
 	signals();
 	(void)argv;
+	
 	if (argc == 1)
 	{
 		cmd = init();
@@ -92,6 +93,7 @@ int	main(int argc, char **argv)
 			// res2 = ft_strlen(cmd->str);
 			// if (letter == 10)
 			// 	// set_command(cmd);
+			check_input(cmd->prompt, cmd);
 			if (!res && !res2)
 				print_logout();
 		}
