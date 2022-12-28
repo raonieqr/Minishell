@@ -80,6 +80,7 @@ int	main(int argc, char **argv)
 	// int argc = 1;
 	signals();
 	(void)argv;
+	
 	if (argc == 1)
 	{
 		cmd = init();
