@@ -2,25 +2,25 @@
 
 char    **ft_new_trim(char **cmd)
 {
-    int    i;
+  int    i;
 	char	*temp;
 
-    i = 0;
-    while (cmd[i])
-    {
+  i = 0;
+  while (cmd[i])
+  {
 		temp = NULL;
 		if (cmd[i][0] == '\'') 
 			temp = ft_strtrim(cmd[i], "\'");
-        else if (cmd[i][0] == '\"')
+		else if (cmd[i][0] == '\"')
 			temp = ft_strtrim(cmd[i], "\"");
 		if (temp)
 		{
 			free(cmd[i]);
 			cmd[i] = temp;
 		}
-        i++;
-    }
-    return (cmd);
+		i++;
+	}
+  return (cmd);
 }
 
 void	*check_input(char	*prompt, t_sh	*cmd)
@@ -34,12 +34,15 @@ void	*check_input(char	*prompt, t_sh	*cmd)
 	}
 	if (!prompt[0])
 		return (NULL);
+	if (check_quote(prompt))
+		return (0);
 	a = ft_split(prompt, ' ');
 	free(prompt);
 	//if (!a)
 	//	mini_error()
 	if (!a)
 		return ("");
+	a = expand_dir(a);
 	a = ft_new_trim(a);
 	expand(a);
 	return (cmd);

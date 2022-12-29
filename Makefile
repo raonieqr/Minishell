@@ -17,7 +17,7 @@ LIBFTPRINTF	=	./ft_printf/libftprintf.a
 CFLAGS	=	-g -Wall -Werror -Wextra
 
 SRCS	=	utils_checkers.c minishell.c utils_len.c \
-			utils_print_env.c parser.c freedom_sings.c expansions.c
+			utils_print_env.c parser.c freedom_sings.c expansions.c expansions_dir.c
 
 OBJS	=	$(SRCS:.c=.o)
 

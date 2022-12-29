@@ -27,13 +27,13 @@ typedef struct s_cmd
 	int		children;
 }			t_sh;
 
-void		print_prompt();
-void		*check_input(char	*prompt, t_sh	*cmd);
-void		print_logout(void);
-void		handle_sig(int sig, siginfo_t *info, void *algo);
-int	size_not_letter(char *str, char c);
-int	size_env(char *str);
-int	special_checks(char c);
+void	print_prompt();
+void	*check_input(char	*prompt, t_sh	*cmd);
+void	print_logout(void);
+void	handle_sig(int sig, siginfo_t *info, void *algo);
+int		size_not_letter(char *str, char c);
+int		size_env(char *str);
+int		special_checks(char c);
 void	char_copy(char **str, char c);
 // char	**copy_env(char *envp, int adc);
 void	freethree_ptrs(char *s, char *s2, char *s3);
@@ -41,5 +41,10 @@ void	freetwo_ptrs(char *s, char *s2);
 void	print_jump(void);
 char 	*return_path(void);
 void	expand(char **cmds);
+char	**expand_dir(char **cmds);
+int 	is_quote(char *str);
+int   check_quote(char *input);
+char	*change_var(char *cmd, char *var, char *value, int pos_s);
+
 
 #endif
