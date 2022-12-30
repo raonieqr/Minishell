@@ -1,24 +1,18 @@
 #include "minishell.h"
 
-char    **ft_new_trim(char **cmd)
+char    *ft_new_trim(char *cmd)
 {
-  int    i;
 	char	*temp;
-
-  i = 0;
-  while (cmd[i])
-  {
-		temp = NULL;
-		if (cmd[i][0] == '\'') 
-			temp = ft_strtrim(cmd[i], "\'");
-		else if (cmd[i][0] == '\"')
-			temp = ft_strtrim(cmd[i], "\"");
-		if (temp)
-		{
-			free(cmd[i]);
-			cmd[i] = temp;
-		}
-		i++;
+ 
+  temp = NULL;
+	if (cmd[0] == '\'') 
+		temp = ft_strtrim(cmd, "\'");
+	else if (cmd[0] == '\"')
+		temp = ft_strtrim(cmd, "\"");
+	if (temp)
+	{
+		free(cmd);
+		cmd = temp;
 	}
   return (cmd);
 }
@@ -43,8 +37,14 @@ void	*check_input(char	*prompt, t_sh	*cmd)
 	if (!a)
 		return ("");
 	a = expand_dir(a);
-	a = ft_new_trim(a);
+	int i = 0;
 	expand(a);
+	while(a[i])
+	{
+		printf("cmd : %s\n", a[i]);
+		i++;
+	}
+	//a = ft_new_trim(a);
 	return (cmd);
 }
 

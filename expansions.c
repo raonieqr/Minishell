@@ -63,25 +63,34 @@ void	expand(char **cmds)
 	i = 0;
 	while (cmds[i])
 	{
-		j = 0;
-		while (cmds[i][j])
+		if (is_quote(cmds[i]) == 1)
 		{
-			if (cmds[i][j] == '$')
-			{
-				if (cmds[i][j + 1] == '$')
-					printf("PID\n");
-				else if (cmds[i][j + 1] == '?')
-					printf("STATUS\n");
-				else
-				{	
-					if(getenv(rmv_char(&cmds[i][j], 0)))
-						cmds[i] = change_var(cmds[i], rmv_char(&cmds[i][j], 0), getenv(rmv_char(&cmds[i][j], 0)), j);
-					else
-						printf("Variable not found\n");
-				}
-			}
-			j++;
+			cmds[i] = ft_new_trim(cmds[i]);
+			i++;
 		}
-		i++;
+		else
+		{
+			cmds[i] = ft_new_trim(cmds[i]);
+			j = 0;
+			while (cmds[i][j])
+			{
+				if (cmds[i][j] == '$')
+				{
+					if (cmds[i][j + 1] == '$')
+						printf("PID\n");
+					else if (cmds[i][j + 1] == '?')
+						printf("STATUS\n");
+					else
+					{	
+						if(getenv(rmv_char(&cmds[i][j], 0)))
+							cmds[i] = change_var(cmds[i], rmv_char(&cmds[i][j], 0), getenv(rmv_char(&cmds[i][j], 0)), j);
+						else
+							printf("Variable not found\n");
+					}
+				}
+				j++;
+			}
+			i++;
+		}
 	}
 }

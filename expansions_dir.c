@@ -10,8 +10,6 @@ char	**expand_dir(char **cmds)
   {
 	  if (!is_quote(cmds[i]))
     {
-      printf("cmd: %s\n", cmds[i]);
-      printf("cmd: %d\n", is_quote(cmds[i]));
       j = 0;
       while (cmds[i][j])
       {
@@ -36,13 +34,14 @@ int is_quote(char *str)
 
   len = ft_strlen(str);
   if (str[0] == 39)
-  { 
+  { 	
     if(str[len - 1] == 39)
       return (1);
   }
   if (str[0] == '"' && str[len - 1] == '"')
-      return (1);
-  return (0);
+      return (2);
+  else
+    return (0);
 }
 
 int    check_quote(char *input)
