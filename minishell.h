@@ -45,6 +45,6 @@ char	**expand_dir(char **cmds);
 int 	is_quote(char *str);
 int   check_quote(char *input);
 char	*change_var(char *cmd, char *var, char *value, int pos_s);
-
+char  *ft_new_trim(char *cmd);
 
 #endif
