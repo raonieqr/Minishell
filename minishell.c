@@ -49,8 +49,6 @@ void	handle_sig(int sig, siginfo_t *info, void *algo)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (sig == SIGTSTP)
-		print_logout();
 	else if (sig == SIGQUIT)
 		signal(SIGQUIT, SIG_IGN);	
 }
@@ -63,24 +61,19 @@ void	signals(void)
 	act.sa_flags = SA_SIGINFO;
 	sigaction (SIGQUIT, &act, NULL);
 	sigaction (SIGINT, &act, NULL);
-	sigaction (SIGTSTP, &act, NULL);
 }
 
 int	main(int argc, char **argv)
 {
 	t_sh	*cmd;
-	// char cwd[1001];
 	int		res;
 	int		res2;
-	// char	letter;
 
 	res = 1;
 	res2 = 1;
 	print_start();
-	// int argc = 1;
 	signals();
 	(void)argv;
-	
 	if (argc == 1)
 	{
 		cmd = init();
@@ -88,6 +81,12 @@ int	main(int argc, char **argv)
 		{
 			if (res)
 				print_prompt(cmd);	
+			if (!cmd->prompt)
+			{
+				printf("Exit\n");
+				exit (0);
+			}
+				
 			// while ((res = read(1, &letter, 1)) && letter != 10)
 			// 	char_copy(&cmd->str, letter);
 			// res2 = ft_strlen(cmd->str);
