@@ -28,6 +28,7 @@ typedef struct s_cmd
 }			t_sh;
 
 void	print_prompt();
+void	rl_replace_line (const char *text, int clear_undo);
 void	*check_input(char	*prompt, t_sh	*cmd);
 void	print_logout(void);
 void	handle_sig(int sig, siginfo_t *info, void *algo);

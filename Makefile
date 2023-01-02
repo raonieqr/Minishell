@@ -21,12 +21,15 @@ SRCS	=	utils_checkers.c minishell.c utils_len.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
+LDFLAGS = -L ~/.brew/opt/readline/lib
+CPPFLAGS = -I ~/.brew/opt/readline/include
+
 %.o: %.c 
 	@ $(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME):	$(OBJS)
 		@ make -s -C ./ft_printf
-		@ cc $(OBJS) -o $(NAME) $(LIBFTPRINTF) -lreadline
+		@ cc $(OBJS) -o $(NAME) $(LIBFTPRINTF) -lreadline $(CPPFLAGS) $(LDFLAGS)
 		@echo ">> Minishell Compiled 🐚"
 		@echo ">> OK ✅"
 
