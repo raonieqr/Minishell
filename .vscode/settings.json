@@ -2,6 +2,8 @@
 	"files.associations": {
 		"string.h": "c",
 		"random": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"*.tcc": "c",
+		"fstream": "c"
 	}
 }

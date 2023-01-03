@@ -4,7 +4,7 @@ void	print_prompt(t_sh *cmd)
 {
 	cmd->envp = return_path();
 	cmd->envp = ft_strjoin(cmd->envp, "$ ");
-	cmd->temp = ft_strjoin("Minishell@ubuntu:", cmd->envp);
+	cmd->temp = ft_strjoin("\033[33m\033[41mMinishell@ubuntu:\033[33m\033[41m", cmd->envp);
 	cmd->prompt = readline(cmd->temp);
 	freetwo_ptrs(cmd->envp, cmd->temp);
 	//signal(SIGQUIT, SIG_IGN);	
