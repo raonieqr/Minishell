@@ -43,15 +43,15 @@ int	check_for_cmd(char **input, int i)
 int	fill_node(t_list *node, char **args, int i)
 {
 	if (args[i][0] == '>' && !args[i][1])
-		return () 		//set >
+		return (ft_get_outfile(node, args, i));
 	else if (args[i][0] == '<' && !args[i][1])
-		return () 		//set <
+		return (ft_get_outfile2(node, args, i));
 	else if (args[i][0] == '<' && args[i][1] == '<')
-		return () 		//set <<
+		return (ft_get_infile2(node, args, i));
 	else if (args[i][0] == '>' && args[i][1] == '>')
-		return () 		//set >>
+		return (ft_get_infile(node, args, i));
 	else if (args[i][0] != '|')
-		return () 		//fill args
+		//ADICIONAR NO CMD
 	else
 	{
 		//ft_printf("Error \n");
