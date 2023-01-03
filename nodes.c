@@ -39,6 +39,7 @@ int	check_for_cmd(char **input, int i)
 	return (0);
 }
 
+
 int	fill_node(t_list *node, char **args, int i)
 {
 	if (args[i][0] == '>' && !args[i][1])
