@@ -12,6 +12,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef	struct	s_param
+{
+	char **cmd;
+	char **cmd_path;
+	int		infile;
+	int		outfile;
+}			t_param;
+
 typedef struct s_cmd
 {
 	char	*envp;
@@ -26,6 +34,7 @@ typedef struct s_cmd
 	int		finish;
 	int		children;
 }			t_sh;
+
 
 void	print_prompt();
 void	rl_replace_line (const char *text, int clear_undo);
@@ -47,5 +56,6 @@ int 	is_quote(char *str);
 int   check_quote(char *input);
 char	*change_var(char *cmd, char *var, char *value, int pos_s);
 char  *ft_new_trim(char *cmd);
+int    check_operator(char *prompt);
 
 #endif
