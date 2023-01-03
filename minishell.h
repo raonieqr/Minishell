@@ -50,6 +50,7 @@ char	*change_var(char *cmd, char *var, char *value, int pos_s);
 char  *ft_new_trim(char *cmd);
 int    check_operator(char *prompt);
 t_list *create_nodes(char **args);
+int	here_docs(char *delimiter);
 
 int	ft_get_outfile(t_list* node, char **args, int i);
 int ft_get_outfile2(t_list* node, char **args, int i);
