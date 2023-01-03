@@ -21,17 +21,18 @@ char *get_input(char *delimiter)
 	{
 		temp_str = returned_str;
 		returned_str = ft_strjoin(returned_str, input);
-		freetwo_ptr(&temp_str, &input);
+		freetwo_ptrs(temp_str, input);
 		input = readline(">");
 		if (!input)
 		{
 			//ERROR
 		}
-		tmp = input;
+		temp_str = input;
 		input = ft_strjoin(input, "\n");
-		free(tmp);
+		free(temp_str);
 	}
 	free (input);
+	return (returned_str);
 }
 
 int	here_docs(char *delimiter)
@@ -39,7 +40,7 @@ int	here_docs(char *delimiter)
 	int		fd[2];
 	char	*input;
 
-	input_str = NULL;
+	input = NULL;
 	//G_STATUS;
 	if (pipe(fd) == -1)
 	{

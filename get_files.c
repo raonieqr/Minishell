@@ -26,7 +26,7 @@ int	open_file(char *file_path, int cur_fd, int write, int append)
 	return (new_fd);
 }
 
-int	ft_get_outfile(t_node* node, char *args, int i)
+int	ft_get_outfile(t_list* node, char **args, int i)
 {
 	int	file_path;
 
@@ -40,7 +40,7 @@ int	ft_get_outfile(t_node* node, char *args, int i)
 	}
 }
 
-int ft_get_outfile2(t_node* node, char *args, int i)
+int ft_get_outfile2(t_list* node, char **args, int i)
 {
 	int	file_path;
 
@@ -54,14 +54,14 @@ int ft_get_outfile2(t_node* node, char *args, int i)
 	}
 }
 
-int ft_get_infile2(t_node* node, char *args, int i)
+int ft_get_infile2(t_list* node, char **args, int i)
 {
 	int	delimiter;
 
 	delimiter = i + 1;
 	if (!args[delimiter])
 		return (//ERROR);
-	node->infile = here_docs(args[file_path], node->infile, 0, 0);
+	node->infile = here_docs(args[delimiter], node->infile, 0, 0);
 	if (node->infile == -1)
 	{
 		//ERROR
@@ -69,7 +69,7 @@ int ft_get_infile2(t_node* node, char *args, int i)
 
 }
 
-int ft_get_infile(t_node* node, char *args, int i)
+int ft_get_infile(t_list* node, char **args, int i)
 {
 	int	file_path;
 

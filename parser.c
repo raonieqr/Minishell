@@ -99,6 +99,7 @@ char    *ft_new_trim(char *cmd)
 void	*check_input(char	*prompt, t_sh	*cmd)
 {
 	char **a;
+	t_list	*cmd_node;
 
 	if (!prompt)
 	{
@@ -117,12 +118,20 @@ void	*check_input(char	*prompt, t_sh	*cmd)
 	if (!a)
 		return ("");
 	a = expand_dir(a);
-	int i = 0;
 	expand(a);
-	while(a[i])
+	cmd_node = create_nodes(a);
+	while(cmd_node)
 	{
-		printf("cmd : %s\n", a[i]);
-		i++;
+		int j = 0;
+		printf("INFILE : %d\n", cmd_node->infile);
+		printf("OUTFILE : %d\n", cmd_node->outfile);
+		printf("CMD : ");
+		while (cmd_node->cmd[j])
+		{
+			printf("%s ", cmd_node->cmd[j]);
+			j++;
+		}
+		cmd_node = cmd_node->next;
 	}
 	//a = ft_new_trim(a);
 	return (cmd);

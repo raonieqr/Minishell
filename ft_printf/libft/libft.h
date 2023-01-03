@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasilva <rasilva@student.42.rio>           +#+  +:+       +#+        */
+/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 13:05:14 by rasilva           #+#    #+#             */
-/*   Updated: 2022/05/14 16:25:14 by rasilva          ###   ########.fr       */
+/*   Updated: 2023/01/03 14:57:11 by sdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@
 
 typedef struct s_list
 {
-	void			*content;
+	void	*content;
+	char	**cmd;
+	char 	**cmd_path;
+	int		infile;
+	int		outfile;
 	struct s_list	*next;
 }					t_list;
 

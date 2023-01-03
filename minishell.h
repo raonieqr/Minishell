@@ -12,14 +12,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef	struct	s_param
-{
-	char **cmd;
-	char **cmd_path;
-	int		infile;
-	int		outfile;
-}			t_param;
-
 typedef struct s_cmd
 {
 	char	*envp;
@@ -57,5 +49,11 @@ int   check_quote(char *input);
 char	*change_var(char *cmd, char *var, char *value, int pos_s);
 char  *ft_new_trim(char *cmd);
 int    check_operator(char *prompt);
+t_list *create_nodes(char **args);
 
+int	ft_get_outfile(t_list* node, char **args, int i);
+int ft_get_outfile2(t_list* node, char **args, int i);
+int ft_get_infile2(t_list* node, char **args, int i);
+int ft_get_infile(t_list* node, char **args, int i);
+char 	*get_input(char *delimiter);
 #endif
