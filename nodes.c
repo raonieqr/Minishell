@@ -75,41 +75,23 @@ int	fill_node(t_list *node, char **args, int i)
 	if (args[i][0] == '>' && ft_strlen(args[i]) == 1)
 	{
 		ft_get_outfile(node, args, i);
-<<<<<<< HEAD
 		return (2);
-=======
-		return (1);
->>>>>>> 91051fcb71fd170132ace697327f63ac2a92da7f
 	}
 	else if (args[i][0] == '<' && ft_strlen(args[i]) == 1)
 	{
 		ft_get_infile(node, args, i);
-<<<<<<< HEAD
 		return (2);
-=======
-		return (1);
->>>>>>> 91051fcb71fd170132ace697327f63ac2a92da7f
 	}
 	else if (args[i][0] == '<' && args[i][1] == '<')
 	{
 		ft_get_infile2(node, args, i);
-<<<<<<< HEAD
 		return (2);
-=======
-		return (1);
->>>>>>> 91051fcb71fd170132ace697327f63ac2a92da7f
 	}
 	else if (args[i][0] == '>' && args[i][1] == '>')
 	{
 		ft_get_outfile2(node, args, i);
-<<<<<<< HEAD
 		return (2);
 	}
-=======
-		return (1);
-	}
-
->>>>>>> 91051fcb71fd170132ace697327f63ac2a92da7f
 	else if (args[i][0] != '|')
 	{
 		node->cmd = ft_add_cmd(node->cmd, args[i]);
@@ -146,10 +128,7 @@ t_list *create_nodes(char **args)
 	i = 0;
 	check = 0;
 	cmds = NULL;
-<<<<<<< HEAD
 	printf("check\n");
-=======
->>>>>>> 91051fcb71fd170132ace697327f63ac2a92da7f
 	while (args[i] && args[i][0])
 	{
 		if (check_for_cmd(args, i))
@@ -165,18 +144,10 @@ t_list *create_nodes(char **args)
 			free_stack(&cmds);
 			return (NULL);
 		}
-<<<<<<< HEAD
 		i += check;
 		printf("valor I %d\n", i);
 		// if (!cmds->cmd[i])
 		// 	break;
-=======
-		if (check == 1)
-			i++;
-		i++;
-		if (!cmds)
-			break;
->>>>>>> 91051fcb71fd170132ace697327f63ac2a92da7f
 	}
 	printf("fim\n");
 	//free_split(&temp[1]);
