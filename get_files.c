@@ -5,7 +5,6 @@ int	open_file(char *path, int cur_fd, int c_write, int c_append)
 {
 	int	new_fd;
 
-	printf("HELOO\n");
 	if (cur_fd > 2)
 		close (cur_fd);
 	if (!path)
@@ -31,7 +30,6 @@ int	ft_get_outfile(t_list* node, char **args, int i)
 {
 	int	path;
 
-	printf("entrei");
 	path = i + 1;
 	if (!args[path])
 	{
@@ -95,7 +93,6 @@ int ft_get_infile(t_list* node, char **args, int i)
 		exit(0);
 	}
 	node->infile = open_file(args[path], node->infile, 0, 0);
-	printf("%d\n", node->infile);
 	if (node->infile == -1)
 	{
 		return (-1);
