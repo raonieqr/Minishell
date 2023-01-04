@@ -11,6 +11,7 @@ static t_list *cmd_init(void)
 	cmd->cmd_path = NULL;
 	cmd->infile = 0;
 	cmd->outfile = 1;
+	cmd->next = NULL;
 	return (cmd);
 }
 
@@ -49,7 +50,7 @@ char **ft_add_cmd(char **n_cmd, char *args)
 	i = 0;
 	size  = 0;
 	if (!n_cmd)
-		printf("aqui\n");
+		i = 0;
 	else
 	{
 		while (n_cmd[size])
@@ -72,20 +73,35 @@ char **ft_add_cmd(char **n_cmd, char *args)
 int	fill_node(t_list *node, char **args, int i)
 {
 	if (args[i][0] == '>' && ft_strlen(args[i]) == 1)
-		return (ft_get_outfile(node, args, i));
+	{
+		ft_get_outfile(node, args, i);
+		return (2);
+	}
 	else if (args[i][0] == '<' && ft_strlen(args[i]) == 1)
-		return (ft_get_infile(node, args, i));
+	{
+		ft_get_infile(node, args, i);
+		return (2);
+	}
 	else if (args[i][0] == '<' && args[i][1] == '<')
-		return (ft_get_infile2(node, args, i));
+	{
+		ft_get_infile2(node, args, i);
+		return (2);
+	}
 	else if (args[i][0] == '>' && args[i][1] == '>')
-		return (ft_get_outfile2(node, args, i));
+	{
+		ft_get_outfile2(node, args, i);
+		return (2);
+	}
 	else if (args[i][0] != '|')
+	{
 		node->cmd = ft_add_cmd(node->cmd, args[i]);
+		return (1);
+	}
 	else
 	{
-		//ft_printf("Error \n");
+		ft_printf("Error \n");
+		return (-1);
 	}
-	return (0);
 }
 
 void	free_stack(t_list **stack)
@@ -110,25 +126,30 @@ t_list *create_nodes(char **args)
 	int		check;
 
 	i = 0;
+	check = 0;
+	cmds = NULL;
+	printf("check\n");
 	while (args[i] && args[i][0])
 	{
 		if (check_for_cmd(args, i))
 		{
-			printf("arg i %s\n", args[i]);
 			i += args[i][0] == '|';
-			ft_lstadd_back(&cmds, ft_lstnew(cmd_init()));
+			ft_lstadd_back(&cmds, cmd_init());
 		}
 		current_node = ft_lstlast(cmds);
+		printf("depois do if\n");
 		check  = fill_node(current_node, args, i);
 		if (check < 0)
 		{
 			free_stack(&cmds);
 			return (NULL);
 		}
-		i++;
-		if (!cmds)
-			break;
+		i += check;
+		printf("valor I %d\n", i);
+		// if (!cmds->cmd[i])
+		// 	break;
 	}
+	printf("fim\n");
 	//free_split(&temp[1]);
 	free_split(args);
 	return (cmds);

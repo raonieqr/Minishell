@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 # define LIBFT_H
 
 typedef struct s_list

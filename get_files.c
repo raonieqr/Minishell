@@ -1,63 +1,66 @@
 
 #include "minishell.h"
 
-int	open_file(char *file_path, int cur_fd, int write, int append)
+int	open_file(char *path, int cur_fd, int c_write, int c_append)
 {
 	int	new_fd;
 
+	printf("HELOO\n");
 	if (cur_fd > 2)
 		close (cur_fd);
-	if (!file_path)
-		printf("erro\n");
-	if (access(file_path, F_OK) == -1 && !write)
-		printf("erro\n");
-		//ERROR AQUIVO NAO EXISTE
-	else if (access(file_path, R_OK) == -1 && !write)
-		printf("erro\n");
-		//ERROR SEM PERMISSÃO
-	else if (access(file_path, W_OK) && write && !access(file_path, F_OK))
-			printf("erro\n");
-		//ERRO SEM PERMISSÃO
-	if (write && append)
-		new_fd = open(file_path, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	else if (!append && write)
-		new_fd = open(file_path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-	else if (!write && cur_fd != -1)
-		new_fd = open(file_path, O_RDONLY);
+	if (!path)
+		return (-1);
+	if (!c_write && access(path, F_OK) == -1)
+		printf("ERROR AQUIVO NAO EXISTE\n");
+	else if (!c_write && access(path, R_OK) == -1 )
+		printf("ERRO SEM PERMISSÃO\n");
+	else if (c_write && access(path, W_OK) == -1 && !access(path, F_OK))
+		printf("ERRO SEM PERMISSÃO\n");
+	if (c_write && c_append)
+		new_fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
+	else if (c_write && !c_append)
+		new_fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+	else if (!c_write && cur_fd != -1)
+		new_fd = open(path, O_RDONLY);
 	else
 		new_fd = cur_fd;
-	printf("new fd %d\n", new_fd);
 	return (new_fd);
 }
 
 int	ft_get_outfile(t_list* node, char **args, int i)
 {
-	int	file_path;
+	int	path;
 
-	file_path = i + 1;
-	if (!args[file_path])
-		//return (//ERROR);
-	node->infile = open_file(args[file_path], node->infile, 1, 0);
-	if (node->infile == -1)
+	printf("entrei");
+	path = i + 1;
+	if (!args[path])
 	{
+		printf("error fd");
+		exit(0);
+	}
+	node->outfile = open_file(args[path], node->outfile, 1, 0);
+	if (node->outfile == -1)
+	{
+		printf("error outfile");
 		return (-1);
-		//ERROR
 	}
 	return (0);
 }
 
 int ft_get_outfile2(t_list* node, char **args, int i)
 {
-	int	file_path;
+	int	path;
 
-	file_path = i + 1;
-	if (!args[file_path])
-		//return (//ERROR);
-	node->infile = open_file(args[file_path], node->infile, 1, 1);
-	if (node->infile == -1)
+	path = i + 1;
+	if (!args[path])
+	{
+		printf("error fd");
+		exit(0);
+	}
+	node->outfile = open_file(args[path], node->outfile, 1, 1);
+	if (node->outfile == -1)
 	{
 		return (-1);
-		//ERROR
 	}
 	return (0);
 }
@@ -68,7 +71,10 @@ int ft_get_infile2(t_list* node, char **args, int i)
 
 	delimiter = i + 1;
 	if (!args[delimiter])
-		//return (//ERROR);
+	{
+		printf("error fd");
+		exit(0);
+	}
 	node->infile = here_docs(args[delimiter]);
 	if (node->infile == -1)
 	{
@@ -80,14 +86,16 @@ int ft_get_infile2(t_list* node, char **args, int i)
 
 int ft_get_infile(t_list* node, char **args, int i)
 {
-	int	file_path;
+	int	path;
 
-	file_path = i + 1;
-	if (!args[file_path])
-		//return (//ERROR);
-	printf("infile %d\n", node->infile);
-	node->infile = open_file(args[file_path], node->infile, 0, 0);
-	printf("infile %d\n", node->infile);
+	path = i + 1;
+	if (!args[path])
+	{
+		printf("error fd");
+		exit(0);
+	}
+	node->infile = open_file(args[path], node->infile, 0, 0);
+	printf("%d\n", node->infile);
 	if (node->infile == -1)
 	{
 		return (-1);

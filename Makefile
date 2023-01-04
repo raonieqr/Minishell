@@ -22,8 +22,8 @@ SRCS	=	utils_checkers.c minishell.c utils_len.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
-LDFLAGS = -L ~/.brew/opt/readline/lib
-CPPFLAGS = -I ~/.brew/opt/readline/include
+LDFLAGS = -L /usr/local/opt/readline/lib
+CPPFLAGS = -I /usr/local/opt/readline/include
 
 %.o: %.c 
 	@ $(CC) $(CFLAGS) -c $< -o $@ 
