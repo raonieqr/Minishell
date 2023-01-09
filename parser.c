@@ -97,6 +97,8 @@ char	*ft_new_trim(char *cmd)
 		temp = ft_strtrim(cmd, "\'");
 	else if (cmd[0] == '\"')
 		temp = ft_strtrim(cmd, "\"");
+	else
+		temp = ft_strdup(cmd);
 	if (temp)
 	{
 		free(cmd);
@@ -152,7 +154,11 @@ void	*check_input(char *prompt)
 	if (check_double_pipe(a))
 		return (NULL);
 	a = expand_dir(a);
-	expand(a);
+	if (expand(a) < 0)
+	{
+		printf("\n");
+		return (NULL);
+	}
 	cmd_node = create_nodes(a);
 	loop_command(cmd_node);
 	return (NULL);

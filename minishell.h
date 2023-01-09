@@ -46,7 +46,7 @@ void		char_copy(char **str, char c);
 // char	**copy_env(char *envp, int adc);
 void		freethree_ptrs(char *s, char *s2, char *s3);
 void		freetwo_ptrs(char *s, char *s2);
-void		expand(char **cmds);
+int		expand(char **cmds);
 char		**expand_dir(char **cmds);
 int			is_quote(char *str);
 int			check_quote(char *input);
