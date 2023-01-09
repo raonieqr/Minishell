@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void		loop_command(t_list *cmd_node);
+void loop_command(t_list *cmd_node);
 
-int	check_operator(char *prompt)
+int check_operator(char *prompt)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (prompt[i] == '>' || prompt[i] == '<' || prompt[i] == '|')
@@ -19,10 +19,10 @@ int	check_operator(char *prompt)
 	return (0);
 }
 
-int	check_quote_on(char input)
+int check_quote_on(char input)
 {
-	static int	d_quote;
-	static int	s_quote;
+	static int d_quote;
+	static int s_quote;
 
 	if (input == 39 && !s_quote && !d_quote)
 		s_quote++;
@@ -37,9 +37,9 @@ int	check_quote_on(char input)
 	return (0);
 }
 
-char	*return_char(char c)
+char *return_char(char c)
 {
-	char	*new_word;
+	char *new_word;
 
 	new_word = malloc(2 * sizeof(char));
 	if (!new_word)
@@ -49,11 +49,11 @@ char	*return_char(char c)
 	return (new_word);
 }
 
-char	*change_special_char(char *input)
+char *change_special_char(char *input)
 {
-	int		i;
-	char	*temp;
-	char	*temp2;
+	int i;
+	char *temp;
+	char *temp2;
 
 	i = 0;
 	while (input[i])
@@ -88,9 +88,9 @@ char	*change_special_char(char *input)
 	return (input);
 }
 
-char	*ft_new_trim(char *cmd)
+char *ft_new_trim(char *cmd)
 {
-	char	*temp;
+	char *temp;
 
 	temp = NULL;
 	if (cmd[0] == '\'')
@@ -107,10 +107,10 @@ char	*ft_new_trim(char *cmd)
 	return (cmd);
 }
 
-int	check_double_pipe(char **cmds)
+int check_double_pipe(char **cmds)
 {
 	int i;
-	
+
 	i = 0;
 	while (cmds[i])
 	{
@@ -127,11 +127,10 @@ int	check_double_pipe(char **cmds)
 	return (0);
 }
 
-
-void	*check_input(char *prompt)
+void *check_input(char *prompt)
 {
-	char	**a;
-	t_list	*cmd_node;
+	char **a;
+	t_list *cmd_node;
 
 	if (!prompt)
 	{
@@ -145,6 +144,7 @@ void	*check_input(char *prompt)
 		printf("Unclosed quotes\n");
 		return (0);
 	}
+	// prompt = change_char(prompt);
 	prompt = change_special_char(prompt);
 	prompt = ft_strtrim(prompt, " ");
 	a = ft_split(prompt, ' ');
