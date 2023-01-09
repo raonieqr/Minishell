@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-static void	print_start(void)
+void	print_start(void)
 {
 	printf(",--.   ,--.,--.        ,--.       ,--.            ,--.,--. \n");
 	printf("|   `.'   |`--',--,--, `--' ,---. |  ,---.  ,---. |  ||  | \n");

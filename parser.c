@@ -105,6 +105,27 @@ char	*ft_new_trim(char *cmd)
 	return (cmd);
 }
 
+int	check_double_pipe(char **cmds)
+{
+	int i;
+	
+	i = 0;
+	while (cmds[i])
+	{
+		if (cmds[i + 1])
+		{
+			if (cmds[i][0] == '|' && cmds[i + 1][0] == '|')
+			{
+				printf("minishell: syntax error near unexpected token `|'\n");
+				return (1);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
+
 void	*check_input(char *prompt)
 {
 	char	**a;
@@ -128,6 +149,8 @@ void	*check_input(char *prompt)
 	free(prompt);
 	if (!a)
 		return ("error");
+	if (check_double_pipe(a))
+		return (NULL);
 	a = expand_dir(a);
 	expand(a);
 	cmd_node = create_nodes(a);

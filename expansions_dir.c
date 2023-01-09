@@ -66,9 +66,6 @@ int	check_quote(char *input)
 		i++;
 	}
 	if (s_quote || d_quote)
-	{
-		printf("aqui2Error\n");
 		return (1);
-	}
 	return (0);
 }

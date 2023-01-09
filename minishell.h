@@ -12,6 +12,8 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
+# include <termios.h>    
 
 typedef struct s_cmd
 {
@@ -26,9 +28,17 @@ typedef struct s_cmd
 	int		argc;
 }			t_sh;
 
-void		print_prompt(t_sh *cmd);
+
+void	print_start(void);
+void	print_prompt(t_sh *cmd);
+void	*check_input(char *prompt);
+void 	ft_free(char **str);
+
+
+
+
+
 void		rl_replace_line(const char *text, int clear_undo);
-void		*check_input(char *prompt);
 void		handle_sig(int sig, siginfo_t *info, void *algo);
 int			size_not_letter(char *str, char c);
 int			size_env(char *str);
@@ -36,8 +46,6 @@ void		char_copy(char **str, char c);
 // char	**copy_env(char *envp, int adc);
 void		freethree_ptrs(char *s, char *s2, char *s3);
 void		freetwo_ptrs(char *s, char *s2);
-void		print_jump(void);
-char		*return_path(void);
 void		expand(char **cmds);
 char		**expand_dir(char **cmds);
 int			is_quote(char *str);
@@ -68,6 +76,7 @@ char		*test_access(char **path, char **cmd);
 void		*verify_fork(t_list *cmds, int *fd);
 int			get_status(t_list *cmd_node);
 int			check_exec(t_list *list);
-void		loop_command(t_list *cmd_node);
+void			loop_command(t_list *cmd_node);
+int			ft_isspace(char c);
 
 #endif

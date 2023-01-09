@@ -25,7 +25,10 @@ char	*change_var(char *cmd, char *var, char *value, int pos_s)
 
 	temp = ft_substr(cmd, 0, pos_s);
 	new_cmd = ft_strjoin(temp, value);
+	ft_free(&cmd);
+	temp = cmd;
 	new_cmd = ft_strjoin(new_cmd, cmd + pos_s + ft_strlen(var) + 1);
+	ft_free(&temp);
 	return (new_cmd);
 }
 
@@ -77,10 +80,8 @@ void	expand(char **cmds)
 			{
 				if (cmds[i][j] == '$')
 				{
-					if (cmds[i][j + 1] == '$')
-						printf("PID\n");
-					else if (cmds[i][j + 1] == '?')
-						printf("STATUS\n");
+					if (cmds[i][j + 1] == '?')
+						printf(" \n");
 					else
 					{
 						if (getenv(rmv_char(&cmds[i][j], 0)))

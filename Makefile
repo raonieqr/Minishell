@@ -6,7 +6,7 @@
 #    By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/13 18:00:02 by rasilva           #+#    #+#              #
-#    Updated: 2023/01/05 14:55:31 by sdos-san         ###   ########.fr        #
+#    Updated: 2023/01/09 14:31:35 by sdos-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS	=	-g -Wall -Werror -Wextra
 SRCS	=	utils_checkers.c minishell.c utils_len.c \
 			utils_print_env.c parser.c freedom_sings.c expansions.c expansions_dir.c \
 			nodes.c here_docs.c get_files.c cmd_builtins.c execution.c \
-			exec_cmd.c
+			exec_cmd.c prompt.c
 
 OBJS	=	$(SRCS:.c=.o)
 

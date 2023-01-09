@@ -18,13 +18,10 @@ void	handle_sig(int sig, siginfo_t *info, void *algo)
 	(void)*info;
 	if (sig == SIGINT)
 	{
-		printf("\n");
-		rl_on_new_line();
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (sig == SIGQUIT)
-		signal(SIGQUIT, SIG_IGN);
 }
 
 void	signals(void)
@@ -33,42 +30,36 @@ void	signals(void)
 
 	act.sa_sigaction = (void *)handle_sig;
 	act.sa_flags = SA_SIGINFO;
-	sigaction(SIGQUIT, &act, NULL);
+	signal(SIGQUIT, SIG_IGN);
 	sigaction(SIGINT, &act, NULL);
 }
 
 
 int	check_pipe(t_sh *cmd)
 {
-	int i;
+	char *tmp;
 
-	i = 0;
-	while (cmd->prompt[i])
+	tmp = ft_strtrim(cmd->prompt, " ");
+	if (tmp[0] == '|' || tmp[ft_strlen(tmp) - 1] == '|')
 	{
-		if (cmd->prompt[i] == '\\')
-		{
-			while (cmd->prompt[i + 1])
-			{
-				if (ft_isspace(cmd->prompt[i + 1])
-					
-				i++;
-			}
-
-		}
-		i++;
+		printf("minishell: syntax error near unexpected token `|'\n");
+		ft_free(&tmp);
+		return (1);
 	}
-
-
+	ft_free(&tmp);
+	return (0);
 }
 
 int validate_prompt(t_sh	*cmd)
 {
 	if (check_quote(cmd->prompt))
+	{
+		printf("minishell: syntax error unclosed quotes\n");
 		return (0);
-	if (check_pipe(cmd->prompt))
+	}
+	if (check_pipe(cmd))
 		return (0);
-
-
+	return (1);
 }
 
 //int main(void)
@@ -77,13 +68,13 @@ int	main(int argc, char **argv)
 	t_sh	*cmd;
 
 	print_start();
-	signals();
 	(void)argv;
 	if (argc == 1)
 	{
 		cmd = init();
 		while (1)
 		{
+			signals();
 			print_prompt(cmd);
 			if (!cmd->prompt)
 			{

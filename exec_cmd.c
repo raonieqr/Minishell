@@ -1,9 +1,16 @@
 
 #include "minishell.h"
 
+void child_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
 int	check_exec(t_list *list)
 {
 	get_path(list);
+	child_signals();
 	execve(list->cmd_path, list->cmd, NULL);
 	//free()
 	return (0);
@@ -77,7 +84,7 @@ static int	see_pipe(int *fd, t_list *list)
 	return (childs);
 }
 
-void	check_command_pipe(t_list *list)
+int	check_command_pipe(t_list *list)
 {
 	int	fd[4];
 	int	out;
@@ -96,16 +103,15 @@ void	check_command_pipe(t_list *list)
 	while (i++ < 4)
 		close(fd[i]);
 	dup2(out, 0);
-}
-
-void child_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	return (childs);
 }
 
 void	loop_command(t_list *cmd_node)
 {
+	int childs;
+
+	cmd_node->g_status = 127;
+	childs = 1;
 	if (!cmd_node->next)
 	{
 		if (!fork())
@@ -115,8 +121,7 @@ void	loop_command(t_list *cmd_node)
 			if (cmd_node->outfile != 1)
 				dup2(cmd_node->outfile, 1);
 			cmd_node->g_status = 127;
-			if (cmd_node->g_status == 127
-				&& (cmd_node->g_status = check_exec(cmd_node)) == 127)
+			if (cmd_node->g_status == 127 && (cmd_node->g_status = check_exec(cmd_node)) == 127)
 			{
 				cmd_node->g_status = 127;
 				perror(":command not found.\n");
@@ -124,10 +129,12 @@ void	loop_command(t_list *cmd_node)
 			//free
 			exit(cmd_node->g_status);
 		}
-		waitpid(-1, NULL, 0);
+		while (childs-- >= 0)
+			waitpid(-1, NULL, 0);
 	}
 	else
 		check_command_pipe(cmd_node);
+
 	//free_matrix;
 	// free_all
 }
