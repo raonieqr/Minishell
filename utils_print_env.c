@@ -1,24 +1,5 @@
 #include "minishell.h"
 
-void	print_prompt(t_sh *cmd)
-{
-	cmd->envp = return_path();
-	cmd->envp = ft_strjoin(cmd->envp, "$ ");
-	cmd->temp = ft_strjoin("\033[0;32mMinishell@ubuntu:\033[0:39m", cmd->envp);
-	cmd->prompt = readline(cmd->temp);
-	freetwo_ptrs(cmd->envp, cmd->temp);
-	//signal(SIGQUIT, SIG_IGN);	
-	if (cmd->temp && *cmd->temp)
-		add_history (cmd->prompt);
-}
-
-
-void	print_logout(void)
-{
-	ft_printf("\nexit\n");
-	exit(0);
-}
-
 void	char_copy(char **str, char c)
 {
 	char	*aux;

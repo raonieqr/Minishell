@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static t_list *cmd_init(void)
+static t_list	*cmd_init(void)
 {
-	t_list *cmd;
+	t_list	*cmd;
 
 	cmd = malloc(sizeof(t_list));
 	if (!cmd)
@@ -12,13 +12,15 @@ static t_list *cmd_init(void)
 	cmd->infile = 0;
 	cmd->outfile = 1;
 	cmd->next = NULL;
+	cmd->g_status = 0;
+	cmd->children = 0;
 	return (cmd);
 }
 
 /* JOGAR ṔARA ARQUIVO UTILS*/
-void free_split(char **splited)
+void	free_split(char **splited)
 {
-	int pos;
+	int	pos;
 
 	pos = 0;
 	while (splited[pos])
@@ -40,15 +42,14 @@ int	check_for_cmd(char **input, int i)
 	return (0);
 }
 
-
-char **ft_add_cmd(char **n_cmd, char *args)
+char	**ft_add_cmd(char **n_cmd, char *args)
 {
-	char **new_cmd;
-	int	i;
-	int	size;
+	char	**new_cmd;
+	int		i;
+	int		size;
 
 	i = 0;
-	size  = 0;
+	size = 0;
 	if (!n_cmd)
 		i = 0;
 	else
@@ -78,7 +79,7 @@ int	fill_node(t_list *node, char **args, int i)
 		return (2);
 	}
 	else if (args[i][0] == '<' && ft_strlen(args[i]) == 1)
-	{
+	{	
 		ft_get_infile(node, args, i);
 		return (2);
 	}
@@ -92,16 +93,13 @@ int	fill_node(t_list *node, char **args, int i)
 		ft_get_outfile2(node, args, i);
 		return (2);
 	}
-	else if (args[i][0] != '|')
+	else if (args[i][0] != '|' && args[i][0])
 	{
 		node->cmd = ft_add_cmd(node->cmd, args[i]);
 		return (1);
 	}
 	else
-	{
-		ft_printf("Error \n");
 		return (-1);
-	}
 }
 
 void	free_stack(t_list **stack)
@@ -118,7 +116,21 @@ void	free_stack(t_list **stack)
 	temp = NULL;
 }
 
-t_list *create_nodes(char **args)
+/*void	check_fds(t_list *cmds)
+{
+	t_list	*prev_node;
+
+	prev_node = NULL;
+	while(cmds)
+	{
+		if (prev_node && prev_node->outfile != 1)
+			cmds->infile = prev_node->outfile;
+		prev_node = cmds;
+		cmds = cmds->next;
+	}
+}*/
+
+t_list	*create_nodes(char **args)
 {
 	t_list	*cmds;
 	t_list	*current_node;
@@ -127,8 +139,8 @@ t_list *create_nodes(char **args)
 
 	i = 0;
 	check = 0;
+	current_node = NULL;
 	cmds = NULL;
-	printf("check\n");
 	while (args[i] && args[i][0])
 	{
 		if (check_for_cmd(args, i))
@@ -137,20 +149,16 @@ t_list *create_nodes(char **args)
 			ft_lstadd_back(&cmds, cmd_init());
 		}
 		current_node = ft_lstlast(cmds);
-		printf("depois do if\n");
-		check  = fill_node(current_node, args, i);
+		check = fill_node(current_node, args, i);
 		if (check < 0)
 		{
 			free_stack(&cmds);
 			return (NULL);
 		}
 		i += check;
-		printf("valor I %d\n", i);
 		// if (!cmds->cmd[i])
-		// 	break;
+		// 	break ;
 	}
-	printf("fim\n");
 	//free_split(&temp[1]);
-	free_split(args);
 	return (cmds);
 }

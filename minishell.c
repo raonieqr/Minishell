@@ -1,47 +1,21 @@
 #include "minishell.h"
 
-void	print_start(void)
-{
-	printf(",--.   ,--.,--.        ,--.       ,--.            ,--.,--. \n");
-	printf("|   `.'   |`--',--,--, `--' ,---. |  ,---.  ,---. |  ||  | \n");
-	printf("|  |'.'|  |,--.|      |,--.(  .-' |  .-.  || .-. :|  ||  | \n");
-	printf("|  |   |  ||  ||  ||  ||  |.-'  `)|  | |  ||   --.|  ||  | \n");
-	printf("`--'   `--'`--'`--''--'`--'`----' `--' `--' `----'`--'`--' \n");
-}
-
-char *return_path(void)
-{
-	char	*home;
-	char	cwd[4098];
-	char	*path;
-
-	home = getenv("HOME");
-	getcwd(cwd, 4097);
-	if (ft_memcmp(home, cwd, ft_strlen(home)))
-		path = ft_strdup(home);
-	else
-		path = ft_strjoin("~", cwd + ft_strlen(home));
-	return (path);
-}
-
 static t_sh	*init(void)
 {
-	t_sh *cmd;
+	t_sh	*cmd;
+
 	cmd = malloc(sizeof(t_sh));
 	cmd->envp = NULL;
 	cmd->exp = ft_calloc(sizeof(char *), 1);
-	cmd->finish = 1;
 	cmd->str = 0;
-	cmd->children = 0;
 	cmd->back = 0;
 	return (cmd);
 }
 
 void	handle_sig(int sig, siginfo_t *info, void *algo)
 {
-
-	(void) algo;
-	(void) *info;
+	(void)algo;
+	(void)*info;
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -50,7 +24,7 @@ void	handle_sig(int sig, siginfo_t *info, void *algo)
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
-		signal(SIGQUIT, SIG_IGN);	
+		signal(SIGQUIT, SIG_IGN);
 }
 
 void	signals(void)
@@ -59,44 +33,66 @@ void	signals(void)
 
 	act.sa_sigaction = (void *)handle_sig;
 	act.sa_flags = SA_SIGINFO;
-	sigaction (SIGQUIT, &act, NULL);
-	sigaction (SIGINT, &act, NULL);
+	sigaction(SIGQUIT, &act, NULL);
+	sigaction(SIGINT, &act, NULL);
 }
 
+
+int	check_pipe(t_sh *cmd)
+{
+	int i;
+
+	i = 0;
+	while (cmd->prompt[i])
+	{
+		if (cmd->prompt[i] == '\\')
+		{
+			while (cmd->prompt[i + 1])
+			{
+				if (ft_isspace(cmd->prompt[i + 1])
+					
+				i++;
+			}
+
+		}
+		i++;
+	}
+
+
+}
+
+int validate_prompt(t_sh	*cmd)
+{
+	if (check_quote(cmd->prompt))
+		return (0);
+	if (check_pipe(cmd->prompt))
+		return (0);
+
+
+}
+
+//int main(void)
 int	main(int argc, char **argv)
 {
 	t_sh	*cmd;
-	int		res;
-	int		res2;
 
-	res = 1;
-	res2 = 1;
 	print_start();
 	signals();
 	(void)argv;
 	if (argc == 1)
 	{
 		cmd = init();
-		while (cmd->finish)
+		while (1)
 		{
-			if (res)
-				print_prompt(cmd);	
+			print_prompt(cmd);
 			if (!cmd->prompt)
 			{
 				printf("Exit\n");
-				exit (0);
+				exit(0);
 			}
-				
-			// while ((res = read(1, &letter, 1)) && letter != 10)
-			// 	char_copy(&cmd->str, letter);
-			// res2 = ft_strlen(cmd->str);
-			// if (letter == 10)
-			// 	// set_command(cmd);
-			check_input(cmd->prompt, cmd);
-			if (!res && !res2)
-				print_logout();
+			if (validate_prompt(cmd))
+				check_input(cmd->prompt);
 		}
 	}
-	else
-		return (res);
+	return (0);
 }

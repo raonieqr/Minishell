@@ -18,7 +18,10 @@ int	ft_lstsize(t_list *lst)
 
 	i = 1;
 	if (!lst)
+	{
+		printf("Lista nula\n");
 		return (0);
+	}
 	while (lst->next != NULL)
 	{
 		lst = lst->next;

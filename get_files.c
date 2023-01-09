@@ -6,12 +6,12 @@ int	open_file(char *path, int cur_fd, int c_write, int c_append)
 	int	new_fd;
 
 	if (cur_fd > 2)
-		close (cur_fd);
+		close(cur_fd);
 	if (!path)
 		return (-1);
 	if (!c_write && access(path, F_OK) == -1)
 		printf("ERROR AQUIVO NAO EXISTE\n");
-	else if (!c_write && access(path, R_OK) == -1 )
+	else if (!c_write && access(path, R_OK) == -1)
 		printf("ERRO SEM PERMISSÃO\n");
 	else if (c_write && access(path, W_OK) == -1 && !access(path, F_OK))
 		printf("ERRO SEM PERMISSÃO\n");
@@ -26,7 +26,7 @@ int	open_file(char *path, int cur_fd, int c_write, int c_append)
 	return (new_fd);
 }
 
-int	ft_get_outfile(t_list* node, char **args, int i)
+int	ft_get_outfile(t_list *node, char **args, int i)
 {
 	int	path;
 
@@ -36,7 +36,7 @@ int	ft_get_outfile(t_list* node, char **args, int i)
 		printf("error fd");
 		exit(0);
 	}
-	node->outfile = open_file(args[path], node->outfile, 1, 0);
+	node->outfile = open_file(args[path], node->outfile, 1, 0);	
 	if (node->outfile == -1)
 	{
 		printf("error outfile");
@@ -45,7 +45,7 @@ int	ft_get_outfile(t_list* node, char **args, int i)
 	return (0);
 }
 
-int ft_get_outfile2(t_list* node, char **args, int i)
+int	ft_get_outfile2(t_list *node, char **args, int i)
 {
 	int	path;
 
@@ -63,7 +63,7 @@ int ft_get_outfile2(t_list* node, char **args, int i)
 	return (0);
 }
 
-int ft_get_infile2(t_list* node, char **args, int i)
+int	ft_get_infile2(t_list *node, char **args, int i)
 {
 	int	delimiter;
 
@@ -82,9 +82,9 @@ int ft_get_infile2(t_list* node, char **args, int i)
 	return (0);
 }
 
-int ft_get_infile(t_list* node, char **args, int i)
+int	ft_get_infile(t_list *node, char **args, int i)
 {
-	int	path;
+	int path;
 
 	path = i + 1;
 	if (!args[path])

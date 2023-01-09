@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rasilva <rasilva@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:51:43 by rasilva           #+#    #+#             */
-/*   Updated: 2022/12/27 15:02:41 by sdos-san         ###   ########.fr       */
+/*   Updated: 2023/01/05 20:20:46 by rasilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static size_t	ft_count(char const *s, int c)
 	while (*s && *s == c)
 		s++;
 	while (s[++j])
-	{	
+	{
 		if (s[j] != c && s[j - 1] == c)
 			i++;
 		if (s[j] == '"')
@@ -76,7 +76,7 @@ char	**ft_split(char const *s, char c)
 	j = 0;
 	if (!s)
 		return (NULL);
-	str = (char **) malloc((ft_count(s, c) + 1) * sizeof(char *));
+	str = (char **)malloc((ft_count(s, c) + 1) * sizeof(char *));
 	if (!str)
 		return (NULL);
 	while (j < ft_count(s, c))
@@ -91,5 +91,3 @@ char	**ft_split(char const *s, char c)
 	str[j] = NULL;
 	return (str);
 }
-
-

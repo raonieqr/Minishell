@@ -10,7 +10,7 @@ int	check_end(char *input, char *delimiter)
 	size = 0;
 	if (!ft_strncmp(input, delimiter, ft_strlen(delimiter)))
 		equal = 1;
-	if (ft_strlen(delimiter) == (ft_strlen(input) -1))
+	if (ft_strlen(delimiter) == (ft_strlen(input) - 1))
 		size = 1;
 	if (size && equal)
 		return (1);
@@ -18,13 +18,13 @@ int	check_end(char *input, char *delimiter)
 	return (0);
 }
 
-char *get_input(char *delimiter)
+char	*get_input(char *delimiter)
 {
 	char	*returned_str;
 	char	*input;
 	char	*temp_str;
 
-	returned_str = ft_calloc(1, 1); 
+	returned_str = ft_calloc(1, 1);
 	input = ft_calloc(1, 1);
 	while (!check_end(input, delimiter))
 	{
@@ -40,14 +40,14 @@ char *get_input(char *delimiter)
 		input = ft_strjoin(input, "\n");
 		free(temp_str);
 	}
-	free (input);
+	free(input);
 	return (returned_str);
 }
 
 int	here_docs(char *delimiter)
 {
-	int		fd[2];
-	char	*input;
+	int fd[2];
+	char *input;
 
 	input = NULL;
 	//G_STATUS;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rasilva <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: rasilva <rasilva@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/06 15:34:37 by rasilva           #+#    #+#              #
-#    Updated: 2022/05/06 15:43:08 by rasilva          ###   ########.fr        #
+#    Updated: 2023/01/06 13:30:58 by rasilva          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC	= \
 	ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
 	ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_utoa.c ft_lstadd_back_bonus.c \
-	ft_lstadd_front_bonus.c ft_lstdelone_bonus.c ft_lstiter_bonus.c \
+	ft_lstadd_front_bonus.c ft_lstdelone_bonus.c ft_lstiter_bonus.c  ft_lstclear_bonus.c\
 	ft_lstlast_bonus.c ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c \
 
 OBJS	= $(SRC:.c=.o)
