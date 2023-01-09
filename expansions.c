@@ -99,10 +99,7 @@ char *join_three(char *str, int j, char *str2)
 	return_str = NULL;
 	str1 = ft_substr(str, 0, j);
 	if (!getenv(str2))
-	{
-		printf("Variable not found\n");
 		return (NULL);
-	}
 	return_str = ft_strjoin(str1, getenv(str2));
 	str3 = ft_substr(str, j + ft_strlen(str2) + 1, ft_strlen(str) - j - ft_strlen(str2) - 1);
 	return_str = ft_strjoin(return_str, str3);
