@@ -7,16 +7,16 @@ void child_signals(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-int	check_exec(t_list *list)
+int check_exec(t_list *list)
 {
 	get_path(list);
 	child_signals();
 	execve(list->cmd_path, list->cmd, NULL);
-	//free()
+	// free()
 	return (0);
 }
 
-void	check_commands(t_list *list)
+void check_commands(t_list *list)
 {
 	// list->g_status = check_builtins(list);
 	list->g_status = 127;
@@ -27,9 +27,9 @@ void	check_commands(t_list *list)
 	}
 }
 
-static void	childs_pipe(int *flags, int *fd, t_list *list)
+static void childs_pipe(int *flags, int *fd, t_list *list)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!fork())
@@ -45,12 +45,12 @@ static void	childs_pipe(int *flags, int *fd, t_list *list)
 		while (i++ < 4)
 			close(fd[i]);
 		check_commands(list);
-		//free_matrix
+		// free_matrix
 		exit(list->g_status);
 	}
 }
 
-static void	change_pipe(int *fd)
+static void change_pipe(int *fd)
 {
 	close(fd[0]);
 	close(fd[1]);
@@ -59,10 +59,10 @@ static void	change_pipe(int *fd)
 	pipe(fd + 2);
 }
 
-static int	see_pipe(int *fd, t_list *list)
+static int see_pipe(int *fd, t_list *list)
 {
-	int	childs;
-	int	*flags;
+	int childs;
+	int *flags;
 
 	childs = 0;
 	flags = (int *)malloc(sizeof(int) * 2);
@@ -84,12 +84,12 @@ static int	see_pipe(int *fd, t_list *list)
 	return (childs);
 }
 
-int	check_command_pipe(t_list *list)
+int check_command_pipe(t_list *list)
 {
-	int	fd[4];
-	int	out;
-	int	childs;
-	int	i;
+	int fd[4];
+	int out;
+	int childs;
+	int i;
 
 	out = dup(0);
 	i = 0;
@@ -106,7 +106,7 @@ int	check_command_pipe(t_list *list)
 	return (childs);
 }
 
-void	loop_command(t_list *cmd_node)
+void loop_command(t_list *cmd_node)
 {
 	int childs;
 
@@ -120,13 +120,13 @@ void	loop_command(t_list *cmd_node)
 				dup2(cmd_node->infile, 0);
 			if (cmd_node->outfile != 1)
 				dup2(cmd_node->outfile, 1);
-			cmd_node->g_status = 127;
+			cmd_node->g_status = exec_builtin(cmd_node);
 			if (cmd_node->g_status == 127 && (cmd_node->g_status = check_exec(cmd_node)) == 127)
 			{
 				cmd_node->g_status = 127;
 				perror(":command not found.\n");
 			}
-			//free
+			// free
 			exit(cmd_node->g_status);
 		}
 		while (childs-- >= 0)
@@ -135,7 +135,6 @@ void	loop_command(t_list *cmd_node)
 	else
 		check_command_pipe(cmd_node);
 
-	//free_matrix;
-	// free_all
+	// free_matrix;
+	//  free_all
 }
-
