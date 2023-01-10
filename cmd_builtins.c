@@ -65,18 +65,18 @@ void exec_echo(char **cmd)
 	}
 }
 
-int exec_builtin(t_list *cmds)
+int exec_builtin(t_list *cmds, t_env *envp)
 {
 	if (!ft_strncmp(cmds->cmd[0], "pwd", 3) && ft_strlen(cmds->cmd[0]) == 3)
 		exec_pwd();
 	else if (!ft_strncmp(cmds->cmd[0], "echo", 4) && ft_strlen(cmds->cmd[0]) == 4)
 		exec_echo(cmds->cmd);
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2) && ft_strlen(cmds->cmd[0]) == 2 && !cmds->next)
-		exec_cd(cmds->cmd);
+		exec_cd(cmds);
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6) && ft_strlen(cmds->cmd[0]) == 6 && !cmds->next)
-		printf("export\n");
+		exec_exports(cmds->cmd[1], envp);
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5) && ft_strlen(cmds->cmd[0]) == 5 && !cmds->next)
-		printf("unset\n");
+		exec_unset(cmds->cmd[1], envp);
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4) && ft_strlen(cmds->cmd[0]) == 4 && !cmds->next)
 		printf("exit\n");
 	else
@@ -84,17 +84,24 @@ int exec_builtin(t_list *cmds)
 	return (1);
 }
 
-void exec_cd(char **cmd)
+void exec_cd(t_list *cmds)
 {
-	if (!cmd[1])
+	if (!cmds->cmd[1])
 		return;
-	if (chdir(cmd[1]) == -1)
+	if (chdir(cmds->cmd[1]) == -1)
 		perror("cmd");
+	else
+	{
+		exec_unset("PWD", cmds->envp);
+		exec_exports(ft_strjoin("PWD=",cmds->cmd[1]), cmds->envp);
+	}
 }
 
 void exec_pwd(void)
 {
-	printf("%s", getenv("PWD"));
+	char	var[4096];
+	getcwd(var, 4097);
+	printf("%s", var);
 	printf("\n");
 }
 

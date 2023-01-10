@@ -130,7 +130,7 @@ void	free_stack(t_list **stack)
 	}
 }*/
 
-t_list	*create_nodes(char **args)
+t_list	*create_nodes(char **args, t_env *new_envp)
 {
 	t_list	*cmds;
 	t_list	*current_node;
@@ -149,6 +149,7 @@ t_list	*create_nodes(char **args)
 			ft_lstadd_back(&cmds, cmd_init());
 		}
 		current_node = ft_lstlast(cmds);
+		current_node->envp = new_envp;
 		check = fill_node(current_node, args, i);
 		if (check < 0)
 		{

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void loop_command(t_list *cmd_node);
+void loop_command(t_list *cmd_node, t_env *env);
 
 int check_operator(char *prompt)
 {
@@ -127,39 +127,39 @@ int check_double_pipe(char **cmds)
 	return (0);
 }
 
-void *check_input(char *prompt)
+void *check_input(t_sh *cmd, t_env *new_envp)
 {
 	char **a;
 	t_list *cmd_node;
 
-	if (!prompt)
+	if (!cmd->prompt)
 	{
 		printf("\nError\n");
 		return (NULL);
 	}
-	if (!prompt[0])
+	if (!cmd->prompt[0])
 		return (NULL);
-	if (check_quote(prompt))
+	if (check_quote(cmd->prompt))
 	{
 		printf("Unclosed quotes\n");
 		return (0);
 	}
-	// prompt = change_char(prompt);
-	prompt = change_special_char(prompt);
-	prompt = ft_strtrim(prompt, " ");
-	a = ft_split(prompt, ' ');
-	free(prompt);
+	// cmd->prompt = change_char(cmd->prompt);
+	cmd->prompt = change_special_char(cmd->prompt);
+	cmd->prompt = ft_strtrim(cmd->prompt, " ");
+	a = ft_split(cmd->prompt, ' ');
+	free(cmd->prompt);
 	if (!a)
 		return ("error");
 	if (check_double_pipe(a))
 		return (NULL);
 	a = expand_dir(a);
-	if (expand(a) < 0)
+	if (expand(a, cmd) < 0)
 	{
 		printf("\n");
 		return (NULL);
 	}
-	cmd_node = create_nodes(a);
-	loop_command(cmd_node);
+	cmd_node = create_nodes(a, new_envp);
+	loop_command(cmd_node, new_envp);
 	return (NULL);
 }

@@ -8,7 +8,6 @@ static t_sh	*init(void)
 	cmd->envp = NULL;
 	cmd->exp = ft_calloc(sizeof(char *), 1);
 	cmd->str = 0;
-	cmd->back = 0;
 	return (cmd);
 }
 
@@ -63,14 +62,17 @@ int validate_prompt(t_sh	*cmd)
 }
 
 //int main(void)
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_sh	*cmd;
+	t_env	*new_envp;
 
 	print_start();
 	(void)argv;
 	if (argc == 1)
-	{
+	{	
+		new_envp = malloc(sizeof (t_env));
+		new_envp->env = copy_env(envp);
 		cmd = init();
 		while (1)
 		{
@@ -82,7 +84,7 @@ int	main(int argc, char **argv)
 				exit(0);
 			}
 			if (validate_prompt(cmd))
-				check_input(cmd->prompt);
+				check_input(cmd, new_envp);
 		}
 	}
 	return (0);

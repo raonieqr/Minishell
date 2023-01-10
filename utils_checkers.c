@@ -18,7 +18,7 @@ int has_output(char *cmd)
 	return (0);
 }
 
-int check_builtin_system(t_list *cmds)
+int check_builtin(t_list *cmds)
 {
 	if (!ft_strncmp(cmds->cmd[0], "cd", 2) && ft_strlen(cmds->cmd[0]) == 2 && !cmds->next)
 		return (1);

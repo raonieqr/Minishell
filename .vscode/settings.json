@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"*.tcc": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"readline.h": "c"
 	}
 }

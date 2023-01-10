@@ -11,7 +11,7 @@ int check_exec(t_list *list)
 {
 	get_path(list);
 	child_signals();
-	execve(list->cmd_path, list->cmd, NULL);
+	execve(list->cmd_path, list->cmd, list->envp->env);
 	// free()
 	return (0);
 }
@@ -106,7 +106,7 @@ int check_command_pipe(t_list *list)
 	return (childs);
 }
 
-void loop_command(t_list *cmd_node)
+void loop_command(t_list *cmd_node, t_env *envp)
 {
 	int childs;
 
@@ -114,13 +114,18 @@ void loop_command(t_list *cmd_node)
 	childs = 1;
 	if (!cmd_node->next)
 	{
+		if (check_builtin(cmd_node))
+		{
+			cmd_node->g_status = exec_builtin(cmd_node, envp);
+			return ;
+		}
 		if (!fork())
 		{
 			if (cmd_node->infile != 0)
 				dup2(cmd_node->infile, 0);
 			if (cmd_node->outfile != 1)
 				dup2(cmd_node->outfile, 1);
-			cmd_node->g_status = exec_builtin(cmd_node);
+			cmd_node->g_status = exec_builtin(cmd_node, cmd_node->envp);
 			if (cmd_node->g_status == 127 && (cmd_node->g_status = check_exec(cmd_node)) == 127)
 			{
 				cmd_node->g_status = 127;

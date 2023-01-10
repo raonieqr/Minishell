@@ -16,6 +16,11 @@
 # include <unistd.h>
 # define LIBFT_H
 
+typedef struct s_env
+{
+	char	**env;
+}	t_env;
+
 typedef struct s_list
 {
 	void			*content;
@@ -23,6 +28,7 @@ typedef struct s_list
 	char			*cmd_path;
 	int				infile;
 	int				outfile;
+	t_env			*envp;
 	int				g_status;
 	pid_t			children;
 	struct s_list	*next;
@@ -56,7 +62,7 @@ void				*ft_calloc(size_t count, size_t size);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
-char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin(char *s1, char *s2);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strtrim(char *s1, char *set);
 void				ft_putnbr_fd(int n, int fd);
@@ -75,5 +81,6 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 int					ft_lstsize(t_list *lst);
+char				**copy_env(char **envp);
 
 #endif

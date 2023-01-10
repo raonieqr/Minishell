@@ -18,6 +18,23 @@ int ft_len_char(char *str)
 	return (i);
 }
 
+char *ft_get_env(char **envp, char *var)
+{
+    int i;
+
+    i = 0;
+    while (envp[i])
+    {
+        if (!ft_strncmp(envp[i], var, ft_strlen(var)))
+            break ;
+        i++;
+    }
+    if (envp[i])
+        return (ft_substr(envp[i], ft_strlen(var) + 1, \
+                            ft_strlen(envp[i]) - ft_strlen(var) - 1));
+    return (NULL);
+}
+
 char *change_var(char *cmd, char *var, char *value, int pos_s)
 {
 	char *new_cmd;
@@ -41,7 +58,6 @@ char *rmv_char(char *str, int i)
 	j = 0;
 	k = 0;
 	(void)i;
-	printf("Len %d\n", ft_len_char(str));
 	while (str[j] && j < ft_len_char(str))
 	{
 		if (j < i)
@@ -87,7 +103,7 @@ char *get_sub(char *str)
 	return (new_str);
 }
 
-char *join_three(char *str, int j, char *str2)
+char *join_three(char *str, int j, char *str2, t_sh *cmd)
 {
 	char *return_str;
 	char *str1;
@@ -95,9 +111,9 @@ char *join_three(char *str, int j, char *str2)
 
 	return_str = NULL;
 	str1 = ft_substr(str, 0, j);
-	if (!getenv(str2))
+	if (!ft_get_env(cmd->list->envp->env, str2))
 		return (NULL);
-	return_str = ft_strjoin(str1, getenv(str2));
+	return_str = ft_strjoin(str1, ft_get_env(cmd->list->envp->env, str2));
 	str3 = ft_substr(str, j + ft_strlen(str2) + 1, ft_strlen(str) - j - ft_strlen(str2) - 1);
 	return_str = ft_strjoin(return_str, str3);
 	ft_free(&str2);
@@ -106,20 +122,17 @@ char *join_three(char *str, int j, char *str2)
 	return (return_str);
 }
 
-int expand(char **cmds)
+int expand(char **cmds, t_sh *list)
 {
 	int i;
 	int j;
-	char *tmp;
 
 	i = 0;
 	while (cmds[i])
 	{
 		if (is_quote(cmds[i]) == 1)
 		{
-			tmp = cmds[i];
 			cmds[i] = ft_new_trim(cmds[i]);
-			ft_free(&tmp);
 			i++;
 		}
 		else
@@ -133,7 +146,7 @@ int expand(char **cmds)
 					if (cmds[i][j + 1] == '?')
 						printf(" \n");
 					else
-						cmds[i] = join_three(cmds[i], j, get_sub(cmds[i] + j + 1));
+						cmds[i] = join_three(cmds[i], j, get_sub(cmds[i] + j + 1), list);
 					if (!cmds[i])
 						return (-1);
 				}
