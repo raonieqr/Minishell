@@ -42,10 +42,7 @@ void	exec_exports(char *cmd, t_env *envp)
 	char	*new_var;
 
 	if (!cmd)
-	{
-		perror("export");
 		return ;
-	}
 	else if (!(var = get_var(cmd)))
 	{	
 		perror("export");

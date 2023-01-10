@@ -27,6 +27,12 @@ typedef struct s_cmd
 	struct s_list *list;
 } t_sh;
 
+#define line_1 "\033[0;31m,--.   ,--.,--.        ,--.       ,--.            ,--.,--.\033[0:39m\n"
+#define line_2 "\033[0;33m|   `.'   |`--',--,--, `--' ,---. |  ,---.  ,---. |  ||  | \033[0:39m\n"
+#define line_3 "\033[0;32m|  |'.'|  |,--.|      |,--.(  .-' |  .-.  || .-. :|  ||  | \033[0:39m\n"
+#define line_4 "\033[0;34m|  |   |  ||  ||  ||  ||  |.-'  `)|  | |  ||   --.|  ||  | \033[0:39m\n"
+#define line_5 "\033[0;35m`--'   `--'`--'`--''--'`--'`----' `--' `--' `----'`--'`--' \033[0:39m\n"
+
 void print_start(void);
 void print_prompt(t_sh *cmd);
 void *check_input(t_sh *cmd, t_env *new_envp);

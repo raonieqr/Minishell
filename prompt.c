@@ -3,11 +3,11 @@
 
 void	print_start(void)
 {
-	printf(",--.   ,--.,--.        ,--.       ,--.            ,--.,--. \n");
-	printf("|   `.'   |`--',--,--, `--' ,---. |  ,---.  ,---. |  ||  | \n");
-	printf("|  |'.'|  |,--.|      |,--.(  .-' |  .-.  || .-. :|  ||  | \n");
-	printf("|  |   |  ||  ||  ||  ||  |.-'  `)|  | |  ||   --.|  ||  | \n");
-	printf("`--'   `--'`--'`--''--'`--'`----' `--' `--' `----'`--'`--' \n");
+	printf("%s", line_1);
+	printf("%s", line_2);
+	printf("%s", line_3);
+	printf("%s", line_4);
+	printf("%s", line_5);
 }
 
 static char	*return_path(void)
@@ -19,7 +19,7 @@ static char	*return_path(void)
 	home = getenv("HOME");
 	getcwd(cwd, 4097);
 	if (ft_memcmp(home, cwd, ft_strlen(home)))
-		path = ft_strdup(home);
+		path = ft_strdup(cwd);
 	else
 		path = ft_strjoin("~", cwd + ft_strlen(home));
 	return (path);

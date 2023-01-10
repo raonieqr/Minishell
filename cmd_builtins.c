@@ -78,7 +78,7 @@ int exec_builtin(t_list *cmds, t_env *envp)
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5) && ft_strlen(cmds->cmd[0]) == 5 && !cmds->next)
 		exec_unset(cmds->cmd[1], envp);
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4) && ft_strlen(cmds->cmd[0]) == 4 && !cmds->next)
-		printf("exit\n");
+		exit(cmds->g_status);
 	else
 		return (127);
 	return (1);
@@ -86,21 +86,29 @@ int exec_builtin(t_list *cmds, t_env *envp)
 
 void exec_cd(t_list *cmds)
 {
+	char	var[4096];
+
+	getcwd(var, 4095);
 	if (!cmds->cmd[1])
-		return;
+	{
+		if (chdir(getenv("HOME")) == -1)
+			perror("cmd");
+		return ;
+	}
 	if (chdir(cmds->cmd[1]) == -1)
 		perror("cmd");
 	else
 	{
 		exec_unset("PWD", cmds->envp);
-		exec_exports(ft_strjoin("PWD=",cmds->cmd[1]), cmds->envp);
+		exec_exports(ft_strjoin("PWD=", var), cmds->envp);
 	}
 }
 
 void exec_pwd(void)
 {
 	char	var[4096];
-	getcwd(var, 4097);
+
+	getcwd(var, 4095);
 	printf("%s", var);
 	printf("\n");
 }
