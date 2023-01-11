@@ -154,7 +154,7 @@ void *check_input(t_sh *cmd, t_env *new_envp)
 	if (check_double_pipe(a))
 		return (NULL);
 	a = expand_dir(a);
-	if (expand(a, cmd) < 0)
+	if (expand(a, new_envp) < 0)
 	{
 		printf("\n");
 		return (NULL);

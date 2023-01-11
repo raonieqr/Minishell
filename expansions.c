@@ -103,7 +103,7 @@ char *get_sub(char *str)
 	return (new_str);
 }
 
-char *join_three(char *str, int j, char *str2, t_sh *cmd)
+char *join_three(char *str, int j, char *str2, t_env *new_envp, int mode)
 {
 	char *return_str;
 	char *str1;
@@ -111,9 +111,14 @@ char *join_three(char *str, int j, char *str2, t_sh *cmd)
 
 	return_str = NULL;
 	str1 = ft_substr(str, 0, j);
-	if (!ft_get_env(cmd->list->envp->env, str2))
-		return (NULL);
-	return_str = ft_strjoin(str1, ft_get_env(cmd->list->envp->env, str2));
+	if (mode)
+	{
+		if (!ft_get_env(new_envp->env, str2))
+			return (NULL);
+		return_str = ft_strjoin(str1, ft_get_env(new_envp->env, str2));
+	}
+	else
+		return_str = ft_strjoin(str1, str2);
 	str3 = ft_substr(str, j + ft_strlen(str2) + 1, ft_strlen(str) - j - ft_strlen(str2) - 1);
 	return_str = ft_strjoin(return_str, str3);
 	ft_free(&str2);
@@ -122,7 +127,7 @@ char *join_three(char *str, int j, char *str2, t_sh *cmd)
 	return (return_str);
 }
 
-int expand(char **cmds, t_sh *list)
+int expand(char **cmds, t_env *new_envp)
 {
 	int i;
 	int j;
@@ -144,9 +149,9 @@ int expand(char **cmds, t_sh *list)
 				if (cmds[i][j] == '$')
 				{
 					if (cmds[i][j + 1] == '?')
-						printf(" \n");
+						cmds[i] = join_three(cmds[i], j, ft_itoa(g_status), new_envp, 0);
 					else
-						cmds[i] = join_three(cmds[i], j, get_sub(cmds[i] + j + 1), list);
+						cmds[i] = join_three(cmds[i], j, get_sub(cmds[i] + j + 1), new_envp, 1);
 					if (!cmds[i])
 						return (-1);
 				}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+         #
+#    By: sdos-san < sdos-san@student.42.rio >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/13 18:00:02 by rasilva           #+#    #+#              #
-#    Updated: 2023/01/10 19:28:49 by sdos-san         ###   ########.fr        #
+#    Updated: 2023/01/11 11:01:03 by sdos-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,14 @@ LIBFT = ft_printf/libftprintf.a
 
 OBJ    = $(SRCS:.c=.o)
 
+detected_OS := $(shell uname)
+ifeq ($(detected_OS),Linux)
 CPPFLAGS = -I /usr/local/opt/readline/include
 LDFLAGS = -L /usr/local/opt/readline/lib
+else
+LDFLAGS= -L/Users/sdos-san/.brew/opt/readline/lib
+CPPFLAGS= -I/Users/sdos-san/.brew/opt/readline/include
+endif
 
 $(NAME): $(OBJ)
 	@make -s -C ft_printf/

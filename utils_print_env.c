@@ -40,6 +40,7 @@ void	exec_exports(char *cmd, t_env *envp)
 	char	*var;
 	char	*value = NULL;
 	char	*new_var;
+	char	*tmp;
 
 	if (!cmd)
 		return ;
@@ -55,6 +56,17 @@ void	exec_exports(char *cmd, t_env *envp)
 	}
 	new_var = ft_strjoin(var, "");
 	new_var = ft_strjoin(new_var, value);
+	tmp = new_var;
+	if (new_var[0] == '\'')
+	{
+		new_var = ft_strtrim(new_var, "'");
+		ft_free(&tmp);
+	}
+	else if (new_var[0] == '"')
+	{
+		new_var = ft_strtrim(new_var, "\"");
+		ft_free(&tmp);
+	}
 	envp->env = change_envp(envp->env, new_var);
 }
 

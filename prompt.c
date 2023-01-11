@@ -1,6 +1,8 @@
 
 #include "minishell.h"
 
+/* Print the welcoming message */
+
 void	print_start(void)
 {
 	printf("%s", line_1);
@@ -10,6 +12,7 @@ void	print_start(void)
 	printf("%s", line_5);
 }
 
+/* Return the current path */
 static char	*return_path(void)
 {
 	char	*home;

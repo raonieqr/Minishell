@@ -27,6 +27,8 @@ typedef struct s_cmd
 	struct s_list *list;
 } t_sh;
 
+int g_status;
+
 #define line_1 "\033[0;31m,--.   ,--.,--.        ,--.       ,--.            ,--.,--.\033[0:39m\n"
 #define line_2 "\033[0;33m|   `.'   |`--',--,--, `--' ,---. |  ,---.  ,---. |  ||  | \033[0:39m\n"
 #define line_3 "\033[0;32m|  |'.'|  |,--.|      |,--.(  .-' |  .-.  || .-. :|  ||  | \033[0:39m\n"
@@ -46,7 +48,7 @@ void char_copy(char **str, char c);
 // char	**copy_env(char *envp, int adc);
 void freethree_ptrs(char *s, char *s2, char *s3);
 void freetwo_ptrs(char *s, char *s2);
-int expand(char **cmds, t_sh *cmd);
+int expand(char **cmds, t_env *new_envp);
 char **expand_dir(char **cmds);
 int is_quote(char *str);
 int check_quote(char *input);

@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	t_sh	*cmd;
 	t_env	*new_envp;
 
+	g_status = 0;
 	print_start();
 	(void)argv;
 	if (argc == 1)
