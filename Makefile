@@ -23,11 +23,11 @@ OBJ    = $(SRCS:.c=.o)
 
 detected_OS := $(shell uname)
 ifeq ($(detected_OS),Linux)
-CPPFLAGS = -I /usr/local/opt/readline/include
 LDFLAGS = -L /usr/local/opt/readline/lib
+CPPFLAGS = -I /usr/local/opt/readline/include
 else
-LDFLAGS= -L/Users/sdos-san/.brew/opt/readline/lib
-CPPFLAGS= -I/Users/sdos-san/.brew/opt/readline/include
+CPPFLAGS += -I ~/.brew/opt/readline/include
+LDFLAGS += -L ~/.brew/opt/readline/lib
 endif
 
 $(NAME): $(OBJ)

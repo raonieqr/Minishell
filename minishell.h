@@ -46,8 +46,8 @@ int size_not_letter(char *str, char c);
 int size_env(char *str);
 void char_copy(char **str, char c);
 // char	**copy_env(char *envp, int adc);
-void freethree_ptrs(char *s, char *s2, char *s3);
-void freetwo_ptrs(char *s, char *s2);
+void freethree_ptrs(char **s, char **s2, char **s3);
+void freetwo_ptrs(char **s, char **s2);
 int expand(char **cmds, t_env *new_envp);
 char **expand_dir(char **cmds);
 int is_quote(char *str);
@@ -90,6 +90,7 @@ void	exec_exports(char *cmds, t_env *envp);
 char	**rmv_envp(char **env, int i);
 void	exec_unset(char *cmds, t_env *envp);
 void	exit_error(char *str);
+char *ft_get_env(char **envp, char *var);
 // char *change_char(char *prompt);
 
 #endif

@@ -46,18 +46,25 @@ void exec_echo(char **cmd)
 {
 	int i;
 	int flag;
+	int	j;
 
-	i = 1;
+	i = 0;
 	flag = 0;
-	if ((!ft_strncmp(cmd[i], "-n", 2)) && ft_strlen(cmd[i]) == 2)
+	j = 1;
+	while (!ft_strncmp(cmd[++i], "-n", 2))
 	{
-		flag = 1;
-		i++;
+		while(cmd[i][++j] == 'n');
+		if (!cmd[i][j])
+			flag = 1;
+		else
+			break;
 	}
+	if (flag == 1)
+		i--;
 	while (cmd[i])
 	{
 		printf("%s", cmd[i]);
-		if (!cmd[i + 1] && !flag)
+		if (!cmd[i + 1] && flag == 0)
 			printf("\n");
 		if (cmd[i + 1])
 			printf(" ");
@@ -78,7 +85,7 @@ int exec_builtin(t_list *cmds, t_env *envp)
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5) && ft_strlen(cmds->cmd[0]) == 5 && !cmds->next)
 		exec_unset(cmds->cmd[1], envp);
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4) && ft_strlen(cmds->cmd[0]) == 4 && !cmds->next)
-		exit(cmds->g_status);
+		exit(g_status);
 	else
 		return (127);
 	return (1);
@@ -91,7 +98,7 @@ void exec_cd(t_list *cmds)
 	getcwd(var, 4095);
 	if (!cmds->cmd[1])
 	{
-		if (chdir(getenv("HOME")) == -1)
+		if (chdir(ft_get_env(cmds->envp->env, "HOME")) == -1)
 			perror("cmd");
 		return ;
 	}
@@ -112,13 +119,3 @@ void exec_pwd(void)
 	printf("%s", var);
 	printf("\n");
 }
-
-// void    exec_unset(char **cmd)
-// {
-//     int i;
-
-//     i = 0;
-//     if (!cmd[1])
-//         printf("Error: arguments\n");
-//     while()
-// }

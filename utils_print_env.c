@@ -127,7 +127,7 @@ char	**change_envp(char **env, char *new_env)
 	if (!var_env)
 		return (NULL);
 	var_env[size] = NULL;
-	while(++i < size - 2)
+	while(++i < size - 1)
 		var_env[i] = ft_strdup(env[i]);
 	var_env[i] = ft_strdup(new_env);
 	ft_free(env);

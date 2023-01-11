@@ -30,7 +30,7 @@ char	*get_input(char *delimiter)
 	{
 		temp_str = returned_str;
 		returned_str = ft_strjoin(returned_str, input);
-		freetwo_ptrs(temp_str, input);
+		freetwo_ptrs(&temp_str, &input);
 		input = readline(">");
 		if (!input)
 		{
