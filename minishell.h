@@ -66,7 +66,7 @@ char *get_input(char *delimiter);
 int is_builtin(char **cmd);
 char *to_lower(char *cmd);
 void exec_echo(char **cmd);
-void exec_cd(t_list *cmds);
+int exec_cd(t_list *cmds);
 void exec_pwd(void);
 void get_path(t_list *cmds);
 char *test_path(char **cmd);

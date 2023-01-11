@@ -116,20 +116,6 @@ void	free_stack(t_list **stack)
 	temp = NULL;
 }
 
-/*void	check_fds(t_list *cmds)
-{
-	t_list	*prev_node;
-
-	prev_node = NULL;
-	while(cmds)
-	{
-		if (prev_node && prev_node->outfile != 1)
-			cmds->infile = prev_node->outfile;
-		prev_node = cmds;
-		cmds = cmds->next;
-	}
-}*/
-
 t_list	*create_nodes(char **args, t_env *new_envp)
 {
 	t_list	*cmds;

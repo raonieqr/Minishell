@@ -79,7 +79,7 @@ int exec_builtin(t_list *cmds, t_env *envp)
 	else if (!ft_strncmp(cmds->cmd[0], "echo", 4) && ft_strlen(cmds->cmd[0]) == 4)
 		exec_echo(cmds->cmd);
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2) && ft_strlen(cmds->cmd[0]) == 2 && !cmds->next)
-		exec_cd(cmds);
+		return(exec_cd(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6) && ft_strlen(cmds->cmd[0]) == 6 && !cmds->next)
 		exec_exports(cmds->cmd[1], envp);
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5) && ft_strlen(cmds->cmd[0]) == 5 && !cmds->next)
@@ -88,26 +88,33 @@ int exec_builtin(t_list *cmds, t_env *envp)
 		exit(g_status);
 	else
 		return (127);
-	return (1);
+	return (0);
 }
 
-void exec_cd(t_list *cmds)
+int exec_cd(t_list *cmds)
 {
 	char	var[4096];
 
 	getcwd(var, 4095);
 	if (!cmds->cmd[1])
 	{
+		printf("%s\n", ft_get_env(cmds->envp->env, "HOME"));
 		if (chdir(ft_get_env(cmds->envp->env, "HOME")) == -1)
-			perror("cmd");
-		return ;
+		{
+			perror(cmds->cmd[1]);
+			return(1);
+		}
 	}
 	if (chdir(cmds->cmd[1]) == -1)
-		perror("cmd");
+	{
+		perror(cmds->cmd[1]);
+		return(1);
+	}
 	else
 	{
 		exec_unset("PWD", cmds->envp);
 		exec_exports(ft_strjoin("PWD=", var), cmds->envp);
+		return (0);
 	}
 }
 
