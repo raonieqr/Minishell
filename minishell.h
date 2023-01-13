@@ -15,6 +15,8 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 
+# define HDOC_WARN "minishell: warning: here-document delimited by end-of-file"
+
 typedef struct s_cmd
 {
 	char *envp;
@@ -27,7 +29,17 @@ typedef struct s_cmd
 	struct s_list *list;
 } t_sh;
 
-int g_status;
+extern int g_status;
+
+enum	e_error
+{
+	NDIR = 1,
+	DUPERR = 2,
+	FORKERR = 3,
+	PIPERR = 4,
+	MALLOC_ERR = 5,
+	SYNTAX = 6,
+};
 
 #define line_1 "\033[0;31m,--.   ,--.,--.        ,--.       ,--.            ,--.,--.\033[0:39m\n"
 #define line_2 "\033[0;33m|   `.'   |`--',--,--, `--' ,---. |  ,---.  ,---. |  ||  | \033[0:39m\n"
@@ -35,21 +47,18 @@ int g_status;
 #define line_4 "\033[0;34m|  |   |  ||  ||  ||  ||  |.-'  `)|  | |  ||   --.|  ||  | \033[0:39m\n"
 #define line_5 "\033[0;35m`--'   `--'`--'`--''--'`--'`----' `--' `--' `----'`--'`--' \033[0:39m\n"
 
-void print_start(void);
-void print_prompt(t_sh *cmd);
-void *check_input(t_sh *cmd, t_env *new_envp);
-void ft_free(char **str);
+void	print_start(void);
+void	print_prompt(t_sh *cmd);
+void	*check_input(t_sh *cmd, t_env *new_envp);
+void	ft_free(char **str);
 
-void rl_replace_line(const char *text, int clear_undo);
-void handle_sig(int sig, siginfo_t *info, void *algo);
-int size_not_letter(char *str, char c);
-int size_env(char *str);
-void char_copy(char **str, char c);
-// char	**copy_env(char *envp, int adc);
-void freethree_ptrs(char **s, char **s2, char **s3);
-void freetwo_ptrs(char **s, char **s2);
-int expand(char **cmds, t_env *new_envp);
-char **expand_dir(char **cmds);
+void	rl_replace_line(const char *text, int clear_undo);
+void	handle_sig(int sig, siginfo_t *info, void *algo);
+
+void	freethree_ptrs(char **s, char **s2, char **s3);
+void	freetwo_ptrs(char **s, char **s2);
+int		expand(char **cmds, t_env *new_envp);
+char	**expand_dir(char **cmds);
 int is_quote(char *str);
 int check_quote(char *input);
 char *change_var(char *cmd, char *var, char *value, int pos_s);
@@ -61,13 +70,12 @@ int ft_get_outfile(t_list *node, char **args, int i);
 int ft_get_outfile2(t_list *node, char **args, int i);
 int ft_get_infile2(t_list *node, char **args, int i);
 int ft_get_infile(t_list *node, char **args, int i);
-int special_checks(char c);
 char *get_input(char *delimiter);
 int is_builtin(char **cmd);
 char *to_lower(char *cmd);
-void exec_echo(char **cmd);
+int exec_echo(char **cmd);
 int exec_cd(t_list *cmds);
-void exec_pwd(void);
+int exec_pwd(void);
 void get_path(t_list *cmds);
 char *test_path(char **cmd);
 int check_builtin(t_list *cmds);
@@ -92,5 +100,6 @@ void	exec_unset(char *cmds, t_env *envp);
 void	exit_error(char *str);
 char *ft_get_env(char **envp, char *var);
 // char *change_char(char *prompt);
+int	ft_perror(int status, char *cmd, int code);
 
 #endif

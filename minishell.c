@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int g_status;
+
 static t_sh	*init(void)
 {
 	t_sh	*cmd;
@@ -11,15 +13,19 @@ static t_sh	*init(void)
 	return (cmd);
 }
 
+/*TROCAR ISSO*/
+
 void	handle_sig(int sig, siginfo_t *info, void *algo)
 {
 	(void)algo;
 	(void)*info;
 	if (sig == SIGINT)
 	{
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		rl_replace_line("", 0);
-		rl_redisplay();
+		g_status = 130;
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
 	}
 }
 
@@ -32,7 +38,6 @@ void	signals(void)
 	signal(SIGQUIT, SIG_IGN);
 	sigaction(SIGINT, &act, NULL);
 }
-
 
 int	check_pipe(t_sh *cmd)
 {
@@ -67,7 +72,6 @@ int	main(int argc, char **argv, char **envp)
 	t_sh	*cmd;
 	t_env	*new_envp;
 
-	g_status = 0;
 	print_start();
 	(void)argv;
 	if (argc == 1)
@@ -81,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 			print_prompt(cmd);
 			if (!cmd->prompt)
 			{
-				printf("Exit\n");
+				printf("\n");
 				exit(0);
 			}
 			if (validate_prompt(cmd))

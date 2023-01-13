@@ -1,21 +1,5 @@
 #include "minishell.h"
 
-void	char_copy(char **str, char c)
-{
-	char	*aux;
-	int		len_str;
-	int		len_aux;
-
-	len_str = ft_strlen(*str);
-	aux = malloc(sizeof(char) * (len_str + 2));
-	ft_memcpy(aux, &str, len_str);
-	len_aux = ft_strlen(aux);
-	aux[len_aux] = c;
-	if (*str)
-		free(*str);
-	*str = aux;
-}
-
 char	**copy_env(char **envp)
 {
 	int		len;

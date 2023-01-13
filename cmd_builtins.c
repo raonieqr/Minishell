@@ -42,7 +42,7 @@ int is_builtin(char **cmd)
 	return (0);
 }
 
-void exec_echo(char **cmd)
+int exec_echo(char **cmd)
 {
 	int i;
 	int flag;
@@ -70,14 +70,15 @@ void exec_echo(char **cmd)
 			printf(" ");
 		i++;
 	}
+	return (0);
 }
 
 int exec_builtin(t_list *cmds, t_env *envp)
 {
 	if (!ft_strncmp(cmds->cmd[0], "pwd", 3) && ft_strlen(cmds->cmd[0]) == 3)
-		exec_pwd();
+		return (exec_pwd());
 	else if (!ft_strncmp(cmds->cmd[0], "echo", 4) && ft_strlen(cmds->cmd[0]) == 4)
-		exec_echo(cmds->cmd);
+		return(exec_echo(cmds->cmd));
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2) && ft_strlen(cmds->cmd[0]) == 2 && !cmds->next)
 		return(exec_cd(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6) && ft_strlen(cmds->cmd[0]) == 6 && !cmds->next)
@@ -98,18 +99,12 @@ int exec_cd(t_list *cmds)
 	getcwd(var, 4095);
 	if (!cmds->cmd[1])
 	{
-		printf("%s\n", ft_get_env(cmds->envp->env, "HOME"));
 		if (chdir(ft_get_env(cmds->envp->env, "HOME")) == -1)
-		{
-			perror(cmds->cmd[1]);
-			return(1);
-		}
+			return (ft_perror(127, cmds->cmd[1], 0));
+		return 0;
 	}
 	if (chdir(cmds->cmd[1]) == -1)
-	{
-		perror(cmds->cmd[1]);
-		return(1);
-	}
+		return (ft_perror(127, cmds->cmd[1], 0));
 	else
 	{
 		exec_unset("PWD", cmds->envp);
@@ -118,11 +113,12 @@ int exec_cd(t_list *cmds)
 	}
 }
 
-void exec_pwd(void)
+int exec_pwd(void)
 {
 	char	var[4096];
 
 	getcwd(var, 4095);
 	printf("%s", var);
 	printf("\n");
+	return (0);
 }

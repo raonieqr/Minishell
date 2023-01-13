@@ -160,6 +160,8 @@ void *check_input(t_sh *cmd, t_env *new_envp)
 		return (NULL);
 	}
 	cmd_node = create_nodes(a, new_envp);
+	if (!cmd_node)
+		return (NULL);
 	loop_command(cmd_node, new_envp);
 	return (NULL);
 }

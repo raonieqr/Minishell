@@ -48,34 +48,6 @@ char *change_var(char *cmd, char *var, char *value, int pos_s)
 	return (new_cmd);
 }
 
-char *rmv_char(char *str, int i)
-{
-	int j;
-	int k;
-	char *str_1;
-
-	str_1 = malloc((ft_len_char(str) * sizeof(char)));
-	j = 0;
-	k = 0;
-	(void)i;
-	while (str[j] && j < ft_len_char(str))
-	{
-		if (j < i)
-		{
-			str_1[j] = str[k];
-			j++;
-			k++;
-		}
-		if (j == i)
-			k++;
-		if (ft_isspace(str[k]) || str[k] == '$')
-			break;
-		str_1[j++] = str[k++];
-	}
-	str_1[j] = '\0';
-	return (str_1);
-}
-
 int ft_ismetachar(char c)
 {
 	if (c >= 7 && c <= 13)

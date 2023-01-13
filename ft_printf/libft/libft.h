@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasilva <rasilva@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 13:05:14 by rasilva           #+#    #+#             */
-/*   Updated: 2023/01/06 14:30:42 by rasilva          ###   ########.fr       */
+/*   Updated: 2023/01/13 13:22:35 by sdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_list
 	int				infile;
 	int				outfile;
 	t_env			*envp;
-	int				g_status;
 	pid_t			children;
 	struct s_list	*next;
 }					t_list;

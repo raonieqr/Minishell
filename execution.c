@@ -74,13 +74,13 @@ void	get_path(t_list *cmds)
 
 	dir = check_cmd(cmds);
 	if (!is_builtin(cmds->cmd) && dir && cmds && cmds->cmd_path)
-		printf("Error e um diretorio");
+		ft_perror(127, cmds->cmd[0], 0);
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
 			&& access(cmds->cmd_path, F_OK) == -1)
-		printf("Error nao existe");
+		ft_perror(126, cmds->cmd[0], 0);
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
 			&& access(cmds->cmd_path, X_OK) == -1)
-		printf("Erro nao permitido exc");
+		ft_perror(126, cmds->cmd[0], 0);
 	if (dir)
 		closedir(dir);
 }

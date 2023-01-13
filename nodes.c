@@ -12,7 +12,6 @@ static t_list	*cmd_init(void)
 	cmd->infile = 0;
 	cmd->outfile = 1;
 	cmd->next = NULL;
-	cmd->g_status = 0;
 	cmd->children = 0;
 	return (cmd);
 }
@@ -127,6 +126,7 @@ t_list	*create_nodes(char **args, t_env *new_envp)
 	check = 0;
 	current_node = NULL;
 	cmds = NULL;
+	g_status = 0;
 	while (args[i] && args[i][0])
 	{
 		if (check_for_cmd(args, i))

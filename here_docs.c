@@ -14,7 +14,8 @@ int	check_end(char *input, char *delimiter)
 		size = 1;
 	if (size && equal)
 		return (1);
-	//CHECK G_STATUS
+	if (g_status == 130)
+		return (1);
 	return (0);
 }
 
@@ -34,7 +35,8 @@ char	*get_input(char *delimiter)
 		input = readline(">");
 		if (!input)
 		{
-			//ERROR
+			printf("%s (wanted `%s\')\n", HDOC_WARN, delimiter);
+			break ;
 		}
 		temp_str = input;
 		input = ft_strjoin(input, "\n");
@@ -50,16 +52,20 @@ int	here_docs(char *delimiter)
 	char *input;
 
 	input = NULL;
-	//G_STATUS;
+	g_status = 0;
 	if (pipe(fd) == -1)
 	{
-		//ERROR
+		ft_perror(1, NULL, PIPERR);
 		return (-1);
 	}
 	input = get_input(delimiter);
 	write(fd[1], input, ft_strlen(input));
 	free(input);
 	close(fd[0]);
-	//CHECK G_STATUS
+	if (g_status == 130)
+	{
+		close(fd[0]);
+		return (-1);
+	}
 	return (fd[0]);
 }

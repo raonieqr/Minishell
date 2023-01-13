@@ -13,17 +13,16 @@ int check_exec(t_list *list)
 	child_signals();
 	execve(list->cmd_path, list->cmd, list->envp->env);
 	// free()
-	return (0);
+	return (127);
 }
 
 void check_commands(t_list *list)
 {
-	// list->g_status = check_builtins(list);
 	g_status = 127;
 	if (g_status == 127 && (g_status = check_exec(list)) == 127)
 	{
 		g_status = 127;
-		perror(":command not found.\n");
+		ft_perror(g_status, list->cmd[0], 1);
 	}
 }
 
@@ -46,6 +45,7 @@ static void childs_pipe(int *flags, int *fd, t_list *list)
 			close(fd[i]);
 		check_commands(list);
 		// free_matrix
+		printf("%s %d\n", list->cmd[0], g_status);
 		exit(g_status);
 	}
 }
@@ -97,7 +97,7 @@ int check_command_pipe(t_list *list)
 	pipe(fd + 2);
 	childs = see_pipe(fd, list);
 	while (childs-- > 0)
-		waitpid(-1, NULL, 0);
+		waitpid(-1, &g_status, 0);
 	g_status /= 256;
 	i = 0;
 	while (i++ < 4)
@@ -110,7 +110,6 @@ void loop_command(t_list *cmd_node, t_env *envp)
 {
 	int childs;
 
-	g_status = 127;
 	childs = 1;
 	if (!cmd_node->next)
 	{
@@ -127,15 +126,13 @@ void loop_command(t_list *cmd_node, t_env *envp)
 				dup2(cmd_node->outfile, 1);
 			g_status = exec_builtin(cmd_node, cmd_node->envp);
 			if (g_status == 127 && (g_status = check_exec(cmd_node)) == 127)
-			{
-				g_status = 127;
-				perror(":command not found.\n");
-			}
+				ft_perror(127, cmd_node->cmd[0], 1);
 			// free
 			exit(g_status);
 		}
 		while (childs-- >= 0)
-			waitpid(-1, NULL, 0);
+			waitpid(-1, &g_status, 0);
+		g_status /= 256;
 	}
 	else
 		check_command_pipe(cmd_node);
