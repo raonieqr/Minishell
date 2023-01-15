@@ -9,8 +9,15 @@ void child_signals(void)
 
 int check_exec(t_list *list)
 {
-	get_path(list);
+	if (get_path(list))
+		return (-1);
 	child_signals();
+	g_status = 127;
+	if (!list->cmd_path)
+	{
+		ft_perror(127, list->cmd[0], 0);
+		return(-1);
+	}
 	execve(list->cmd_path, list->cmd, list->envp->env);
 	// free()
 	return (127);
@@ -18,9 +25,16 @@ int check_exec(t_list *list)
 
 void check_commands(t_list *list)
 {
-	g_status = 127;
-	if (g_status == 127 && (g_status = check_exec(list)) == 127)
+	if (check_builtin(list) || has_output(list->cmd[0]))
 	{
+		g_status = exec_builtin(list, list->envp);
+		return ;
+	}
+	else //if (g_status == 127 && (g_status = check_exec(list)) == 127)
+	{
+		g_status = check_exec(list);
+		if (g_status < 0)
+			return ;
 		g_status = 127;
 		ft_perror(g_status, list->cmd[0], 1);
 	}
@@ -45,7 +59,6 @@ static void childs_pipe(int *flags, int *fd, t_list *list)
 			close(fd[i]);
 		check_commands(list);
 		// free_matrix
-		printf("%s %d\n", list->cmd[0], g_status);
 		exit(g_status);
 	}
 }
@@ -91,6 +104,7 @@ int check_command_pipe(t_list *list)
 	int childs;
 	int i;
 
+
 	out = dup(0);
 	i = 0;
 	pipe(fd);
@@ -98,7 +112,10 @@ int check_command_pipe(t_list *list)
 	childs = see_pipe(fd, list);
 	while (childs-- > 0)
 		waitpid(-1, &g_status, 0);
-	g_status /= 256;
+	if (g_status < 256 && g_status)
+		g_status = 127;
+	else
+		g_status /= 256;
 	i = 0;
 	while (i++ < 4)
 		close(fd[i]);
@@ -125,7 +142,7 @@ void loop_command(t_list *cmd_node, t_env *envp)
 			if (cmd_node->outfile != 1)
 				dup2(cmd_node->outfile, 1);
 			g_status = exec_builtin(cmd_node, cmd_node->envp);
-			if (g_status == 127 && (g_status = check_exec(cmd_node)) == 127)
+			if (g_status == 127 && (check_exec(cmd_node) == 127))
 				ft_perror(127, cmd_node->cmd[0], 1);
 			// free
 			exit(g_status);

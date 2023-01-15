@@ -13,3 +13,14 @@ int check_builtin(t_list *cmds)
 	else
 		return (0);
 }
+
+int has_output(char *cmd)
+{	
+	if (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
+		return (1);
+	else if (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
+		return (1);
+	else if (!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
+		return (1);
+	return (0);
+}

@@ -49,6 +49,22 @@ char *return_char(char c)
 	return (new_word);
 }
 
+char *check_temp(char *temp, char *input, int i)
+{
+	char *temp2;
+	
+	temp2 = temp;
+	if (check_operator(&input[i]) == 2)
+	{
+		temp = ft_strjoin(temp, ft_substr(input, i, 2));
+		i++;
+	}
+	else
+		temp = ft_strjoin(temp, return_char(input[i]));
+	ft_free(&temp2);
+	return (temp);
+}
+
 char *change_special_char(char *input)
 {
 	int i;
@@ -56,7 +72,7 @@ char *change_special_char(char *input)
 	char *temp2;
 
 	i = 0;
-	while (input[i])
+	while (input[i++])
 	{
 		if (!check_quote_on(input[i]))
 		{
@@ -66,15 +82,7 @@ char *change_special_char(char *input)
 				temp2 = temp;
 				temp = ft_strjoin(temp, " ");
 				ft_free(&temp2);
-				temp2 = temp;
-				if (check_operator(&input[i]) == 2)
-				{
-					temp = ft_strjoin(temp, ft_substr(input, i, 2));
-					i++;
-				}
-				else
-					temp = ft_strjoin(temp, return_char(input[i]));
-				ft_free(&temp2);
+				temp = check_temp(temp, input, i);
 				i++;
 				temp2 = temp;
 				temp = ft_strjoin(temp, " ");
@@ -83,7 +91,6 @@ char *change_special_char(char *input)
 				ft_free(&temp);
 			}
 		}
-		i++;
 	}
 	return (input);
 }
@@ -93,9 +100,9 @@ char *ft_new_trim(char *cmd)
 	char *temp;
 
 	temp = NULL;
-	if (cmd[0] == '\'')
+	if (cmd[0] == '\'' || cmd[ft_strlen(cmd) - 1] == '\'')
 		temp = ft_strtrim(cmd, "\'");
-	else if (cmd[0] == '\"')
+	else if (cmd[0] == '\"' || cmd[ft_strlen(cmd) - 1] == '\"')
 		temp = ft_strtrim(cmd, "\"");
 	else
 		temp = ft_strdup(cmd);
@@ -129,39 +136,25 @@ int check_double_pipe(char **cmds)
 
 void *check_input(t_sh *cmd, t_env *new_envp)
 {
-	char **a;
+	char **split_cmd;
 	t_list *cmd_node;
 
-	if (!cmd->prompt)
-	{
-		printf("\nError\n");
-		return (NULL);
-	}
 	if (!cmd->prompt[0])
 		return (NULL);
-	if (check_quote(cmd->prompt))
-	{
-		printf("Unclosed quotes\n");
-		return (0);
-	}
-	// cmd->prompt = change_char(cmd->prompt);
 	cmd->prompt = change_special_char(cmd->prompt);
 	cmd->prompt = ft_strtrim(cmd->prompt, " ");
-	a = ft_split(cmd->prompt, ' ');
+	split_cmd = ft_split(cmd->prompt, ' ');
 	free(cmd->prompt);
-	if (!a)
+	if (!split_cmd)
 		return ("error");
-	if (check_double_pipe(a))
+	if (check_double_pipe(split_cmd))
 		return (NULL);
-	a = expand_dir(a);
-	if (expand(a, new_envp) < 0)
-	{
-		printf("\n");
-		return (NULL);
-	}
-	cmd_node = create_nodes(a, new_envp);
+	split_cmd = expand_dir(split_cmd);
+	expand(split_cmd, new_envp);
+	cmd_node = create_nodes(split_cmd, new_envp);
 	if (!cmd_node)
 		return (NULL);
 	loop_command(cmd_node, new_envp);
 	return (NULL);
 }
+

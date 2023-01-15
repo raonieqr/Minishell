@@ -8,7 +8,7 @@ static t_sh	*init(void)
 
 	cmd = malloc(sizeof(t_sh));
 	cmd->envp = NULL;
-	cmd->exp = ft_calloc(sizeof(char *), 1);
+	//cmd->exp = ft_calloc(sizeof(char *), 1);
 	cmd->str = 0;
 	return (cmd);
 }
@@ -46,7 +46,7 @@ int	check_pipe(t_sh *cmd)
 	tmp = ft_strtrim(cmd->prompt, " ");
 	if (tmp[0] == '|' || tmp[ft_strlen(tmp) - 1] == '|')
 	{
-		printf("minishell: syntax error near unexpected token `|'\n");
+		ft_perror(2, NULL, PIPE);
 		ft_free(&tmp);
 		return (1);
 	}
@@ -56,13 +56,22 @@ int	check_pipe(t_sh *cmd)
 
 int validate_prompt(t_sh	*cmd)
 {
+	if (!cmd->prompt)
+	{
+		printf("\nError\n");
+		return (0);
+	}
 	if (check_quote(cmd->prompt))
 	{
-		printf("minishell: syntax error unclosed quotes\n");
+		ft_free(&cmd->prompt);
+		ft_perror(2, NULL, QUOTES);
 		return (0);
 	}
 	if (check_pipe(cmd))
+	{
+		ft_free(&cmd->prompt);
 		return (0);
+	}
 	return (1);
 }
 
@@ -72,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	t_sh	*cmd;
 	t_env	*new_envp;
 
-	print_start();
+	//print_start();
 	(void)argv;
 	if (argc == 1)
 	{	
@@ -85,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 			print_prompt(cmd);
 			if (!cmd->prompt)
 			{
+				free_split(&new_envp->env);
 				printf("\n");
 				exit(0);
 			}

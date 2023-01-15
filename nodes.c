@@ -17,7 +17,8 @@ static t_list	*cmd_init(void)
 }
 
 /* JOGAR ṔARA ARQUIVO UTILS*/
-void	free_split(char **splited)
+
+void	free_split(char ***splited)
 {
 	int	pos;
 
@@ -28,6 +29,7 @@ void	free_split(char **splited)
 		pos++;
 	}
 	free(splited);
+	*splited = NULL;
 }
 
 int	check_for_cmd(char **input, int i)

@@ -39,6 +39,8 @@ enum	e_error
 	PIPERR = 4,
 	MALLOC_ERR = 5,
 	SYNTAX = 6,
+	QUOTES = 7,
+	PIPE = 8,
 };
 
 #define line_1 "\033[0;31m,--.   ,--.,--.        ,--.       ,--.            ,--.,--.\033[0:39m\n"
@@ -76,7 +78,7 @@ char *to_lower(char *cmd);
 int exec_echo(char **cmd);
 int exec_cd(t_list *cmds);
 int exec_pwd(void);
-void get_path(t_list *cmds);
+int get_path(t_list *cmds);
 char *test_path(char **cmd);
 int check_builtin(t_list *cmds);
 int exec_builtin(t_list *cmds, t_env *envp);
@@ -101,5 +103,6 @@ void	exit_error(char *str);
 char *ft_get_env(char **envp, char *var);
 // char *change_char(char *prompt);
 int	ft_perror(int status, char *cmd, int code);
-
+int has_output(char *cmd);
+void	free_split(char ***splited);
 #endif

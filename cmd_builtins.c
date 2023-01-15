@@ -75,6 +75,7 @@ int exec_echo(char **cmd)
 
 int exec_builtin(t_list *cmds, t_env *envp)
 {
+	printf("AQUI\n");
 	if (!ft_strncmp(cmds->cmd[0], "pwd", 3) && ft_strlen(cmds->cmd[0]) == 3)
 		return (exec_pwd());
 	else if (!ft_strncmp(cmds->cmd[0], "echo", 4) && ft_strlen(cmds->cmd[0]) == 4)

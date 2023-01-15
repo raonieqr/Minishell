@@ -38,6 +38,7 @@ void	exec_exports(char *cmd, t_env *envp)
 		perror("export");
 		return ;
 	}
+	exec_unset(var, envp);
 	new_var = ft_strjoin(var, "");
 	new_var = ft_strjoin(new_var, value);
 	tmp = new_var;
@@ -77,6 +78,7 @@ char	*get_var(char *cmd)
 		j++;
 	}
 	var[j] = '\0';
+	var = ft_new_trim(var);
 	return (var);
 }
 
@@ -84,6 +86,7 @@ char	*get_value(char *cmd)
 {
 	int		i;
 	char	*value;
+	char	*tmp;
 
 	i = 0;
 	value = NULL;
@@ -91,7 +94,11 @@ char	*get_value(char *cmd)
 	{
 		if (cmd[i] == '=' && cmd[i + 1])
 		{
-			value = ft_strdup(&cmd[i]);
+			value = ft_strdup(&cmd[i + 1]);
+			value = ft_new_trim(value);
+			tmp = value;
+			value = ft_strjoin("=", value);
+			ft_free(&tmp);
 			return (value);
 		}
 		i++;
