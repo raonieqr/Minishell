@@ -16,7 +16,7 @@ int check_exec(t_list *list)
 	if (!list->cmd_path)
 	{
 		ft_perror(127, list->cmd[0], 0);
-		return(-1);
+		return (-1);
 	}
 	execve(list->cmd_path, list->cmd, list->envp->env);
 	// free()
@@ -34,7 +34,7 @@ void check_commands(t_list *list)
 	{
 		g_status = check_exec(list);
 		if (g_status < 0)
-			return ;
+			return;
 		g_status = 127;
 		ft_perror(g_status, list->cmd[0], 1);
 	}
@@ -104,7 +104,6 @@ int check_command_pipe(t_list *list)
 	int childs;
 	int i;
 
-
 	out = dup(0);
 	i = 0;
 	pipe(fd);
@@ -133,7 +132,7 @@ void loop_command(t_list *cmd_node, t_env *envp)
 		if (check_builtin(cmd_node))
 		{
 			g_status = exec_builtin(cmd_node, envp);
-			return ;
+			return;
 		}
 		if (!fork())
 		{

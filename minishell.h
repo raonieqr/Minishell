@@ -15,7 +15,7 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 
-# define HDOC_WARN "minishell: warning: here-document delimited by end-of-file"
+#define HDOC_WARN "minishell: warning: here-document delimited by end-of-file"
 
 typedef struct s_cmd
 {
@@ -31,7 +31,7 @@ typedef struct s_cmd
 
 extern int g_status;
 
-enum	e_error
+enum e_error
 {
 	NDIR = 1,
 	DUPERR = 2,
@@ -49,18 +49,18 @@ enum	e_error
 #define line_4 "\033[0;34m|  |   |  ||  ||  ||  ||  |.-'  `)|  | |  ||   --.|  ||  | \033[0:39m\n"
 #define line_5 "\033[0;35m`--'   `--'`--'`--''--'`--'`----' `--' `--' `----'`--'`--' \033[0:39m\n"
 
-void	print_start(void);
-void	print_prompt(t_sh *cmd);
-void	*check_input(t_sh *cmd, t_env *new_envp);
-void	ft_free(char **str);
+void print_start(void);
+void print_prompt(t_sh *cmd);
+void *check_input(t_sh *cmd, t_env *new_envp);
+void ft_free(char **str);
 
-void	rl_replace_line(const char *text, int clear_undo);
-void	handle_sig(int sig, siginfo_t *info, void *algo);
+void rl_replace_line(const char *text, int clear_undo);
+void handle_sig(int sig, siginfo_t *info, void *algo);
 
-void	freethree_ptrs(char **s, char **s2, char **s3);
-void	freetwo_ptrs(char **s, char **s2);
-int		expand(char **cmds, t_env *new_envp);
-char	**expand_dir(char **cmds);
+void freethree_ptrs(char **s, char **s2, char **s3);
+void freetwo_ptrs(char **s, char **s2);
+int expand(char **cmds, t_env *new_envp);
+char **expand_dir(char **cmds);
 int is_quote(char *str);
 int check_quote(char *input);
 char *change_var(char *cmd, char *var, char *value, int pos_s);
@@ -91,19 +91,19 @@ int check_exec(t_list *list);
 void loop_command(t_list *cmd_node, t_env *new_cmd);
 int ft_isspace(char c);
 char *change_special_char(char *input);
-char	**change_envp(char **env, char *new_env);
-int	size_matrix(char **str);
-char	*get_value(char *cmd);
+char **change_envp(char **env, char *new_env);
+int size_matrix(char **str);
+char *get_value(char *cmd);
 int ft_ismetachar(char c);
-char	*get_var(char *cmd);
-int	exec_exports(char *cmd, t_env *envp);
-char	**rmv_envp(char **env, int i);
-void	exec_unset(char *cmds, t_env *envp);
-void	exit_error(char *str);
+char *get_var(char *cmd);
+int exec_exports(char *cmd, t_env *envp);
+char **rmv_envp(char **env, int i);
+void exec_unset(char *cmds, t_env *envp);
+void exit_error(char *str);
 char *ft_get_env(char **envp, char *var);
 // char *change_char(char *prompt);
-int	ft_perror(int status, char *cmd, int code);
+int ft_perror(int status, char *cmd, int code);
 int has_output(char *cmd);
-void	free_split(char ***splited);
-int	check_pipe(t_sh *cmd);
+void free_split(char ***splited);
+int check_pipe(t_sh *cmd);
 #endif

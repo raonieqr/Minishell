@@ -46,14 +46,15 @@ int exec_echo(char **cmd)
 {
 	int i;
 	int flag;
-	int	j;
+	int j;
 
 	i = 0;
 	flag = 0;
 	j = 1;
 	while (!ft_strncmp(cmd[++i], "-n", 2))
 	{
-		while(cmd[i][++j] == 'n');
+		while (cmd[i][++j] == 'n')
+			;
 		if (!cmd[i][j])
 			flag = 1;
 		else
@@ -78,9 +79,9 @@ int exec_builtin(t_list *cmds, t_env *envp)
 	if (!ft_strncmp(cmds->cmd[0], "pwd", 3) && ft_strlen(cmds->cmd[0]) == 3)
 		return (exec_pwd());
 	else if (!ft_strncmp(cmds->cmd[0], "echo", 4) && ft_strlen(cmds->cmd[0]) == 4)
-		return(exec_echo(cmds->cmd));
+		return (exec_echo(cmds->cmd));
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2) && ft_strlen(cmds->cmd[0]) == 2 && !cmds->next)
-		return(exec_cd(cmds));
+		return (exec_cd(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6) && ft_strlen(cmds->cmd[0]) == 6 && !cmds->next)
 		exec_exports(cmds->cmd[1], envp);
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5) && ft_strlen(cmds->cmd[0]) == 5 && !cmds->next)
@@ -94,7 +95,7 @@ int exec_builtin(t_list *cmds, t_env *envp)
 
 int exec_cd(t_list *cmds)
 {
-	char	var[4096];
+	char var[4096];
 
 	getcwd(var, 4095);
 	if (!cmds->cmd[1])
@@ -115,10 +116,20 @@ int exec_cd(t_list *cmds)
 
 int exec_pwd(void)
 {
-	char	var[4096];
+	char var[4096];
 
 	getcwd(var, 4095);
 	printf("%s", var);
 	printf("\n");
 	return (0);
 }
+
+// void exec_env(t_env *envp)
+// {
+// 	int i;
+
+// 	i = -1;
+// 	while (envp->env[++i])
+// 		printf("%s\n", envp->env[i]);
+// 	return
+// }

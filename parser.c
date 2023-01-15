@@ -37,6 +37,32 @@ int check_quote_on(char input)
 	return (0);
 }
 
+void ft_freenode(t_list *cmd)
+{
+	t_list *temp;
+	t_list *aux;
+	int i;
+
+	temp = cmd;
+	while (temp)
+	{
+		aux = temp;
+		i = -1;
+		if (aux->cmd_path)
+			free(aux->cmd_path);
+		while (aux->cmd[++i])
+			free(aux->cmd[i]);
+		if (aux->cmd)
+			free(aux->cmd);
+		if (aux->infile > 2)
+			close(aux->infile);
+		if (aux->outfile > 2)
+			close(aux->outfile);
+		temp = temp->next;
+		free(aux);
+	}
+}
+
 char *return_char(char c)
 {
 	char *new_word;
@@ -52,16 +78,21 @@ char *return_char(char c)
 char *check_temp(char *temp, char *input, int i)
 {
 	char *temp2;
-	
+	char *aux;
+
 	temp2 = temp;
 	if (check_operator(&input[i]) == 2)
 	{
-		temp = ft_strjoin(temp, ft_substr(input, i, 2));
+		aux = ft_substr(input, i, 2);
+		temp = ft_strjoin(temp, aux);
 		i++;
 	}
 	else
-		temp = ft_strjoin(temp, return_char(input[i]));
-	ft_free(&temp2);
+	{
+		aux = return_char(input[i]);
+		temp = ft_strjoin(temp, aux);
+	}
+	freetwo_ptrs(&temp2, &aux);
 	return (temp);
 }
 
@@ -82,13 +113,17 @@ char *change_special_char(char *input)
 				temp2 = temp;
 				temp = ft_strjoin(temp, " ");
 				ft_free(&temp2);
+				temp2 = temp;
 				temp = check_temp(temp, input, i);
+				ft_free(&temp2);
 				i++;
 				temp2 = temp;
 				temp = ft_strjoin(temp, " ");
 				ft_free(&temp2);
-				input = ft_strjoin(temp, &input[i]);
-				ft_free(&temp);
+				temp2 = input;
+				input = ft_strjoin(temp, temp2 + i);
+				free(temp);
+				free(temp2);
 			}
 		}
 	}
@@ -138,24 +173,30 @@ void *check_input(t_sh *cmd, t_env *new_envp)
 {
 	char **split_cmd;
 	t_list *cmd_node;
+	char *temp;
 
+	split_cmd = NULL;
 	if (!cmd->prompt[0])
 		return (NULL);
 	cmd->prompt = change_special_char(cmd->prompt);
+	temp = cmd->prompt;
 	cmd->prompt = ft_strtrim(cmd->prompt, " ");
+	free(temp);
 	split_cmd = ft_split(cmd->prompt, ' ');
 	free(cmd->prompt);
 	if (!split_cmd)
-		return ("error");
+		return (NULL);
 	if (check_double_pipe(split_cmd))
 		return (NULL);
 	split_cmd = expand_dir(split_cmd);
 	expand(split_cmd, new_envp);
-	return (NULL);
+	// printf("%s\n", split_cmd[0]);
 	cmd_node = create_nodes(split_cmd, new_envp);
 	if (!cmd_node)
 		return (NULL);
 	loop_command(cmd_node, new_envp);
+	ft_freenode(cmd_node);
+	// free(cmd);
+	free_split(&split_cmd);
 	return (NULL);
 }
-
