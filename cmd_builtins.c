@@ -48,20 +48,17 @@ int exec_echo(char **cmd)
 	int flag;
 	int j;
 
-	i = 0;
+	i = 1;
 	flag = 0;
 	j = 1;
-	while (!ft_strncmp(cmd[++i], "-n", 2))
+	while (!ft_strncmp(cmd[i], "-n", 2))
 	{
-		while (cmd[i][++j] == 'n')
-			;
+		while (cmd[i][j] == 'n')
+			j++;
 		if (!cmd[i][j])
 			flag = 1;
-		else
-			break;
+		i++;
 	}
-	if (flag == 1)
-		i--;
 	while (cmd[i])
 	{
 		printf("%s", cmd[i]);
@@ -80,6 +77,8 @@ int exec_builtin(t_list *cmds, t_env *envp)
 		return (exec_pwd());
 	else if (!ft_strncmp(cmds->cmd[0], "echo", 4) && ft_strlen(cmds->cmd[0]) == 4)
 		return (exec_echo(cmds->cmd));
+	else if (!ft_strncmp(cmds->cmd[0], "env", 3) && ft_strlen(cmds->cmd[0]) == 3)
+		exec_env(envp);
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2) && ft_strlen(cmds->cmd[0]) == 2 && !cmds->next)
 		return (exec_cd(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6) && ft_strlen(cmds->cmd[0]) == 6 && !cmds->next)
@@ -124,12 +123,11 @@ int exec_pwd(void)
 	return (0);
 }
 
-// void exec_env(t_env *envp)
-// {
-// 	int i;
+void exec_env(t_env *envp)
+{
+	int i;
 
-// 	i = -1;
-// 	while (envp->env[++i])
-// 		printf("%s\n", envp->env[i]);
-// 	return
-// }
+	i = -1;
+	while (envp->env[++i])
+		printf("%s\n", envp->env[i]);
+}

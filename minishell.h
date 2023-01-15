@@ -106,4 +106,5 @@ int ft_perror(int status, char *cmd, int code);
 int has_output(char *cmd);
 void free_split(char ***splited);
 int check_pipe(t_sh *cmd);
+void exec_env(t_env *envp);
 #endif
