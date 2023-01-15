@@ -21,15 +21,16 @@ static t_list	*cmd_init(void)
 void	free_split(char ***splited)
 {
 	int	pos;
+	char **tmp;
 
 	pos = 0;
-	while (splited[pos])
+	tmp = *splited;
+	while (tmp[pos])
 	{
-		free(splited[pos]);
+		free(tmp[pos]);
 		pos++;
 	}
-	free(splited);
-	*splited = NULL;
+	free(tmp);
 }
 
 int	check_for_cmd(char **input, int i)

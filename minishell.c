@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int g_status;
+int			g_status;
 
 static t_sh	*init(void)
 {
@@ -8,12 +8,9 @@ static t_sh	*init(void)
 
 	cmd = malloc(sizeof(t_sh));
 	cmd->envp = NULL;
-	//cmd->exp = ft_calloc(sizeof(char *), 1);
 	cmd->str = 0;
 	return (cmd);
 }
-
-/*TROCAR ISSO*/
 
 void	handle_sig(int sig, siginfo_t *info, void *algo)
 {
@@ -22,10 +19,10 @@ void	handle_sig(int sig, siginfo_t *info, void *algo)
 	if (sig == SIGINT)
 	{
 		g_status = 130;
-        printf("\n");
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
@@ -39,22 +36,7 @@ void	signals(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
-int	check_pipe(t_sh *cmd)
-{
-	char *tmp;
-
-	tmp = ft_strtrim(cmd->prompt, " ");
-	if (tmp[0] == '|' || tmp[ft_strlen(tmp) - 1] == '|')
-	{
-		ft_perror(2, NULL, PIPE);
-		ft_free(&tmp);
-		return (1);
-	}
-	ft_free(&tmp);
-	return (0);
-}
-
-int validate_prompt(t_sh	*cmd)
+int	validate_prompt(t_sh *cmd)
 {
 	if (!cmd->prompt)
 	{
@@ -75,17 +57,16 @@ int validate_prompt(t_sh	*cmd)
 	return (1);
 }
 
-//int main(void)
 int	main(int argc, char **argv, char **envp)
 {
 	t_sh	*cmd;
 	t_env	*new_envp;
 
-	//print_start();
+	print_start();
 	(void)argv;
 	if (argc == 1)
-	{	
-		new_envp = malloc(sizeof (t_env));
+	{
+		new_envp = malloc(sizeof(t_env));
 		new_envp->env = copy_env(envp);
 		cmd = init();
 		while (1)
@@ -94,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			print_prompt(cmd);
 			if (!cmd->prompt)
 			{
-				free_split(&new_envp->env);
+				ft_free(new_envp->env);
 				printf("\n");
 				exit(0);
 			}

@@ -24,3 +24,44 @@ int has_output(char *cmd)
 		return (1);
 	return (0);
 }
+
+int	check_pipe(t_sh *cmd)
+{
+	char	*tmp;
+
+	tmp = ft_strtrim(cmd->prompt, " ");
+	if (tmp[0] == '|' || tmp[ft_strlen(tmp) - 1] == '|')
+	{
+		ft_perror(2, NULL, PIPE);
+		ft_free(&tmp);
+		return (1);
+	}
+	ft_free(&tmp);
+	return (0);
+}
+
+int	check_quote(char *input)
+{
+	int	i;
+	int	d_quote;
+	int	s_quote;
+
+	d_quote = 0;
+	s_quote = 0;
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == 39 && !s_quote && !d_quote)
+			s_quote++;
+		else if (input[i] == 39 && !d_quote)
+			s_quote--;
+		else if (input[i] == '"' && !s_quote && !d_quote)
+			d_quote++;
+		else if (input[i] == '"' && !s_quote)
+			d_quote--;
+		i++;
+	}
+	if (s_quote || d_quote)
+		return (1);
+	return (0);
+}

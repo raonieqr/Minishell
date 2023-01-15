@@ -96,7 +96,7 @@ int	size_matrix(char **str);
 char	*get_value(char *cmd);
 int ft_ismetachar(char c);
 char	*get_var(char *cmd);
-void	exec_exports(char *cmds, t_env *envp);
+int	exec_exports(char *cmd, t_env *envp);
 char	**rmv_envp(char **env, int i);
 void	exec_unset(char *cmds, t_env *envp);
 void	exit_error(char *str);
@@ -105,4 +105,5 @@ char *ft_get_env(char **envp, char *var);
 int	ft_perror(int status, char *cmd, int code);
 int has_output(char *cmd);
 void	free_split(char ***splited);
+int	check_pipe(t_sh *cmd);
 #endif

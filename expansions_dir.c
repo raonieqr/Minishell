@@ -43,29 +43,3 @@ int	is_quote(char *str)
 	else
 		return (0);
 }
-
-int	check_quote(char *input)
-{
-	int	i;
-	int	d_quote;
-	int	s_quote;
-
-	d_quote = 0;
-	s_quote = 0;
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == 39 && !s_quote && !d_quote)
-			s_quote++;
-		else if (input[i] == 39 && !d_quote)
-			s_quote--;
-		else if (input[i] == '"' && !s_quote && !d_quote)
-			d_quote++;
-		else if (input[i] == '"' && !s_quote)
-			d_quote--;
-		i++;
-	}
-	if (s_quote || d_quote)
-		return (1);
-	return (0);
-}

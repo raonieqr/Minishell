@@ -151,6 +151,7 @@ void *check_input(t_sh *cmd, t_env *new_envp)
 		return (NULL);
 	split_cmd = expand_dir(split_cmd);
 	expand(split_cmd, new_envp);
+	return (NULL);
 	cmd_node = create_nodes(split_cmd, new_envp);
 	if (!cmd_node)
 		return (NULL);

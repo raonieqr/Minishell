@@ -1,7 +1,4 @@
-
 #include "minishell.h"
-
-/* Print the welcoming message */
 
 void	print_start(void)
 {
@@ -28,7 +25,7 @@ static char	*return_path(void)
 	return (path);
 }
 
-void ft_free(char **str)
+void	ft_free(char **str)
 {
 	if (*str)
 	{
@@ -43,7 +40,7 @@ void	print_prompt(t_sh *cmd)
 	cmd->temp = cmd->envp;
 	cmd->envp = ft_strjoin(cmd->envp, "$ ");
 	ft_free(&cmd->temp);
-	cmd->temp = ft_strjoin("\033[0;32mMinishell@ubuntu:\033[0:39m", cmd->envp);
+	cmd->temp = ft_strjoin("\033[0;32mMinishell@42rio:\033[0:39m", cmd->envp);
 	ft_free(&cmd->envp);
 	cmd->prompt = readline(cmd->temp);
 	if (cmd->prompt)

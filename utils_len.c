@@ -31,3 +31,13 @@ int	ft_perror(int status, char *cmd, int code)
 		write(2, "minishell: syntax error unclosed quotes\n", 41);
 	return (g_status);
 }
+
+int	size_matrix(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}

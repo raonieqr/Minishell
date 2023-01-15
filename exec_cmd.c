@@ -28,9 +28,9 @@ void check_commands(t_list *list)
 	if (check_builtin(list) || has_output(list->cmd[0]))
 	{
 		g_status = exec_builtin(list, list->envp);
-		return ;
+		return;
 	}
-	else //if (g_status == 127 && (g_status = check_exec(list)) == 127)
+	else
 	{
 		g_status = check_exec(list);
 		if (g_status < 0)
