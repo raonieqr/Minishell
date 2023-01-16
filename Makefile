@@ -50,4 +50,3 @@ re:    fclean all
 
 valgrind: all
 	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --track-origins=yes  --log-file=lib.log ./minishell
-
