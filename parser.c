@@ -158,7 +158,7 @@ int check_double_pipe(char **cmds)
 		{
 			if (cmds[i][0] == '|' && cmds[i + 1][0] == '|')
 			{
-				printf("minishell: syntax error near unexpected token `|'\n");
+				ft_perror(2, NULL, PIPERR);
 				return (1);
 			}
 		}

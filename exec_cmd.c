@@ -15,7 +15,7 @@ int check_exec(t_list *list)
 	g_status = 127;
 	if (!list->cmd_path)
 	{
-		ft_perror(127, list->cmd[0], 0);
+		ft_perror(127, list->cmd[0], 1);
 		return (-1);
 	}
 	execve(list->cmd_path, list->cmd, list->envp->env);

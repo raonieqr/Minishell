@@ -63,7 +63,7 @@ DIR	*check_cmd(t_list *cmds)
 	{
 		cmds->cmd_path = test_path(cmds->cmd);
 		if (!cmds || !cmds->cmd[0] || !cmds->cmd[0][0])
-			printf("Error\n");
+			ft_perror(127, NULL, 1);
 	}
 	return (dir);
 }
@@ -74,7 +74,7 @@ int	get_path(t_list *cmds)
 
 	dir = check_cmd(cmds);
 	if (!is_builtin(cmds->cmd) && dir && cmds && cmds->cmd_path)
-		return (ft_perror(127, cmds->cmd[0], 0));
+		return (ft_perror(126, cmds->cmd[0], 0));
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
 			&& access(cmds->cmd_path, F_OK) == -1)
 		return (ft_perror(127, cmds->cmd_path, 0));
