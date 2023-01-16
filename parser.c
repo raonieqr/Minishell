@@ -113,17 +113,15 @@ char *change_special_char(char *input)
 				temp2 = temp;
 				temp = ft_strjoin(temp, " ");
 				ft_free(&temp2);
-				temp2 = temp;
 				temp = check_temp(temp, input, i);
-				ft_free(&temp2);
 				i++;
 				temp2 = temp;
 				temp = ft_strjoin(temp, " ");
 				ft_free(&temp2);
 				temp2 = input;
-				input = ft_strjoin(temp, temp2 + i);
-				free(temp);
-				free(temp2);
+				input = ft_strjoin(temp, &input[i]);
+				ft_free(&temp);
+				ft_free(&temp2);
 			}
 		}
 	}
