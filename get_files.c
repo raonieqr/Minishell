@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	open_file(char *path, int cur_fd, int c_write, int c_append)
@@ -85,7 +84,7 @@ int	ft_get_infile2(t_list *node, char **args, int i)
 
 int	ft_get_infile(t_list *node, char **args, int i)
 {
-	int path;
+	int	path;
 
 	path = i + 1;
 	if (!args[path])

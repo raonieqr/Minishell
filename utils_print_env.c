@@ -80,6 +80,18 @@ char	*get_value(char *cmd)
 	return (value);
 }
 
+char	*get_sub(char *str)
+{
+	int		i;
+	char	*new_str;
+
+	i = 0;
+	while (str[i] && !ft_ismetachar(str[i]))
+		i++;
+	new_str = ft_substr(str, 0, i);
+	return (new_str);
+}
+
 void	exec_unset(char *cmd, t_env *envp)
 {
 	int	i;

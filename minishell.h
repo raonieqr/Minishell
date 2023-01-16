@@ -110,5 +110,9 @@ void	ft_freenode(t_list *cmd);
 char	*check_temp(char *temp, char *input, int i);
 int	check_double_pipe(char **cmds);
 char	*return_char(char c);
+char	*expand_var(char **cmds, int i, int j, t_env *new_envp);
+char	*join_three(char *str, int j, char *str2, t_env *new_envp);
+char	*get_sub(char *str);
+char	*join_status(char *str, int j, char *str2);
 
 #endif

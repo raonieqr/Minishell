@@ -12,6 +12,16 @@ void	check_status(int code)
 		write(2, "minishell: syntax error unclosed quotes\n", 41);
 }
 
+int	ft_len_char(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && !ft_isspace(str[i]) && str[i] != '$')
+		i++;
+	return (i);
+}
+
 int	ft_perror(int status, char *cmd, int code)
 {
 	g_status = status;
@@ -39,4 +49,11 @@ int	size_matrix(char **str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+int	ft_isspace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
 }

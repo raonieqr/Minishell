@@ -28,6 +28,18 @@ char	**expand_dir(char **cmds)
 	return (cmds);
 }
 
+char	*expand_var(char **cmds, int i, int j, t_env *new_envp)
+{
+	if (cmds[i][j + 1] == '?')
+		return (cmds[i] = join_three(cmds[i], j, ft_itoa(g_status), \
+			new_envp));
+	else
+		return (cmds[i] = join_status(cmds[i], j, get_sub(cmds[i] + j \
+			+ 1)));
+	if (!cmds[i])
+		return (NULL);
+}
+
 int	is_quote(char *str)
 {
 	int	len;

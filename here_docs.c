@@ -48,8 +48,8 @@ char	*get_input(char *delimiter)
 
 int	here_docs(char *delimiter)
 {
-	int fd[2];
-	char *input;
+	int		fd[2];
+	char	*input;
 
 	input = NULL;
 	g_status = 0;

@@ -1,22 +1,4 @@
-
 #include "minishell.h"
-
-int	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (1);
-	return (0);
-}
-
-int	ft_len_char(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && !ft_isspace(str[i]) && str[i] != '$')
-		i++;
-	return (i);
-}
 
 char	*ft_get_env(char **envp, char *var)
 {
@@ -49,34 +31,21 @@ char	*change_var(char *cmd, char *var, char *value, int pos_s)
 	return (new_cmd);
 }
 
-int	ft_ismetachar(char c)
+char	*join_three(char *str, int j, char *str2, t_env *new_envp)
 {
-	if (c >= 7 && c <= 13)
-		return (1);
-	if (c >= 33 && c <= 47)
-		return (1);
-	if (c >= 57 && c <= 64)
-		return (1);
-	if (c >= 91 && c <= 96)
-		return (1);
-	if (c >= 123 && c <= 126)
-		return (1);
-	return (0);
+	char	*return_str;
+	char	*str1;
+
+	return_str = NULL;
+	str1 = ft_substr(str, 0, j);
+	if (!ft_get_env(new_envp->env, str2))
+		return (NULL);
+	return_str = ft_strjoin(str1, ft_get_env(new_envp->env, str2));
+	freetwo_ptrs(&str2, &str1);
+	return (return_str);
 }
 
-char	*get_sub(char *str)
-{
-	int		i;
-	char	*new_str;
-
-	i = 0;
-	while (str[i] && !ft_ismetachar(str[i]))
-		i++;
-	new_str = ft_substr(str, 0, i);
-	return (new_str);
-}
-
-char	*join_three(char *str, int j, char *str2, t_env *new_envp, int mode)
+char	*join_status(char *str, int j, char *str2)
 {
 	char	*return_str;
 	char	*str1;
@@ -84,25 +53,18 @@ char	*join_three(char *str, int j, char *str2, t_env *new_envp, int mode)
 
 	return_str = NULL;
 	str1 = ft_substr(str, 0, j);
-	if (mode)
-	{
-		if (!ft_get_env(new_envp->env, str2))
-			return (NULL);
-		return_str = ft_strjoin(str1, ft_get_env(new_envp->env, str2));
-	}
-	else
 		return_str = ft_strjoin(str1, str2);
-	str3 = ft_substr(str, j + ft_strlen(str2) + 1, ft_strlen(str) - j
+		str3 = ft_substr(str, j + ft_strlen(str2) + 1, ft_strlen(str) - j
 			- ft_strlen(str2) - 1);
-	return_str = ft_strjoin(return_str, str3);
+		return_str = ft_strjoin(return_str, str3);
 	freethree_ptrs(&str2, &str1, &str3);
 	return (return_str);
 }
 
 int	expand(char **cmds, t_env *new_envp)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (cmds[i])
@@ -119,16 +81,7 @@ int	expand(char **cmds, t_env *new_envp)
 			while (cmds[i][j])
 			{
 				if (cmds[i][j] == '$')
-				{
-					if (cmds[i][j + 1] == '?')
-						cmds[i] = join_three(cmds[i], j, ft_itoa(g_status),
-								new_envp, 0);
-					else
-						cmds[i] = join_three(cmds[i], j, get_sub(cmds[i] + j
-									+ 1), new_envp, 1);
-					if (!cmds[i])
-						return (-1);
-				}
+					expand_var(cmds, i, j, new_envp);
 				j++;
 			}
 			i++;
