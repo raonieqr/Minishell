@@ -34,8 +34,6 @@ extern int g_status;
 enum e_error
 {
 	NDIR = 1,
-	DUPERR = 2,
-	FORKERR = 3,
 	PIPERR = 4,
 	MALLOC_ERR = 5,
 	SYNTAX = 6,

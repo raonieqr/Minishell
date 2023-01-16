@@ -36,7 +36,7 @@ int	ft_get_outfile(t_list *node, char **args, int i)
 		ft_perror(2, NULL, SYNTAX);
 		return (0);
 	}
-	node->outfile = open_file(args[path], node->outfile, 1, 0);	
+	node->outfile = open_file(args[path], node->outfile, 1, 0);
 	if (node->outfile == -1)
 	{
 		ft_perror(126, NULL, SYNTAX);
@@ -91,7 +91,7 @@ int	ft_get_infile(t_list *node, char **args, int i)
 	if (!args[path])
 	{
 		ft_perror(2, NULL, SYNTAX);
-		return(0);
+		return (0);
 	}
 	node->infile = open_file(args[path], node->infile, 0, 0);
 	if (node->infile == 0)

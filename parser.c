@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void loop_command(t_list *cmd_node, t_env *env);
+void	loop_command(t_list *cmd_node, t_env *env);
 
-int check_operator(char *prompt)
+int	check_operator(char *prompt)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (prompt[i] == '>' || prompt[i] == '<' || prompt[i] == '|')
@@ -19,10 +19,10 @@ int check_operator(char *prompt)
 	return (0);
 }
 
-int check_quote_on(char input)
+int	check_quote_on(char input)
 {
-	static int d_quote;
-	static int s_quote;
+	static int	d_quote;
+	static int	s_quote;
 
 	if (input == 39 && !s_quote && !d_quote)
 		s_quote++;
@@ -37,11 +37,11 @@ int check_quote_on(char input)
 	return (0);
 }
 
-void ft_freenode(t_list *cmd)
+void	ft_freenode(t_list *cmd)
 {
-	t_list *temp;
-	t_list *aux;
-	int i;
+	t_list	*temp;
+	t_list	*aux;
+	int		i;
 
 	temp = cmd;
 	while (temp)
@@ -63,9 +63,9 @@ void ft_freenode(t_list *cmd)
 	}
 }
 
-char *return_char(char c)
+char	*return_char(char c)
 {
-	char *new_word;
+	char	*new_word;
 
 	new_word = malloc(2 * sizeof(char));
 	if (!new_word)
@@ -75,10 +75,10 @@ char *return_char(char c)
 	return (new_word);
 }
 
-char *check_temp(char *temp, char *input, int i)
+char	*check_temp(char *temp, char *input, int i)
 {
-	char *temp2;
-	char *aux;
+	char	*temp2;
+	char	*aux;
 
 	temp2 = temp;
 	if (check_operator(&input[i]) == 2)
@@ -96,41 +96,55 @@ char *check_temp(char *temp, char *input, int i)
 	return (temp);
 }
 
-char *change_special_char(char *input)
+// void	change_char_free(char *temp, char *temp2, char *input, int i)
+// {
+// 	if (check_operator(&input[i]))
+// 	{
+// 		temp = ft_substr(input, 0, i);
+// 		temp2 = temp;
+// 		temp = ft_strjoin(temp, " ");
+// 		free(temp2);
+// 		temp = check_temp(temp, input, i);
+// 		i++;
+// 		temp2 = temp;
+// 		temp = ft_strjoin(temp, " ");
+// 		free(temp2);
+// 		temp2 = input;
+// 		input = ft_strjoin(temp, &input[i]);
+// 	}
+// }
+
+char	*change_special_char(char *input)
 {
-	int i;
-	char *temp;
-	char *temp2;
+	int		i;
+	char	*temp;
+	char	*temp2;
 
 	i = 0;
 	while (input[i++])
 	{
-		if (!check_quote_on(input[i]))
+		if (!check_quote_on(input[i]) && check_operator(&input[i]))
 		{
-			if (check_operator(&input[i]))
-			{
-				temp = ft_substr(input, 0, i);
-				temp2 = temp;
-				temp = ft_strjoin(temp, " ");
-				ft_free(&temp2);
-				temp = check_temp(temp, input, i);
-				i++;
-				temp2 = temp;
-				temp = ft_strjoin(temp, " ");
-				ft_free(&temp2);
-				temp2 = input;
-				input = ft_strjoin(temp, &input[i]);
-				ft_free(&temp);
-				ft_free(&temp2);
-			}
+			temp = ft_substr(input, 0, i);
+			temp2 = temp;
+			temp = ft_strjoin(temp, " ");
+			ft_free(&temp2);
+			temp = check_temp(temp, input, i);
+			i++;
+			temp2 = temp;
+			temp = ft_strjoin(temp, " ");
+			ft_free(&temp2);
+			temp2 = input;
+			input = ft_strjoin(temp, &input[i]);
+			freetwo_ptrs(&temp, &temp2);
 		}
 	}
 	return (input);
 }
 
-char *ft_new_trim(char *cmd)
+char	*ft_new_trim(char *cmd)
 {
-	char *temp;
+	char	*temp;
 
 	temp = NULL;
 	if (cmd[0] == '\'' || cmd[ft_strlen(cmd) - 1] == '\'')
@@ -147,9 +161,9 @@ char *ft_new_trim(char *cmd)
 	return (cmd);
 }
 
-int check_double_pipe(char **cmds)
+int	check_double_pipe(char **cmds)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmds[i])
@@ -167,11 +181,11 @@ int check_double_pipe(char **cmds)
 	return (0);
 }
 
-void *check_input(t_sh *cmd, t_env *new_envp)
+void	*check_input(t_sh *cmd, t_env *new_envp)
 {
-	char **split_cmd;
-	t_list *cmd_node;
-	char *temp;
+	char	**split_cmd;
+	t_list	*cmd_node;
+	char	*temp;
 
 	split_cmd = NULL;
 	if (!cmd->prompt[0])
@@ -188,13 +202,11 @@ void *check_input(t_sh *cmd, t_env *new_envp)
 		return (NULL);
 	split_cmd = expand_dir(split_cmd);
 	expand(split_cmd, new_envp);
-	// printf("%s\n", split_cmd[0]);
 	cmd_node = create_nodes(split_cmd, new_envp);
 	if (!cmd_node)
 		return (NULL);
 	loop_command(cmd_node, new_envp);
 	ft_freenode(cmd_node);
-	// free(cmd);
 	free_split(&split_cmd);
 	return (NULL);
 }

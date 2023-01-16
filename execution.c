@@ -30,7 +30,7 @@ char	*test_access(char **path, char **cmd)
 
 	i = -1;
 	while (path[++i])
-	{	
+	{
 		if (access(cmd[0], F_OK | X_OK) == 0)
 			return (cmd[0]);
 		temp = ft_strjoin(path[i], "/");
@@ -80,7 +80,7 @@ int	get_path(t_list *cmds)
 		return (ft_perror(127, cmds->cmd_path, 0));
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
 			&& access(cmds->cmd_path, X_OK) == -1)
-		return(ft_perror(126, cmds->cmd[0], 1));	
+		return (ft_perror(126, cmds->cmd[0], 1));
 	if (dir)
 		closedir(dir);
 	return (0);

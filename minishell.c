@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int g_status;
+int			g_status;
 
-static t_sh *init(void)
+static t_sh	*init(void)
 {
-	t_sh *cmd;
+	t_sh	*cmd;
 
 	cmd = malloc(sizeof(t_sh));
 	cmd->envp = NULL;
@@ -12,7 +12,7 @@ static t_sh *init(void)
 	return (cmd);
 }
 
-void handle_sig(int sig, siginfo_t *info, void *algo)
+void	handle_sig(int sig, siginfo_t *info, void *algo)
 {
 	(void)algo;
 	(void)*info;
@@ -26,9 +26,9 @@ void handle_sig(int sig, siginfo_t *info, void *algo)
 	}
 }
 
-void signals(void)
+void	signals(void)
 {
-	struct sigaction act;
+	struct sigaction	act;
 
 	act.sa_sigaction = (void *)handle_sig;
 	act.sa_flags = SA_SIGINFO;
@@ -36,7 +36,7 @@ void signals(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
-int validate_prompt(t_sh *cmd)
+int	validate_prompt(t_sh *cmd)
 {
 	if (!cmd->prompt)
 	{
@@ -57,10 +57,10 @@ int validate_prompt(t_sh *cmd)
 	return (1);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_sh *cmd;
-	t_env *new_envp;
+	t_sh	*cmd;
+	t_env	*new_envp;
 
 	print_start();
 	(void)argv;

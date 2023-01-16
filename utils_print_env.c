@@ -25,7 +25,6 @@ int	exec_exports(char *cmd, t_env *envp)
 		new_var = ft_strtrim(new_var, "'");
 	else if (new_var[0] == '"')
 		new_var = ft_strtrim(new_var, "\"");
-	// freethree_ptrs(&tmp, &var, &value);
 	envp->env = change_envp(envp->env, new_var);
 	return (0);
 }
