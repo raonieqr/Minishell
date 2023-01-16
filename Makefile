@@ -15,7 +15,7 @@ NAME=minishell
 SRCS	=	utils_checkers.c minishell.c utils_len.c \
 			utils_print_env.c parser.c freedom_sings.c expansions.c expansions_dir.c \
 			nodes.c here_docs.c get_files.c cmd_builtins.c execution.c \
-			exec_cmd.c prompt.c envp.c \
+			exec_cmd.c prompt.c copy_envp.c parser_2.c\
 
 LIBFT = ft_printf/libftprintf.a
 

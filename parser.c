@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-void	loop_command(t_list *cmd_node, t_env *env);
-
 int	check_operator(char *prompt)
 {
 	int	i;
@@ -37,32 +35,6 @@ int	check_quote_on(char input)
 	return (0);
 }
 
-void	ft_freenode(t_list *cmd)
-{
-	t_list	*temp;
-	t_list	*aux;
-	int		i;
-
-	temp = cmd;
-	while (temp)
-	{
-		aux = temp;
-		i = -1;
-		if (aux->cmd_path)
-			free(aux->cmd_path);
-		while (aux->cmd[++i])
-			free(aux->cmd[i]);
-		if (aux->cmd)
-			free(aux->cmd);
-		if (aux->infile > 2)
-			close(aux->infile);
-		if (aux->outfile > 2)
-			close(aux->outfile);
-		temp = temp->next;
-		free(aux);
-	}
-}
-
 char	*return_char(char c)
 {
 	char	*new_word;
@@ -74,45 +46,6 @@ char	*return_char(char c)
 	new_word[1] = '\0';
 	return (new_word);
 }
-
-char	*check_temp(char *temp, char *input, int i)
-{
-	char	*temp2;
-	char	*aux;
-
-	temp2 = temp;
-	if (check_operator(&input[i]) == 2)
-	{
-		aux = ft_substr(input, i, 2);
-		temp = ft_strjoin(temp, aux);
-		i++;
-	}
-	else
-	{
-		aux = return_char(input[i]);
-		temp = ft_strjoin(temp, aux);
-	}
-	freetwo_ptrs(&temp2, &aux);
-	return (temp);
-}
-
-// void	change_char_free(char *temp, char *temp2, char *input, int i)
-// {
-// 	if (check_operator(&input[i]))
-// 	{
-// 		temp = ft_substr(input, 0, i);
-// 		temp2 = temp;
-// 		temp = ft_strjoin(temp, " ");
-// 		free(temp2);
-// 		temp = check_temp(temp, input, i);
-// 		i++;
-// 		temp2 = temp;
-// 		temp = ft_strjoin(temp, " ");
-// 		free(temp2);
-// 		temp2 = input;
-// 		input = ft_strjoin(temp, &input[i]);
-// 	}
-// }
 
 char	*change_special_char(char *input)
 {
@@ -142,58 +75,15 @@ char	*change_special_char(char *input)
 	return (input);
 }
 
-char	*ft_new_trim(char *cmd)
-{
-	char	*temp;
-
-	temp = NULL;
-	if (cmd[0] == '\'' || cmd[ft_strlen(cmd) - 1] == '\'')
-		temp = ft_strtrim(cmd, "\'");
-	else if (cmd[0] == '\"' || cmd[ft_strlen(cmd) - 1] == '\"')
-		temp = ft_strtrim(cmd, "\"");
-	else
-		temp = ft_strdup(cmd);
-	if (temp)
-	{
-		free(cmd);
-		cmd = temp;
-	}
-	return (cmd);
-}
-
-int	check_double_pipe(char **cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds[i])
-	{
-		if (cmds[i + 1])
-		{
-			if (cmds[i][0] == '|' && cmds[i + 1][0] == '|')
-			{
-				ft_perror(2, NULL, PIPERR);
-				return (1);
-			}
-		}
-		i++;
-	}
-	return (0);
-}
-
 void	*check_input(t_sh *cmd, t_env *new_envp)
 {
 	char	**split_cmd;
 	t_list	*cmd_node;
-	char	*temp;
 
 	split_cmd = NULL;
 	if (!cmd->prompt[0])
 		return (NULL);
-	cmd->prompt = change_special_char(cmd->prompt);
-	temp = cmd->prompt;
-	cmd->prompt = ft_strtrim(cmd->prompt, " ");
-	free(temp);
+	cmd->prompt = cmd_prompt(cmd->prompt);
 	split_cmd = ft_split(cmd->prompt, ' ');
 	free(cmd->prompt);
 	if (!split_cmd)

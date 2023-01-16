@@ -105,4 +105,10 @@ int has_output(char *cmd);
 void free_split(char ***splited);
 int check_pipe(t_sh *cmd);
 void exec_env(t_env *envp);
+char    *cmd_prompt(char *input);
+void	ft_freenode(t_list *cmd);
+char	*check_temp(char *temp, char *input, int i);
+int	check_double_pipe(char **cmds);
+char	*return_char(char c);
+
 #endif
