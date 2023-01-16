@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-//-1 por causa do /n
 int	check_end(char *input, char *delimiter)
 {
 	int	size;

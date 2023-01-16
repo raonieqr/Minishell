@@ -75,10 +75,10 @@ int	get_path(t_list *cmds)
 	if (!is_builtin(cmds->cmd) && dir && cmds && cmds->cmd_path)
 		return (ft_perror(126, cmds->cmd[0], 0));
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
-		&& access(cmds->cmd_path, F_OK) == -1)
+			&& access(cmds->cmd_path, F_OK) == -1)
 		return (ft_perror(127, cmds->cmd_path, 0));
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
-		&& access(cmds->cmd_path, X_OK) == -1)
+			&& access(cmds->cmd_path, X_OK) == -1)
 		return (ft_perror(126, cmds->cmd[0], 1));
 	if (dir)
 		closedir(dir);

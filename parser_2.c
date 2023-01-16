@@ -30,32 +30,6 @@ char	*ft_new_trim(char *cmd)
 	return (cmd);
 }
 
-void	ft_freenode(t_list *cmd)
-{
-	t_list	*temp;
-	t_list	*aux;
-	int		i;
-
-	temp = cmd;
-	while (temp)
-	{
-		aux = temp;
-		i = -1;
-		if (aux->cmd_path)
-			free(aux->cmd_path);
-		while (aux->cmd[++i])
-			free(aux->cmd[i]);
-		if (aux->cmd)
-			free(aux->cmd);
-		if (aux->infile > 2)
-			close(aux->infile);
-		if (aux->outfile > 2)
-			close(aux->outfile);
-		temp = temp->next;
-		free(aux);
-	}
-}
-
 int	check_double_pipe(char **cmds)
 {
 	int	i;

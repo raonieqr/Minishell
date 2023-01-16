@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int			g_status;
+int		g_status;
 
-static t_sh	*init(void)
+t_sh	*init(void)
 {
 	t_sh	*cmd;
 
@@ -33,7 +33,7 @@ int	validate_prompt(t_sh *cmd)
 	return (1);
 }
 
-void	close_prompt(t_env	*new_envp, t_sh	*cmd)
+void	close_prompt(t_env *new_envp, t_sh *cmd)
 {
 	free_split(&new_envp->env);
 	free(new_envp);

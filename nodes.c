@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_list	*cmd_init(void)
+t_list	*cmd_init(void)
 {
 	t_list	*cmd;
 
@@ -14,23 +14,6 @@ static t_list	*cmd_init(void)
 	cmd->next = NULL;
 	cmd->children = 0;
 	return (cmd);
-}
-
-/* JOGAR ṔARA ARQUIVO UTILS*/
-
-void	free_split(char ***splited)
-{
-	int		pos;
-	char	**tmp;
-
-	pos = 0;
-	tmp = *splited;
-	while (tmp[pos])
-	{
-		free(tmp[pos]);
-		pos++;
-	}
-	free(tmp);
 }
 
 int	check_for_cmd(char **input, int i)
@@ -104,20 +87,6 @@ int	fill_node(t_list *node, char **args, int i)
 	}
 	else
 		return (-1);
-}
-
-void	free_stack(t_list **stack)
-{
-	t_list	*temp;
-
-	while (*stack)
-	{
-		temp = *stack;
-		*stack = (*stack)->next;
-		free(temp);
-	}
-	*stack = NULL;
-	temp = NULL;
 }
 
 t_list	*create_nodes(char **args, t_env *new_envp)

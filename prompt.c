@@ -2,15 +2,14 @@
 
 void	print_start(void)
 {
-	printf("%s", line_1);
-	printf("%s", line_2);
-	printf("%s", line_3);
-	printf("%s", line_4);
-	printf("%s", line_5);
+	printf("%s", LINE_1);
+	printf("%s", LINE_2);
+	printf("%s", LINE_3);
+	printf("%s", LINE_4);
+	printf("%s", LINE_5);
 }
 
-/* Return the current path */
-static char	*return_path(void)
+char	*return_path(void)
 {
 	char	*home;
 	char	cwd[4098];

@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	ft_isspace(char c)
@@ -101,8 +100,8 @@ char	*join_three(char *str, int j, char *str2, t_env *new_envp, int mode)
 
 int	expand(char **cmds, t_env *new_envp)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (cmds[i])

@@ -32,7 +32,7 @@ void	check_commands(t_list *list)
 	}
 }
 
-static void	childs_pipe(int *flags, int *fd, t_list *list)
+void	childs_pipe(int *flags, int *fd, t_list *list)
 {
 	int	i;
 
@@ -54,7 +54,7 @@ static void	childs_pipe(int *flags, int *fd, t_list *list)
 	}
 }
 
-static void	change_pipe(int *fd)
+void	change_pipe(int *fd)
 {
 	close(fd[0]);
 	close(fd[1]);
@@ -63,7 +63,7 @@ static void	change_pipe(int *fd)
 	pipe(fd + 2);
 }
 
-static int	see_pipe(int *fd, t_list *list)
+int	see_pipe(int *fd, t_list *list)
 {
 	int	childs;
 	int	*flags;
