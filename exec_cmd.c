@@ -1,11 +1,4 @@
-
 #include "minishell.h"
-
-void	child_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
 
 int	check_exec(t_list *list)
 {
@@ -19,7 +12,6 @@ int	check_exec(t_list *list)
 		return (-1);
 	}
 	execve(list->cmd_path, list->cmd, list->envp->env);
-	// free()
 	return (127);
 }
 
@@ -58,7 +50,6 @@ static void	childs_pipe(int *flags, int *fd, t_list *list)
 		while (i++ < 4)
 			close(fd[i]);
 		check_commands(list);
-		// free_matrix
 		exit(g_status);
 	}
 }
@@ -124,7 +115,7 @@ int	check_command_pipe(t_list *list)
 
 void	loop_command(t_list *cmd_node, t_env *envp)
 {
-	int childs;
+	int	childs;
 
 	childs = 1;
 	if (!cmd_node->next)
@@ -143,7 +134,6 @@ void	loop_command(t_list *cmd_node, t_env *envp)
 			g_status = exec_builtin(cmd_node, cmd_node->envp);
 			if (g_status == 127 && (check_exec(cmd_node) == 127))
 				ft_perror(127, cmd_node->cmd[0], 1);
-			// free
 			exit(g_status);
 		}
 		while (childs-- >= 0)
@@ -152,7 +142,4 @@ void	loop_command(t_list *cmd_node, t_env *envp)
 	}
 	else
 		check_command_pipe(cmd_node);
-
-	// free_matrix;
-	//  free_all
 }

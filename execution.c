@@ -56,7 +56,6 @@ DIR	*check_cmd(t_list *cmds)
 		s = ft_split(cmds->cmd[0], '/');
 		cmds->cmd_path = ft_strdup(cmds->cmd[0]);
 		cmds->cmd[0] = s[matrix_len(s) - 1];
-		//free split
 		free(s);
 	}
 	else if (cmds->cmd && cmds->cmd[0] && !dir)
@@ -76,10 +75,10 @@ int	get_path(t_list *cmds)
 	if (!is_builtin(cmds->cmd) && dir && cmds && cmds->cmd_path)
 		return (ft_perror(126, cmds->cmd[0], 0));
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
-			&& access(cmds->cmd_path, F_OK) == -1)
+		&& access(cmds->cmd_path, F_OK) == -1)
 		return (ft_perror(127, cmds->cmd_path, 0));
 	else if (!is_builtin(cmds->cmd) && cmds && cmds->cmd_path
-			&& access(cmds->cmd_path, X_OK) == -1)
+		&& access(cmds->cmd_path, X_OK) == -1)
 		return (ft_perror(126, cmds->cmd[0], 1));
 	if (dir)
 		closedir(dir);

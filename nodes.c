@@ -148,9 +148,6 @@ t_list	*create_nodes(char **args, t_env *new_envp)
 			return (NULL);
 		}
 		i += check;
-		// if (!cmds->cmd[i])
-		// 	break ;
 	}
-	// free_split(&temp[1]);
 	return (cmds);
 }

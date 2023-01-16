@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sdos-san < sdos-san@student.42.rio >       +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/13 18:00:02 by rasilva           #+#    #+#              #
-#    Updated: 2023/01/11 11:01:03 by sdos-san         ###   ########.fr        #
+#    Updated: 2023/01/16 16:22:35 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME=minishell
 SRCS	=	utils_checkers.c minishell.c utils_len.c \
 			utils_print_env.c parser.c freedom_sings.c expansions.c expansions_dir.c \
 			nodes.c here_docs.c get_files.c cmd_builtins.c execution.c \
-			exec_cmd.c prompt.c copy_envp.c parser_2.c\
+			exec_cmd.c prompt.c copy_envp.c parser_2.c builtin.c signals.c\
 
 LIBFT = ft_printf/libftprintf.a
 

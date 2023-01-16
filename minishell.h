@@ -110,5 +110,7 @@ void	ft_freenode(t_list *cmd);
 char	*check_temp(char *temp, char *input, int i);
 int	check_double_pipe(char **cmds);
 char	*return_char(char c);
+void	signals(void);
+void	child_signals(void);
 
 #endif

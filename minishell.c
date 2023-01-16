@@ -12,30 +12,6 @@ static t_sh	*init(void)
 	return (cmd);
 }
 
-void	handle_sig(int sig, siginfo_t *info, void *algo)
-{
-	(void)algo;
-	(void)*info;
-	if (sig == SIGINT)
-	{
-		g_status = 130;
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	signals(void)
-{
-	struct sigaction	act;
-
-	act.sa_sigaction = (void *)handle_sig;
-	act.sa_flags = SA_SIGINFO;
-	signal(SIGQUIT, SIG_IGN);
-	sigaction(SIGINT, &act, NULL);
-}
-
 int	validate_prompt(t_sh *cmd)
 {
 	if (!cmd->prompt)
@@ -57,6 +33,15 @@ int	validate_prompt(t_sh *cmd)
 	return (1);
 }
 
+void	close_prompt(t_env	*new_envp, t_sh	*cmd)
+{
+	free_split(&new_envp->env);
+	free(new_envp);
+	free(cmd);
+	printf("\n");
+	exit(0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_sh	*cmd;
@@ -74,13 +59,7 @@ int	main(int argc, char **argv, char **envp)
 			signals();
 			print_prompt(cmd);
 			if (!cmd->prompt)
-			{
-				free_split(&new_envp->env);
-				free(new_envp);
-				free(cmd);
-				printf("\n");
-				exit(0);
-			}
+				close_prompt(new_envp, cmd);
 			if (validate_prompt(cmd))
 				check_input(cmd, new_envp);
 		}
