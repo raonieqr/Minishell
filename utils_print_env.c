@@ -29,6 +29,24 @@ int	exec_exports(char *cmd, t_env *envp)
 	return (0);
 }
 
+char	*ft_get_env(char **envp, char *var)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (!ft_strncmp(envp[i], var, ft_strlen(var))
+			&& envp[i][ft_strlen(var)] == '=')
+			break ;
+		i++;
+	}
+	if (envp[i])
+		return (ft_substr(envp[i], ft_strlen(var) + 1, ft_strlen(envp[i])
+				- ft_strlen(var) - 1));
+	return (NULL);
+}
+
 char	*get_var(char *cmd)
 {
 	int		i;

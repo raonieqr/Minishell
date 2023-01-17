@@ -1,65 +1,25 @@
 #include "minishell.h"
 
-t_list	*cmd_init(void)
+int	complement_fill_node(t_list *node, char **args, int i)
 {
-	t_list	*cmd;
-
-	cmd = malloc(sizeof(t_list));
-	if (!cmd)
-		return (NULL);
-	cmd->cmd = NULL;
-	cmd->cmd_path = NULL;
-	cmd->infile = 0;
-	cmd->outfile = 1;
-	cmd->next = NULL;
-	cmd->children = 0;
-	return (cmd);
-}
-
-int	check_for_cmd(char **input, int i)
-{
-	if (i == 0 || input[i][0] == '|')
+	if (args[i][0] == '>' && args[i][1] == '>')
 	{
-		if (input[i][0] == '|' && (!input[i + 1] && !input[i + 1][0]))
-			return (ft_perror(2, NULL, PIPERR));
+		ft_get_outfile2(node, args, i);
+		return (2);
+	}
+	else if (args[i][0] != '|' && args[i][0])
+	{
+		node->cmd = ft_add_cmd(node->cmd, args[i]);
 		return (1);
 	}
-	return (0);
-}
-
-char	**ft_add_cmd(char **n_cmd, char *args)
-{
-	char	**new_cmd;
-	int		i;
-	int		size;
-
-	i = 0;
-	size = 0;
-	if (!n_cmd)
-		i = 0;
 	else
-	{
-		while (n_cmd[size])
-			size++;
-	}
-	new_cmd = malloc(sizeof(char **) * (size + 2));
-	if (!new_cmd)
-		ft_perror(2, NULL, MALLOC_ERR);
-	new_cmd[size + 1] = NULL;
-	while (i < size)
-	{
-		new_cmd[i] = ft_strdup(n_cmd[i]);
-		free(n_cmd[i]);
-		i++;
-	}
-	new_cmd[i] = ft_strdup(args);
-	if (n_cmd)
-		free(n_cmd);
-	return (new_cmd);
+		return (-1);
 }
 
 int	fill_node(t_list *node, char **args, int i)
 {
+	int	check;
+
 	if (args[i][0] == '>' && ft_strlen(args[i]) == 1)
 	{
 		ft_get_outfile(node, args, i);
@@ -75,18 +35,19 @@ int	fill_node(t_list *node, char **args, int i)
 		ft_get_infile2(node, args, i);
 		return (2);
 	}
-	else if (args[i][0] == '>' && args[i][1] == '>')
+	else
+		check = complement_fill_node(node, args, i);
+	return (check);
+}
+
+int	verifying(t_list *cmds, int check)
+{
+	if (check < 0)
 	{
-		ft_get_outfile2(node, args, i);
-		return (2);
-	}
-	else if (args[i][0] != '|' && args[i][0])
-	{
-		node->cmd = ft_add_cmd(node->cmd, args[i]);
+		free_stack(&cmds);
 		return (1);
 	}
-	else
-		return (-1);
+	return (0);
 }
 
 t_list	*create_nodes(char **args, t_env *new_envp)
@@ -111,11 +72,8 @@ t_list	*create_nodes(char **args, t_env *new_envp)
 		current_node = ft_lstlast(cmds);
 		current_node->envp = new_envp;
 		check = fill_node(current_node, args, i);
-		if (check < 0)
-		{
-			free_stack(&cmds);
+		if (verifying(cmds, check))
 			return (NULL);
-		}
 		i += check;
 	}
 	return (cmds);

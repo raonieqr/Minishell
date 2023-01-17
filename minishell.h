@@ -69,6 +69,11 @@ int					exec_cd(t_list *cmds);
 int					exec_pwd(void);
 void				exec_env(t_env *envp);
 
+// CONFIG_CMD
+t_list				*cmd_init(void);
+int					check_for_cmd(char **input, int i);
+char				**ft_add_cmd(char **n_cmd, char *args);
+
 // COPY_ENVP
 char				**copy_env(char **envp);
 char				**change_envp(char **env, char *new_env);
@@ -77,11 +82,9 @@ char				**rmv_envp(char **env, int i);
 // EXEC_CMD
 int					check_exec(t_list *list);
 void				check_commands(t_list *list);
-void				childs_pipe(int *flags, int *fd, t_list *list);
-void				change_pipe(int *fd);
-int					see_pipe(int *fd, t_list *list);
-int					check_command_pipe(t_list *list);
+void				error_fork(t_list *cmd_node);
 void				loop_command(t_list *cmd_node, t_env *envp);
+
 
 // EXECUTION
 int					matrix_len(char **matrix);
@@ -95,11 +98,7 @@ char				**expand_dir(char **cmds);
 int					is_quote(char *str);
 
 // EXPANSIONS
-int					ft_isspace(char c);
-int					ft_len_char(char *str);
-char				*ft_get_env(char **envp, char *var);
 char				*change_var(char *cmd, char *var, char *value, int pos_s);
-int					ft_ismetachar(char c);
 char				*get_sub(char *str);
 char				*join_three(char *str, int j, char *str2, t_env *new_envp,
 						int mode);
@@ -126,16 +125,12 @@ char				*get_input(char *delimiter);
 int					here_docs(char *delimiter);
 
 // NODES
-t_list				*cmd_init(void);
-int					check_for_cmd(char **input, int i);
-char				**ft_add_cmd(char **n_cmd, char *args);
 int					fill_node(t_list *node, char **args, int i);
 t_list				*create_nodes(char **args, t_env *new_envp);
 
 // PARSER_2
 char				*cmd_prompt(char *input);
 char				*ft_new_trim(char *cmd);
-int					check_double_pipe(char **cmds);
 char				*check_temp(char *temp, char *input, int i);
 
 // PARSER
@@ -144,6 +139,13 @@ int					check_quote_on(char input);
 char				*return_char(char c);
 char				*change_special_char(char *input);
 void				*check_input(t_sh *cmd, t_env *new_envp);
+
+//PIPE
+void				childs_pipe(int *flags, int *fd, t_list *list);
+void				change_pipe(int *fd);
+int					see_pipe(int *fd, t_list *list);
+int					check_command_pipe(t_list *list);
+int					check_double_pipe(char **cmds);
 
 // PROMPT
 void				print_start(void);
@@ -157,6 +159,8 @@ void				handle_sig(int sig, siginfo_t *info, void *algo);
 void				signals(void);
 
 // UTILS_CHECKERS
+int					ft_isspace(char c);
+int					ft_ismetachar(char c);
 int					has_output(char *cmd);
 int					check_pipe(t_sh *cmd);
 int					check_quote(char *input);
@@ -165,10 +169,12 @@ int					check_quote(char *input);
 void				check_status(int code);
 int					ft_perror(int status, char *cmd, int code);
 int					size_matrix(char **str);
+int					ft_len_char(char *str);
 char				*to_lower(char *cmd);
 
 // UTILS_PRINT_ENV
 int					exec_exports(char *cmd, t_env *envp);
+char				*ft_get_env(char **envp, char *var);
 char				*get_var(char *cmd);
 char				*get_value(char *cmd);
 void				exec_unset(char *cmd, t_env *envp);

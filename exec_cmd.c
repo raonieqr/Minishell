@@ -32,85 +32,16 @@ void	check_commands(t_list *list)
 	}
 }
 
-void	childs_pipe(int *flags, int *fd, t_list *list)
+void	error_fork(t_list *cmd_node)
 {
-	int	i;
-
-	i = 0;
-	if (!fork())
-	{
-		if (!flags[0])
-			dup2(fd[0], 0);
-		if (list->infile != 0)
-			dup2(list->infile, 0);
-		if (!flags[1])
-			dup2(fd[3], 1);
-		if (list->outfile != 1)
-			dup2(list->outfile, 1);
-		while (i++ < 4)
-			close(fd[i]);
-		check_commands(list);
-		exit(g_status);
-	}
-}
-
-void	change_pipe(int *fd)
-{
-	close(fd[0]);
-	close(fd[1]);
-	fd[0] = fd[2];
-	fd[1] = fd[3];
-	pipe(fd + 2);
-}
-
-int	see_pipe(int *fd, t_list *list)
-{
-	int	childs;
-	int	*flags;
-
-	childs = 0;
-	flags = (int *)malloc(sizeof(int) * 2);
-	flags[0] = 1;
-	flags[1] = 0;
-	while (list)
-	{
-		if (!list->next)
-			flags[1] = 1;
-		else
-			flags[1] = 0;
-		childs_pipe(flags, fd, list);
-		childs++;
-		flags[0] = 0;
-		change_pipe(fd);
-		list = list->next;
-	}
-	free(flags);
-	return (childs);
-}
-
-int	check_command_pipe(t_list *list)
-{
-	int	fd[4];
-	int	out;
-	int	childs;
-	int	i;
-
-	out = dup(0);
-	i = 0;
-	pipe(fd);
-	pipe(fd + 2);
-	childs = see_pipe(fd, list);
-	while (childs-- > 0)
-		waitpid(-1, &g_status, 0);
-	if (g_status < 256 && g_status)
-		g_status = 127;
-	else
-		g_status /= 256;
-	i = 0;
-	while (i++ < 4)
-		close(fd[i]);
-	dup2(out, 0);
-	return (childs);
+	if (cmd_node->infile != 0)
+		dup2(cmd_node->infile, 0);
+	if (cmd_node->outfile != 1)
+		dup2(cmd_node->outfile, 1);
+	g_status = exec_builtin(cmd_node, cmd_node->envp);
+	if (g_status == 127 && (check_exec(cmd_node) == 127))
+		ft_perror(127, cmd_node->cmd[0], 1);
+	exit(g_status);
 }
 
 void	loop_command(t_list *cmd_node, t_env *envp)
@@ -126,16 +57,7 @@ void	loop_command(t_list *cmd_node, t_env *envp)
 			return ;
 		}
 		if (!fork())
-		{
-			if (cmd_node->infile != 0)
-				dup2(cmd_node->infile, 0);
-			if (cmd_node->outfile != 1)
-				dup2(cmd_node->outfile, 1);
-			g_status = exec_builtin(cmd_node, cmd_node->envp);
-			if (g_status == 127 && (check_exec(cmd_node) == 127))
-				ft_perror(127, cmd_node->cmd[0], 1);
-			exit(g_status);
-		}
+			error_fork(cmd_node);
 		while (childs-- >= 0)
 			waitpid(-1, &g_status, 0);
 		g_status /= 256;

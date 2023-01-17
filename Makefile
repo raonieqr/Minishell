@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/13 18:00:02 by rasilva           #+#    #+#              #
-#    Updated: 2023/01/16 17:46:18 by marvin           ###   ########.fr        #
+#    Updated: 2023/01/16 21:15:52 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,10 @@ L_CYAN		=	\033[0;96m
 WHITE			= \033[0;97m
 BG_GREEN	= \033[42;1;37m
 
-SRCS	=	utils_checkers.c minishell.c utils_len.c \
+SRCS	=	utils_checkers.c minishell.c utils_len.c config_cmd.c\
 			utils_print_env.c parser.c freedom_sings.c expansions.c expansions_dir.c \
 			nodes.c here_docs.c get_files.c cmd_builtins.c execution.c \
-			exec_cmd.c prompt.c copy_envp.c parser_2.c builtin.c signals.c\
+			exec_cmd.c prompt.c copy_envp.c parser_2.c builtin.c signals.c pipe.c\
 
 LIBFT = ft_printf/libftprintf.a
 
@@ -66,6 +66,7 @@ clean:
 fclean: clean
 	@make fclean -s -C ft_printf/
 	@$(RM) $(NAME)
+	@$(RM) minishell.log
 	@echo -e -n "$(MAGENTA)[MINISHELL]:$(SET_COLOR)$(BLUE) Executable file$(GREEN)  => Cleaned$(SET_COLOR)"
 	@echo -e " 🗑️$(SET_COLOR)"
 
@@ -75,4 +76,4 @@ re:    fclean all
 .PHONY:    all clean fclean re
 
 valgrind: all
-	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --track-origins=yes  --log-file=lib.log ./minishell
+	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --track-origins=yes  --log-file=minishell.log ./minishell

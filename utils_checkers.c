@@ -1,5 +1,27 @@
 #include "minishell.h"
 
+int	ft_isspace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
+}
+
+int	ft_ismetachar(char c)
+{
+	if (c >= 7 && c <= 13)
+		return (1);
+	if (c >= 33 && c <= 47)
+		return (1);
+	if (c >= 57 && c <= 64)
+		return (1);
+	if (c >= 91 && c <= 96)
+		return (1);
+	if (c >= 123 && c <= 126)
+		return (1);
+	return (0);
+}
+
 int	has_output(char *cmd)
 {
 	if (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)

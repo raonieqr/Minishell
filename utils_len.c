@@ -7,9 +7,9 @@ void	check_status(int code)
 	else if (code == SYNTAX)
 		write(2, ": syntax error near unexpected token 'newline'\n", 48);
 	else if (code == PIPERR || code == PIPE)
-		write(2, ": syntax error near unexpected token `|'\n", 51);
+		write(2, ": syntax error near unexpected token `|'\n", 42);
 	else if (code == QUOTES)
-		write(2, ": syntax error unclosed quotes\n", 41);
+		write(2, ": syntax error unclosed quotes\n", 32);
 }
 
 int	ft_perror(int status, char *cmd, int code)
@@ -37,6 +37,16 @@ int	size_matrix(char **str)
 
 	i = 0;
 	while (str[i])
+		i++;
+	return (i);
+}
+
+int	ft_len_char(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && !ft_isspace(str[i]) && str[i] != '$')
 		i++;
 	return (i);
 }

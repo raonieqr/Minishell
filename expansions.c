@@ -1,40 +1,5 @@
 #include "minishell.h"
 
-int	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (1);
-	return (0);
-}
-
-int	ft_len_char(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && !ft_isspace(str[i]) && str[i] != '$')
-		i++;
-	return (i);
-}
-
-char	*ft_get_env(char **envp, char *var)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (!ft_strncmp(envp[i], var, ft_strlen(var))
-			&& envp[i][ft_strlen(var)] == '=')
-			break ;
-		i++;
-	}
-	if (envp[i])
-		return (ft_substr(envp[i], ft_strlen(var) + 1, ft_strlen(envp[i])
-				- ft_strlen(var) - 1));
-	return (NULL);
-}
-
 char	*change_var(char *cmd, char *var, char *value, int pos_s)
 {
 	char	*new_cmd;
@@ -46,21 +11,6 @@ char	*change_var(char *cmd, char *var, char *value, int pos_s)
 	new_cmd = ft_strjoin(new_cmd, cmd + pos_s + ft_strlen(var) + 1);
 	ft_free(&temp);
 	return (new_cmd);
-}
-
-int	ft_ismetachar(char c)
-{
-	if (c >= 7 && c <= 13)
-		return (1);
-	if (c >= 33 && c <= 47)
-		return (1);
-	if (c >= 57 && c <= 64)
-		return (1);
-	if (c >= 91 && c <= 96)
-		return (1);
-	if (c >= 123 && c <= 126)
-		return (1);
-	return (0);
 }
 
 char	*get_sub(char *str)

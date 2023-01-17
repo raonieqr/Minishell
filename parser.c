@@ -79,11 +79,15 @@ void	*check_input(t_sh *cmd, t_env *new_envp)
 {
 	char	**split_cmd;
 	t_list	*cmd_node;
+	char	*temp;
 
 	split_cmd = NULL;
 	if (!cmd->prompt[0])
 		return (NULL);
-	cmd->prompt = cmd_prompt(cmd->prompt);
+	cmd->prompt = change_special_char(cmd->prompt);
+	temp = cmd->prompt;
+	cmd->prompt = ft_strtrim(cmd->prompt, " ");
+	free(temp);
 	split_cmd = ft_split(cmd->prompt, ' ');
 	free(cmd->prompt);
 	if (!split_cmd)

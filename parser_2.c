@@ -1,16 +1,5 @@
 #include "minishell.h"
 
-char	*cmd_prompt(char *input)
-{
-	char	*temp;
-
-	input = change_special_char(input);
-	temp = input;
-	input = ft_strtrim(input, " ");
-	free(temp);
-	return (input);
-}
-
 char	*ft_new_trim(char *cmd)
 {
 	char	*temp;
@@ -28,26 +17,6 @@ char	*ft_new_trim(char *cmd)
 		cmd = temp;
 	}
 	return (cmd);
-}
-
-int	check_double_pipe(char **cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds[i])
-	{
-		if (cmds[i + 1])
-		{
-			if (cmds[i][0] == '|' && cmds[i + 1][0] == '|')
-			{
-				ft_perror(2, NULL, PIPERR);
-				return (1);
-			}
-		}
-		i++;
-	}
-	return (0);
 }
 
 char	*check_temp(char *temp, char *input, int i)
