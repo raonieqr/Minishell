@@ -35,11 +35,11 @@ int	exec_cd(t_list *cmds, t_env *envp)
 {
 	char	var[4096];
 
-	getcwd(var, 4095);
 	if (!cmds->cmd[1])
 	{
 		if (chdir(ft_get_env(envp->env, "HOME")) == -1)
 			return (ft_perror(127, cmds->cmd[1], 0));
+		getcwd(var, 4095);
 		exec_exports(ft_strjoin("PWD=", var), envp);
 		return (0);
 	}
@@ -47,6 +47,7 @@ int	exec_cd(t_list *cmds, t_env *envp)
 		return (ft_perror(127, cmds->cmd[1], 0));
 	else
 	{
+		getcwd(var, 4095);
 		exec_exports(ft_strjoin("PWD=", var), envp);
 		return (0);
 	}

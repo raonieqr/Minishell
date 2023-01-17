@@ -55,6 +55,7 @@ char	**rmv_envp(char **env, int i)
 		if (pos != i)
 		{
 			var_env[j] = ft_strdup(env[pos]);
+			free(env[pos]);
 			j++;
 		}
 		pos++;

@@ -80,7 +80,7 @@ int	expand(char ***cmds, t_env *new_envp)
 			j = 0;
 			while (tmp[i][j])
 			{
-				j = get_flag(&tmp, &i, &j, new_envp);
+				get_flag(&tmp, &i, &j, new_envp);
 				if (j < 0)
 					return (-1);
 				if (!tmp[i])

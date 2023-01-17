@@ -139,7 +139,7 @@ t_list				*create_nodes(char **args, t_env *new_envp);
 // PARSER_2
 char				*cmd_prompt(char *input);
 char				*ft_new_trim(char *cmd);
-char				*check_temp(char *temp, char *input, int i);
+char				*check_temp(char *temp, char *input, int *i);
 
 // PARSER
 int					check_operator(char *prompt);

@@ -53,8 +53,8 @@ char	*change_special_char(char *input)
 	char	*temp;
 	char	*temp2;
 
-	i = 0;
-	while (input[i++])
+	i = -1;
+	while (input[++i])
 	{
 		if (!check_quote_on(input[i]) && check_operator(&input[i]))
 		{
@@ -62,7 +62,7 @@ char	*change_special_char(char *input)
 			temp2 = temp;
 			temp = ft_strjoin(temp, " ");
 			ft_free(&temp2);
-			temp = check_temp(temp, input, i);
+			temp = check_temp(temp, input, &i);
 			i++;
 			temp2 = temp;
 			temp = ft_strjoin(temp, " ");

@@ -60,7 +60,7 @@ int	here_docs(char *delimiter)
 	input = get_input(delimiter);
 	write(fd[1], input, ft_strlen(input));
 	free(input);
-	close(fd[0]);
+	close(fd[1]);
 	if (g_status == 130)
 	{
 		close(fd[0]);

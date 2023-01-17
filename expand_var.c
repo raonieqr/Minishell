@@ -17,8 +17,6 @@ int	get_flag(char ***tmp, int *i, int *j, t_env *new_env)
 		return (-1);
 	if (!flag)
 		aux2++;
-	if (!tmp[aux1])
-		aux1--;
 	*i = aux1;
 	*j = aux2;
 	*tmp = str;

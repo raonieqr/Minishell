@@ -19,23 +19,26 @@ char	*ft_new_trim(char *cmd)
 	return (cmd);
 }
 
-char	*check_temp(char *temp, char *input, int i)
+char	*check_temp(char *temp, char *input, int *i)
 {
 	char	*temp2;
 	char	*aux;
+	int		int_temp;
 
 	temp2 = temp;
-	if (check_operator(&input[i]) == 2)
+	int_temp = *i;
+	if (check_operator(&input[int_temp]) == 2)
 	{
-		aux = ft_substr(input, i, 2);
+		aux = ft_substr(input, int_temp, 2);
 		temp = ft_strjoin(temp, aux);
-		i++;
+		int_temp++;
 	}
 	else
 	{
-		aux = return_char(input[i]);
+		aux = return_char(input[int_temp]);
 		temp = ft_strjoin(temp, aux);
 	}
 	freetwo_ptrs(&temp2, &aux);
+	*i = int_temp;
 	return (temp);
 }
