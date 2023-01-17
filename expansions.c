@@ -25,7 +25,7 @@ char	*get_sub(char *str)
 	return (new_str);
 }
 
-char	*join_three(char *str, int j, char *str2, t_env *new_envp, int mode)
+char	*join_three(char *str, int j, char *str2, t_env *new_envp)
 {
 	char	*return_str;
 	char	*str1;
@@ -33,55 +33,61 @@ char	*join_three(char *str, int j, char *str2, t_env *new_envp, int mode)
 
 	return_str = NULL;
 	str1 = ft_substr(str, 0, j);
-	if (mode)
-	{
-		if (!ft_get_env(new_envp->env, str2))
-			return (NULL);
-		return_str = ft_strjoin(str1, ft_get_env(new_envp->env, str2));
-	}
-	else
-		return_str = ft_strjoin(str1, str2);
-	str3 = ft_substr(str, j + ft_strlen(str2) + 1, ft_strlen(str) - j
-			- ft_strlen(str2) - 1);
+	str3 = ft_get_env(new_envp->env, str2);
+	if (!str3)
+		return (NULL);
+	return_str = ft_strjoin(str1, str3);
+	freetwo_ptrs(&str1, &str3);
+	str3 = ft_substr(str, j + ft_strlen(str2) + 1, \
+		ft_strlen(str) - j / +ft_strlen(str2));
+	str1 = return_str;
 	return_str = ft_strjoin(return_str, str3);
 	freethree_ptrs(&str2, &str1, &str3);
 	return (return_str);
 }
 
-int	expand(char **cmds, t_env *new_envp)
+char	*join_status(char *str, int j, char *str2)
 {
-	int	i;
-	int	j;
+	char	*return_str;
+	char	*str1;
+	char	*str3;
 
-	i = 0;
-	while (cmds[i])
+	return_str = NULL;
+	str1 = ft_substr(str, 0, j);
+	return_str = ft_strjoin(str1, str2);
+	str3 = ft_substr(str, j + ft_strlen(str2) + 1, \
+	ft_strlen(str) - j / -ft_strlen(str2) - 1);
+	return_str = ft_strjoin(return_str, str3);
+	freethree_ptrs(&str2, &str1, &str3);
+	return (return_str);
+}
+
+int	expand(char ***cmds, t_env *new_envp)
+{
+	int		i;
+	int		j;
+	char	**tmp;
+
+	i = -1;
+	tmp = *cmds;
+	while (tmp[++i])
 	{
-		if (is_quote(cmds[i]) == 1)
-		{
-			cmds[i] = ft_new_trim(cmds[i]);
-			i++;
-		}
+		if (is_quote(tmp[i]) == 1)
+			tmp[i] = ft_new_trim(tmp[i]);
 		else
 		{
-			cmds[i] = ft_new_trim(cmds[i]);
+			tmp[i] = ft_new_trim(tmp[i]);
 			j = 0;
-			while (cmds[i][j])
+			while (tmp[i][j])
 			{
-				if (cmds[i][j] == '$')
-				{
-					if (cmds[i][j + 1] == '?')
-						cmds[i] = join_three(cmds[i], j, ft_itoa(g_status),
-								new_envp, 0);
-					else
-						cmds[i] = join_three(cmds[i], j, get_sub(cmds[i] + j
-									+ 1), new_envp, 1);
-					if (!cmds[i])
-						return (-1);
-				}
-				j++;
+				j = get_flag(&tmp, &i, &j, new_envp);
+				if (j < 0)
+					return (-1);
+				if (!tmp[i])
+					break ;
 			}
-			i++;
 		}
 	}
+	*cmds = tmp;
 	return (0);
 }

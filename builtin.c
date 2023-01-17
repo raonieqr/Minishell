@@ -54,7 +54,7 @@ int	exec_builtin(t_list *cmds, t_env *envp)
 		exec_env(envp);
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2) && ft_strlen(cmds->cmd[0]) == 2
 		&& !cmds->next)
-		return (exec_cd(cmds));
+		return (exec_cd(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6)
 		&& ft_strlen(cmds->cmd[0]) == 6 && !cmds->next)
 		exec_exports(cmds->cmd[1], envp);

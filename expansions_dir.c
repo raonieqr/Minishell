@@ -1,5 +1,35 @@
 #include "minishell.h"
 
+int	is_quote(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (str[0] == 39)
+	{
+		if (str[len - 1] == 39)
+			return (1);
+	}
+	if (str[0] == '"' && str[len - 1] == '"')
+		return (2);
+	else
+		return (0);
+}
+
+int	expand_var(char ***cmds, int i, int j, t_env *new_envp)
+{
+	char	**tmp;
+
+	tmp = *cmds;
+	if (tmp[i][j + 1] == '?')
+		tmp[i] = join_status(tmp[i], j, ft_itoa(g_status));
+	else
+		return (not_env(cmds, i, j, new_envp));
+	*cmds = tmp;
+	j = j + 1;
+	return (0);
+}
+
 char	**expand_dir(char **cmds)
 {
 	int	i;
@@ -26,20 +56,4 @@ char	**expand_dir(char **cmds)
 		i++;
 	}
 	return (cmds);
-}
-
-int	is_quote(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	if (str[0] == 39)
-	{
-		if (str[len - 1] == 39)
-			return (1);
-	}
-	if (str[0] == '"' && str[len - 1] == '"')
-		return (2);
-	else
-		return (0);
 }

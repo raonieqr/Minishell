@@ -81,7 +81,6 @@ void	*check_input(t_sh *cmd, t_env *new_envp)
 	t_list	*cmd_node;
 	char	*temp;
 
-	split_cmd = NULL;
 	if (!cmd->prompt[0])
 		return (NULL);
 	cmd->prompt = change_special_char(cmd->prompt);
@@ -95,7 +94,8 @@ void	*check_input(t_sh *cmd, t_env *new_envp)
 	if (check_double_pipe(split_cmd))
 		return (NULL);
 	split_cmd = expand_dir(split_cmd);
-	expand(split_cmd, new_envp);
+	if (expand(&split_cmd, new_envp) < 0)
+		return (NULL);
 	cmd_node = create_nodes(split_cmd, new_envp);
 	if (!cmd_node)
 		return (NULL);

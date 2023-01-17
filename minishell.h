@@ -65,7 +65,7 @@ int					exec_builtin(t_list *cmds, t_env *envp);
 
 // CMD_BUILTINS
 int					exec_echo(char **cmd);
-int					exec_cd(t_list *cmds);
+int					exec_cd(t_list *cmds, t_env *envp);
 int					exec_pwd(void);
 void				exec_env(t_env *envp);
 
@@ -93,16 +93,24 @@ char				*test_access(char **path, char **cmd);
 DIR					*check_cmd(t_list *cmds);
 int					get_path(t_list *cmds);
 
+// EXPAND_VAR
+int					get_flag(char ***tmp, int *i, int *j, t_env *new_env);
+int					return_cmds(char ***cmds, char **tmp, char *to_free, int i);
+int					not_env(char ***cmds, int i, int j, t_env *new_envp);
+char				**rmv_str(char **str, int pos);
+char				*rmv_var(int start, int end, char *str);
+
 // EXPANSIONS_DIR
-char				**expand_dir(char **cmds);
 int					is_quote(char *str);
+int	expand_var(char ***cmds, int i, int j, t_env *new_envp);
+char				**expand_dir(char **cmds);
 
 // EXPANSIONS
 char				*change_var(char *cmd, char *var, char *value, int pos_s);
 char				*get_sub(char *str);
-char				*join_three(char *str, int j, char *str2, t_env *new_envp,
-						int mode);
-int					expand(char **cmds, t_env *new_envp);
+char				*join_three(char *str, int j, char *str2, t_env *new_envp);
+char				*join_status(char *str, int j, char *str2);
+int					expand(char ***cmds, t_env *new_envp);
 
 // FREEDOM_SINGS
 void				free_split(char ***splited);

@@ -9,6 +9,8 @@ int	exec_echo(char **cmd)
 	i = 1;
 	flag = 0;
 	j = 1;
+	if (!cmd[1])
+		printf("\n");
 	while (!ft_strncmp(cmd[i], "-n", 2))
 	{
 		while (cmd[i][j] == 'n')
@@ -29,23 +31,23 @@ int	exec_echo(char **cmd)
 	return (0);
 }
 
-int	exec_cd(t_list *cmds)
+int	exec_cd(t_list *cmds, t_env *envp)
 {
 	char	var[4096];
 
 	getcwd(var, 4095);
 	if (!cmds->cmd[1])
 	{
-		if (chdir(ft_get_env(cmds->envp->env, "HOME")) == -1)
+		if (chdir(ft_get_env(envp->env, "HOME")) == -1)
 			return (ft_perror(127, cmds->cmd[1], 0));
+		exec_exports(ft_strjoin("PWD=", var), envp);
 		return (0);
 	}
 	if (chdir(cmds->cmd[1]) == -1)
 		return (ft_perror(127, cmds->cmd[1], 0));
 	else
 	{
-		exec_unset("PWD", cmds->envp);
-		exec_exports(ft_strjoin("PWD=", var), cmds->envp);
+		exec_exports(ft_strjoin("PWD=", var), envp);
 		return (0);
 	}
 }
