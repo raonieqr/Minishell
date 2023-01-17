@@ -85,7 +85,6 @@ void				check_commands(t_list *list);
 void				error_fork(t_list *cmd_node);
 void				loop_command(t_list *cmd_node, t_env *envp);
 
-
 // EXECUTION
 int					matrix_len(char **matrix);
 char				*test_path(char **cmd);
@@ -102,7 +101,7 @@ char				*rmv_var(int start, int end, char *str);
 
 // EXPANSIONS_DIR
 int					is_quote(char *str);
-int	expand_var(char ***cmds, int i, int j, t_env *new_envp);
+int					expand_var(char ***cmds, int i, int j, t_env *new_envp);
 char				**expand_dir(char **cmds);
 
 // EXPANSIONS

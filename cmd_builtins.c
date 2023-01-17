@@ -1,23 +1,27 @@
 #include "minishell.h"
 
+void	print_break_line(char **cmd)
+{
+	if (!cmd[1])
+		printf("\n");
+}
+
 int	exec_echo(char **cmd)
 {
 	int	i;
 	int	flag;
 	int	j;
 
-	i = 1;
+	i = 0;
 	flag = 0;
 	j = 1;
-	if (!cmd[1])
-		printf("\n");
-	while (!ft_strncmp(cmd[i], "-n", 2))
+	print_break_line(cmd);
+	while (!ft_strncmp(cmd[++i], "-n", 2))
 	{
 		while (cmd[i][j] == 'n')
 			j++;
 		if (!cmd[i][j])
 			flag = 1;
-		i++;
 	}
 	while (cmd[i])
 	{

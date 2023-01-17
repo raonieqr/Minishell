@@ -14,11 +14,6 @@ t_sh	*init(void)
 
 int	validate_prompt(t_sh *cmd)
 {
-	/*if (!cmd->prompt)
-	{
-		printf("\nError\n");
-		return (0);
-	}*/
 	if (check_quote(cmd->prompt))
 	{
 		ft_free(&cmd->prompt);
