@@ -62,9 +62,13 @@ char	*join_status(char *str, int j, char *str2)
 	return (return_str);
 }
 
-int	return_swap(char ***cmds, char **tmp)
+int	return_swap(char ****cmds, char **tmp)
 {
-	*cmds = tmp;
+	char ***s;
+
+	s = *cmds;
+	*s = tmp;
+	*cmds = s;
 	return (0);
 }
 
@@ -94,5 +98,7 @@ int	expand(char ***cmds, t_env *new_envp)
 			}
 		}
 	}
-	return (return_swap(cmds, tmp));
+	return (return_swap(&cmds, tmp));
+	//*cmds = tmp;
+	//return (0);
 }
