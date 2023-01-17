@@ -42,3 +42,21 @@ char	*check_temp(char *temp, char *input, int *i)
 	*i = int_temp;
 	return (temp);
 }
+
+int	return_swap(char ****cmds, char **tmp)
+{
+	char	***s;
+
+	s = *cmds;
+	*s = tmp;
+	*cmds = s;
+	return (0);
+}
+
+void	exec_exit(t_list *cmds, t_env *envp)
+{
+	ft_freenode(cmds);
+	free_split(&envp->env);
+	free(envp);
+	exit(g_status);
+}

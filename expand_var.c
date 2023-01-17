@@ -14,11 +14,11 @@ int	get_flag(char ***tmp, int *i, int *j, t_env *new_env)
 	if (str[aux1][aux2] == '$')
 		flag = expand_var(&str, aux1, aux2, new_env);
 	if (flag < 0)
-    {
-        aux2 = -1;
-        *j = aux2;
-        return (-1);
-    }
+	{
+		aux2 = -1;
+		*j = aux2;
+		return (-1);
+	}
 	if (!flag)
 		aux2++;
 	*i = aux1;

@@ -89,9 +89,8 @@ void	*check_input(t_sh *cmd, t_env *new_envp)
 	free(temp);
 	split_cmd = ft_split(cmd->prompt, ' ');
 	free(cmd->prompt);
-	if (!split_cmd)
-		return (NULL);
-	if (check_double_pipe(split_cmd))
+	free(cmd);
+	if (!split_cmd || check_double_pipe(split_cmd))
 		return (NULL);
 	split_cmd = expand_dir(split_cmd);
 	if (expand(&split_cmd, new_envp) < 0)
@@ -99,8 +98,8 @@ void	*check_input(t_sh *cmd, t_env *new_envp)
 	cmd_node = create_nodes(split_cmd, new_envp);
 	if (!cmd_node)
 		return (NULL);
+	free_split(&split_cmd);
 	loop_command(cmd_node, new_envp);
 	ft_freenode(cmd_node);
-	free_split(&split_cmd);
 	return (NULL);
 }

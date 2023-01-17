@@ -63,7 +63,7 @@ int	exec_builtin(t_list *cmds, t_env *envp)
 		exec_unset(cmds->cmd[1], envp);
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4)
 		&& ft_strlen(cmds->cmd[0]) == 4 && !cmds->next)
-		exit(g_status);
+		exec_exit(cmds, envp);
 	else
 		return (127);
 	return (0);

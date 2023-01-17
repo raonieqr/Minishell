@@ -11,6 +11,9 @@
 		"type_traits": "c",
 		"utility": "c",
 		"istream": "c",
-		"ostream": "c"
+		"ostream": "c",
+		"sstream": "c",
+		"cstdlib": "c",
+		"locale": "c"
 	}
 }

@@ -42,6 +42,7 @@ char	*join_three(char *str, int j, char *str2, t_env *new_envp)
 			+ft_strlen(str2));
 	str1 = return_str;
 	return_str = ft_strjoin(return_str, str3);
+	free(str);
 	freethree_ptrs(&str2, &str1, &str3);
 	return (return_str);
 }
@@ -54,22 +55,15 @@ char	*join_status(char *str, int j, char *str2)
 
 	return_str = NULL;
 	str1 = ft_substr(str, 0, j);
+	free(str);
 	return_str = ft_strjoin(str1, str2);
+	str = return_str;
 	str3 = ft_substr(str, j + ft_strlen(str2) + 1, ft_strlen(str) - j \
 			-ft_strlen(str2) - 1);
 	return_str = ft_strjoin(return_str, str3);
+	free(str);
 	freethree_ptrs(&str2, &str1, &str3);
 	return (return_str);
-}
-
-int	return_swap(char ****cmds, char **tmp)
-{
-	char ***s;
-
-	s = *cmds;
-	*s = tmp;
-	*cmds = s;
-	return (0);
 }
 
 int	expand(char ***cmds, t_env *new_envp)
@@ -94,11 +88,9 @@ int	expand(char ***cmds, t_env *new_envp)
 				if (j < 0)
 					return (-1);
 				if (!tmp[i])
-					break ;
+					return (return_swap(&cmds, tmp));
 			}
 		}
 	}
 	return (return_swap(&cmds, tmp));
-	//*cmds = tmp;
-	//return (0);
 }

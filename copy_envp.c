@@ -32,7 +32,10 @@ char	**change_envp(char **env, char *new_env)
 		return (NULL);
 	var_env[size] = NULL;
 	while (++i < size - 1)
+	{
 		var_env[i] = ft_strdup(env[i]);
+		free(env[i]);
+	}
 	var_env[i] = ft_strdup(new_env);
 	ft_free(env);
 	free(new_env);
@@ -55,9 +58,9 @@ char	**rmv_envp(char **env, int i)
 		if (pos != i)
 		{
 			var_env[j] = ft_strdup(env[pos]);
-			free(env[pos]);
 			j++;
 		}
+		free(env[pos]);
 		pos++;
 	}
 	free(env);

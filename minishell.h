@@ -139,6 +139,8 @@ t_list				*create_nodes(char **args, t_env *new_envp);
 char				*cmd_prompt(char *input);
 char				*ft_new_trim(char *cmd);
 char				*check_temp(char *temp, char *input, int *i);
+int					return_swap(char ****cmds, char **tmp);
+void				exec_exit(t_list *cmds, t_env *envp);
 
 // PARSER
 int					check_operator(char *prompt);

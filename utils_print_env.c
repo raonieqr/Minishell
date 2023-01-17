@@ -6,26 +6,26 @@ int	exec_exports(char *cmd, t_env *envp)
 	char	*value;
 	char	*new_var;
 	char	*tmp;
+	char	**teste;
 
-	value = NULL;
-	(void)tmp;
 	if (!cmd)
 		return (0);
 	var = get_var(cmd);
 	value = get_value(cmd);
-	if (!var)
-		return (ft_perror(127, NULL, 0));
-	else if (!value)
+	if (!var || !value)
 		return (ft_perror(127, NULL, 0));
 	exec_unset(var, envp);
 	new_var = ft_strjoin(var, "");
-	new_var = ft_strjoin(new_var, value);
 	tmp = new_var;
-	if (new_var[0] == '\'')
-		new_var = ft_strtrim(new_var, "'");
-	else if (new_var[0] == '"')
-		new_var = ft_strtrim(new_var, "\"");
+	new_var = ft_strjoin(new_var, value);
+	free(tmp);
+	tmp = new_var;
+	new_var = ft_new_trim(new_var);
+	free(tmp);
+	teste = envp->env;
 	envp->env = change_envp(envp->env, new_var);
+	free_split(&teste);
+	freethree_ptrs(&var, &value, &new_var);
 	return (0);
 }
 

@@ -48,9 +48,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		new_envp = malloc(sizeof(t_env));
 		new_envp->env = copy_env(envp);
-		cmd = init();
 		while (1)
 		{
+			cmd = init();
 			signals();
 			print_prompt(cmd);
 			if (!cmd->prompt)
