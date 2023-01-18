@@ -73,7 +73,7 @@ fclean: clean
 re:    fclean all
 	@echo -e "\n$(GREEN) => Cleaned and rebuilt everything <= $(SET_COLOR)"
 
-.PHONY:    all clean fclean re
-
 valgrind: all
 	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --track-origins=yes  --log-file=minishell.log ./minishell
+
+.PHONY:    all clean fclean re
