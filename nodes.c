@@ -50,6 +50,35 @@ int	verifying(t_list *cmds, int check)
 	return (0);
 }
 
+void	ft_add_node(t_list **lst)
+{
+	t_list	*temp;
+	t_list	*cur;
+	t_list	*prev;
+
+	temp = *lst;
+	if (!temp)
+		return (ft_lstadd_back(lst, cmd_init()));
+	while (temp)
+	{
+		prev = cur;
+		cur = temp;
+		temp = temp->next;
+	}
+	if ((!cur->cmd))
+	{
+		close_free(cur);
+		if (!(*lst)->next)
+			*lst = NULL;
+		else
+		{
+			prev->next = NULL;
+			cur = NULL;
+		}
+	}
+	ft_lstadd_back(lst, cmd_init());
+}
+
 t_list	*create_nodes(char **args, t_env *new_envp)
 {
 	t_list	*cmds;
@@ -67,7 +96,7 @@ t_list	*create_nodes(char **args, t_env *new_envp)
 		if (check_for_cmd(args, i))
 		{
 			i += args[i][0] == '|';
-			ft_lstadd_back(&cmds, cmd_init());
+			ft_add_node(&cmds);
 		}
 		current_node = ft_lstlast(cmds);
 		current_node->envp = new_envp;
@@ -76,5 +105,5 @@ t_list	*create_nodes(char **args, t_env *new_envp)
 			return (NULL);
 		i += check;
 	}
-	return (cmds);
+	return (return_node(cmds));
 }

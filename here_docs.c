@@ -7,6 +7,8 @@ int	check_end(char *input, char *delimiter)
 
 	equal = 0;
 	size = 0;
+	if (!input)
+		return (1);
 	if (!ft_strncmp(input, delimiter, ft_strlen(delimiter)))
 		equal = 1;
 	if (ft_strlen(delimiter) == (ft_strlen(input) - 1))

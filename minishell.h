@@ -188,4 +188,8 @@ char				*get_var(char *cmd);
 char				*get_value(char *cmd);
 void				exec_unset(char *cmd, t_env *envp);
 
+// UTILS_NODES
+t_list				*return_node(t_list *list);
+void				close_free(t_list *cur);
+
 #endif

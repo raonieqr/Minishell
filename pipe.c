@@ -18,6 +18,8 @@ void	childs_pipe(int *flags, int *fd, t_list *list)
 		while (i++ < 4)
 			close(fd[i]);
 		check_commands(list);
+		if (g_status < 0)
+			g_status = 127;
 		exit(g_status);
 	}
 }
@@ -70,7 +72,7 @@ int	check_command_pipe(t_list *list)
 	childs = see_pipe(fd, list);
 	while (childs-- > 0)
 		waitpid(-1, &g_status, 0);
-	if (g_status < 256 && g_status)
+	if (g_status < 128 && g_status)
 		g_status = 127;
 	else
 		g_status /= 256;

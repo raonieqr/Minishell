@@ -33,7 +33,7 @@ L_CYAN		=	\033[0;96m
 WHITE			= \033[0;97m
 BG_GREEN	= \033[42;1;37m
 
-SRCS	=	utils_checkers.c minishell.c utils_len.c config_cmd.c\
+SRCS	=	utils_checkers.c minishell.c utils_len.c config_cmd.c utils_nodes.c\
 			utils_print_env.c parser.c freedom_sings.c expansions.c expansions_dir.c \
 			nodes.c here_docs.c get_files.c cmd_builtins.c execution.c expand_var.c\
 			exec_cmd.c prompt.c copy_envp.c parser_2.c builtin.c signals.c pipe.c\
@@ -73,7 +73,7 @@ fclean: clean
 re:    fclean all
 	@echo -e "\n$(GREEN) => Cleaned and rebuilt everything <= $(SET_COLOR)"
 
-.PHONY:    all clean fclean re
-
 valgrind: all
 	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --track-origins=yes  --log-file=minishell.log ./minishell
+
+.PHONY:    all clean fclean re

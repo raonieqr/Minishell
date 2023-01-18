@@ -13,10 +13,9 @@ void	handle_sig(int sig, siginfo_t *info, void *algo)
 	if (sig == SIGINT)
 	{
 		g_status = 130;
-		printf("\n");
-		rl_on_new_line();
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_on_new_line();
 	}
 }
 
