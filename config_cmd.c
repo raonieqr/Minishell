@@ -18,7 +18,7 @@ t_list	*cmd_init(void)
 
 int	check_for_cmd(char **input, int i)
 {
-	if (i == 0 || input[i][0] == '|')
+	if (i == 0 || (input[i][0] == '|' && ft_strlen(input[i]) == 1))
 	{
 		if (input[i][0] == '|' && (!input[i + 1] && !input[i + 1][0]))
 			return (ft_perror(2, NULL, PIPERR));

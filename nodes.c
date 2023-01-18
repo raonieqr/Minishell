@@ -7,7 +7,7 @@ int	complement_fill_node(t_list *node, char **args, int i)
 		ft_get_outfile2(node, args, i);
 		return (2);
 	}
-	else if (args[i][0] != '|' && args[i][0])
+	else if (!(args[i][0] == '|' && !args[i][1]) && args[i][0])
 	{
 		node->cmd = ft_add_cmd(node->cmd, args[i]);
 		return (1);
