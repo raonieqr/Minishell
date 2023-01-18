@@ -98,8 +98,8 @@ void	*check_input(t_sh *cmd, t_env *new_envp)
 	cmd_node = create_nodes(split_cmd, new_envp);
 	if (!cmd_node)
 		return (NULL);
-	free_split(&split_cmd);
 	loop_command(cmd_node, new_envp);
+	free_split(split_cmd);
 	ft_freenode(cmd_node);
 	return (NULL);
 }

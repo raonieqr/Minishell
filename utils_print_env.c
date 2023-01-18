@@ -6,7 +6,6 @@ int	exec_exports(char *cmd, t_env *envp)
 	char	*value;
 	char	*new_var;
 	char	*tmp;
-	char	**teste;
 
 	if (!cmd)
 		return (0);
@@ -19,13 +18,9 @@ int	exec_exports(char *cmd, t_env *envp)
 	tmp = new_var;
 	new_var = ft_strjoin(new_var, value);
 	free(tmp);
-	tmp = new_var;
 	new_var = ft_new_trim(new_var);
-	free(tmp);
-	teste = envp->env;
 	envp->env = change_envp(envp->env, new_var);
-	free_split(&teste);
-	freethree_ptrs(&var, &value, &new_var);
+	freetwo_ptrs(&var, &value);
 	return (0);
 }
 

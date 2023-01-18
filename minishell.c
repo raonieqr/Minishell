@@ -9,6 +9,7 @@ t_sh	*init(void)
 	cmd = malloc(sizeof(t_sh));
 	cmd->envp = NULL;
 	cmd->str = 0;
+	cmd->exp = NULL;
 	return (cmd);
 }
 
@@ -30,7 +31,7 @@ int	validate_prompt(t_sh *cmd)
 
 void	close_prompt(t_env *new_envp, t_sh *cmd)
 {
-	free_split(&new_envp->env);
+	free_split(new_envp->env);
 	free(new_envp);
 	free(cmd);
 	printf("\n");
@@ -58,9 +59,8 @@ int	main(int argc, char **argv, char **envp)
 			if (validate_prompt(cmd))
 				check_input(cmd, new_envp);
 		}
-		free_split(&new_envp->env);
-		free(new_envp);
-		free(cmd);
+		free_split(new_envp->env);
+		freetwo_voids(cmd, new_envp);
 	}
 	return (0);
 }

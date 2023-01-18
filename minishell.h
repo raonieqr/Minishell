@@ -112,7 +112,7 @@ char				*join_status(char *str, int j, char *str2);
 int					expand(char ***cmds, t_env *new_envp);
 
 // FREEDOM_SINGS
-void				free_split(char ***splited);
+void				free_split(char **splited);
 void				free_stack(t_list **stack);
 void				ft_freenode(t_list *cmd);
 void				freethree_ptrs(char **s, char **s2, char **s3);
@@ -191,5 +191,6 @@ void				exec_unset(char *cmd, t_env *envp);
 // UTILS_NODES
 t_list				*return_node(t_list *list);
 void				close_free(t_list *cur);
+void				freetwo_voids(t_sh *s, t_env *s2);
 
 #endif

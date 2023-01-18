@@ -56,7 +56,7 @@ int	return_swap(char ****cmds, char **tmp)
 void	exec_exit(t_list *cmds, t_env *envp)
 {
 	ft_freenode(cmds);
-	free_split(&envp->env);
+	free_split(envp->env);
 	free(envp);
 	exit(g_status);
 }

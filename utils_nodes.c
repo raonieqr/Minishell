@@ -23,3 +23,11 @@ void	close_free(t_list *cur)
 		close(cur->outfile);
 	free(cur);
 }
+
+void	freetwo_voids(t_sh *s, t_env *s2)
+{
+	if (s)
+		free(s);
+	if (s2)
+		free(s2);
+}

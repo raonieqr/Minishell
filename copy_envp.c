@@ -37,7 +37,7 @@ char	**change_envp(char **env, char *new_env)
 		free(env[i]);
 	}
 	var_env[i] = ft_strdup(new_env);
-	ft_free(env);
+	free(env);
 	free(new_env);
 	return (var_env);
 }

@@ -1,18 +1,16 @@
 #include "minishell.h"
 
-void	free_split(char ***splited)
+void	free_split(char **splited)
 {
 	int		pos;
-	char	**tmp;
 
 	pos = 0;
-	tmp = *splited;
-	while (tmp[pos])
+	while (splited[pos])
 	{
-		free(tmp[pos]);
+		free(splited[pos]);
 		pos++;
 	}
-	free(tmp);
+	free(splited);
 }
 
 void	free_stack(t_list **stack)
