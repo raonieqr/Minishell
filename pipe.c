@@ -5,7 +5,8 @@ void	childs_pipe(int *flags, int *fd, t_list *list)
 	int	i;
 
 	i = 0;
-	if (!fork())
+	list->children = fork();
+	if (!list->children)
 	{
 		if (!flags[0])
 			dup2(fd[0], 0);
@@ -60,22 +61,27 @@ int	see_pipe(int *fd, t_list *list)
 
 int	check_command_pipe(t_list *list)
 {
-	int	fd[4];
-	int	out;
-	int	childs;
-	int	i;
+	int		fd[4];
+	int		out;
+	int		childs;
+	int		i;
+	t_list *temp;
 
 	out = dup(0);
+	temp = list;
 	i = 0;
 	pipe(fd);
 	pipe(fd + 2);
 	childs = see_pipe(fd, list);
 	while (childs-- > 0)
-		waitpid(-1, &g_status, 0);
-	if (g_status < 128 && g_status)
+	{
+		waitpid(temp->children, &g_status, 0);
+		temp = temp->next;
+	}
+	if (g_status < 0)
 		g_status = 127;
-	else
-		g_status /= 256;
+	else if (g_status > 255)
+		g_status /= 255;
 	i = 0;
 	while (i++ < 4)
 		close(fd[i]);
