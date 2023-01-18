@@ -161,6 +161,7 @@ void				print_start(void);
 char				*return_path(void);
 void				ft_free(char **str);
 void				print_prompt(t_sh *cmd);
+void				freetwo_voids(t_sh *s, t_env *s2);
 
 // SIGNALS
 void				child_signals(void);
@@ -192,5 +193,6 @@ void				exec_unset(char *cmd, t_env *envp);
 t_list				*return_node(t_list *list);
 void				close_free(t_list *cur);
 void				freetwo_voids(t_sh *s, t_env *s2);
-
+void				*change_node(t_list *list);
+void				*node_change(t_list *list, t_list *temp);
 #endif

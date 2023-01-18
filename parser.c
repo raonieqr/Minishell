@@ -89,7 +89,6 @@ void	*check_input(t_sh *cmd, t_env *new_envp)
 	free(temp);
 	split_cmd = ft_split(cmd->prompt, ' ');
 	free(cmd->prompt);
-	free(cmd);
 	if (!split_cmd || check_double_pipe(split_cmd))
 		return (NULL);
 	split_cmd = expand_dir(split_cmd);

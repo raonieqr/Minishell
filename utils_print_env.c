@@ -11,8 +11,10 @@ int	exec_exports(char *cmd, t_env *envp)
 		return (0);
 	var = get_var(cmd);
 	value = get_value(cmd);
-	if (!var || !value)
-		return (ft_perror(127, NULL, 0));
+	if (!var)
+		return (0);
+	if (!value)
+		value = ft_strdup("=");
 	exec_unset(var, envp);
 	new_var = ft_strjoin(var, "");
 	tmp = new_var;

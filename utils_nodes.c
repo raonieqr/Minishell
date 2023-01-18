@@ -1,11 +1,22 @@
 #include "minishell.h"
 
-t_list	*return_node(t_list *list)
+t_list	*second_last_node(t_list *list)
 {
-	if (list->next || list->cmd)
-		return (list);
-	else if (!list)
-		return (NULL);
+	int		i;
+	t_list	*temp;
+
+	i = ft_lstsize(list) - 2;
+	temp = list;
+	while (i > 0)
+	{
+		i--;
+		temp = temp->next;
+	}
+	return (temp);
+}
+
+void	*change_node(t_list *list)
+{
 	if (list->infile > 2)
 		close(list->infile);
 	if (list->outfile > 2)
@@ -15,6 +26,36 @@ t_list	*return_node(t_list *list)
 	return (NULL);
 }
 
+void	*node_change(t_list *list, t_list *temp)
+{
+	if (temp->infile > 2)
+		close(temp->infile);
+	if (temp->outfile > 2)
+		close(temp->outfile);
+	free(temp);
+	temp = second_last_node(list);
+	temp->next = NULL;
+	return (NULL);
+}
+
+t_list	*return_node(t_list *list)
+{
+	t_list	*temp;
+
+	if (!list)
+		return (NULL);
+	if (!list->cmd)
+		change_node(list);
+	temp = ft_lstlast(list);
+	if (!temp->cmd)
+	{
+		node_change(list, temp);
+		return (NULL);
+	}
+	temp = list;
+	return (list);
+}
+
 void	close_free(t_list *cur)
 {
 	if (cur->infile > 2)
@@ -22,12 +63,4 @@ void	close_free(t_list *cur)
 	if (cur->outfile > 2)
 		close(cur->outfile);
 	free(cur);
-}
-
-void	freetwo_voids(t_sh *s, t_env *s2)
-{
-	if (s)
-		free(s);
-	if (s2)
-		free(s2);
 }

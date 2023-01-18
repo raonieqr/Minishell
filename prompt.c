@@ -46,3 +46,11 @@ void	print_prompt(t_sh *cmd)
 		add_history(cmd->prompt);
 	ft_free(&cmd->temp);
 }
+
+void	freetwo_voids(t_sh *s, t_env *s2)
+{
+	if (s)
+		free(s);
+	if (s2)
+		free(s2);
+}
