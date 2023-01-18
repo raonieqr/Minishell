@@ -87,7 +87,7 @@ void				loop_command(t_list *cmd_node, t_env *envp);
 
 // EXECUTION
 int					matrix_len(char **matrix);
-char				*test_path(char **cmd);
+char				*test_path(t_list *cmd);
 char				*test_access(char **path, char **cmd);
 DIR					*check_cmd(t_list *cmds);
 int					get_path(t_list *cmds);

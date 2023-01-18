@@ -12,14 +12,16 @@ int	matrix_len(char **matrix)
 	return (i);
 }
 
-char	*test_path(char **cmd)
+char	*test_path(t_list *cmd)
 {
 	char	**new_path;
 	char	*env_path;
 
-	env_path = getenv("PATH");
+	env_path = ft_get_env(cmd->envp->env, "PATH");
+	if (!env_path)
+		return (NULL);
 	new_path = ft_split(env_path + 5, ':');
-	return (test_access(new_path, cmd));
+	return (test_access(new_path, cmd->cmd));
 }
 
 char	*test_access(char **path, char **cmd)
@@ -60,7 +62,7 @@ DIR	*check_cmd(t_list *cmds)
 	}
 	else if (cmds->cmd && cmds->cmd[0] && !dir)
 	{
-		cmds->cmd_path = test_path(cmds->cmd);
+		cmds->cmd_path = test_path(cmds);
 		if (!cmds || !cmds->cmd[0] || !cmds->cmd[0][0])
 			ft_perror(127, NULL, 1);
 	}
