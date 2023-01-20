@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_address.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasilva <rasilva@student.42.rio>           +#+  +:+       +#+        */
+/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 12:09:38 by rasilva           #+#    #+#             */
-/*   Updated: 2022/06/03 09:26:36 by rasilva          ###   ########.fr       */
+/*   Created: 2023/01/19 13:43:07 by sdos-san          #+#    #+#             */
+/*   Updated: 2023/01/19 13:47:42 by sdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static int	ft_len_hex(unsigned long number)

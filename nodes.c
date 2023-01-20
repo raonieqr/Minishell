@@ -32,22 +32,13 @@ int	fill_node(t_list *node, char **args, int i)
 	}
 	else if (args[i][0] == '<' && args[i][1] == '<')
 	{
-		ft_get_infile2(node, args, i);
+		if (ft_get_infile2(node, args, i) < 0)
+			return (-20);
 		return (2);
 	}
 	else
 		check = complement_fill_node(node, args, i);
 	return (check);
-}
-
-int	verifying(t_list *cmds, int check)
-{
-	if (check < 0)
-	{
-		free_stack(&cmds);
-		return (1);
-	}
-	return (0);
 }
 
 void	ft_add_node(t_list **lst)
@@ -79,6 +70,18 @@ void	ft_add_node(t_list **lst)
 	ft_lstadd_back(lst, cmd_init());
 }
 
+int	verifying_fill_node(t_list *cmds, int check)
+{
+	if (check == -20)
+		return (0);
+	if (check < 0)
+	{
+		free_stack(&cmds);
+		return (1);
+	}
+	return (0);
+}
+
 t_list	*create_nodes(char **args, t_env *new_envp)
 {
 	t_list	*cmds;
@@ -91,7 +94,7 @@ t_list	*create_nodes(char **args, t_env *new_envp)
 	current_node = NULL;
 	cmds = NULL;
 	g_status = 0;
-	while (args[i] && args[i][0])
+	while (check != -20 && args[i] && args[i][0])
 	{
 		if (check_for_cmd(args, i))
 		{
@@ -101,9 +104,9 @@ t_list	*create_nodes(char **args, t_env *new_envp)
 		current_node = ft_lstlast(cmds);
 		current_node->envp = new_envp;
 		check = fill_node(current_node, args, i);
-		if (verifying(cmds, check))
+		if (verifying_fill_node(cmds, check))
 			return (NULL);
 		i += check;
 	}
-	return (return_node(cmds));
+	return (return_node(cmds, check, args));
 }

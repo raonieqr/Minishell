@@ -79,6 +79,8 @@ int	ft_get_infile2(t_list *node, char **args, int i)
 		ft_perror(126, NULL, SYNTAX);
 		return (-1);
 	}
+	if (node->infile == -1)
+		return (-1);
 	return (0);
 }
 

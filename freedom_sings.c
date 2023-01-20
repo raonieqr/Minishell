@@ -40,10 +40,12 @@ void	ft_freenode(t_list *cmd)
 		i = -1;
 		if (aux->cmd_path)
 			free(aux->cmd_path);
-		while (aux->cmd[++i])
-			free(aux->cmd[i]);
 		if (aux->cmd)
+		{
+			while (aux->cmd[++i])
+				free(aux->cmd[i]);
 			free(aux->cmd);
+		}
 		if (aux->infile > 2)
 			close(aux->infile);
 		if (aux->outfile > 2)

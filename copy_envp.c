@@ -5,17 +5,23 @@ char	**copy_env(char **envp)
 	int		len;
 	int		i;
 	char	**copy;
+	int		j;
 
 	len = 0;
 	i = -1;
+	j = -1;
 	while (envp[len])
 		len++;
-	copy = malloc(sizeof(char **) * (len + 1));
+	copy = malloc(sizeof(char **) * len);
 	if (!copy)
 		return (NULL);
 	copy[len] = NULL;
-	while (envp[++i])
-		copy[i] = ft_strdup(envp[i]);
+	while (envp[++j])
+	{
+		if (!ft_strncmp("OLDPWD", envp[j], 6))
+			j++;
+		copy[++i] = ft_strdup(envp[j]);
+	}
 	return (copy);
 }
 

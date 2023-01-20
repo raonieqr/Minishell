@@ -11,7 +11,7 @@ int	get_flag(char ***tmp, int *i, int *j, t_env *new_env)
 	aux2 = *j;
 	str = *tmp;
 	flag = 0;
-	if (str[aux1][aux2] == '$')
+	if (str[aux1][aux2] == '$' && str[aux1][aux2 + 1])
 		flag = expand_var(&str, aux1, aux2, new_env);
 	if (flag < 0)
 	{

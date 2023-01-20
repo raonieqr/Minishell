@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasilva <rasilva@student.42.rio>           +#+  +:+       +#+        */
+/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 13:37:00 by rasilva           #+#    #+#             */
-/*   Updated: 2022/06/03 09:00:33 by rasilva          ###   ########.fr       */
+/*   Created: 2023/01/19 13:43:36 by sdos-san          #+#    #+#             */
+/*   Updated: 2023/01/19 13:43:39 by sdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int	ft_putchar(char c)

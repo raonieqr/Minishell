@@ -23,7 +23,7 @@ int	expand_var(char ***cmds, int i, int j, t_env *new_envp)
 	tmp = *cmds;
 	if (tmp[i][j + 1] == '?')
 		tmp[i] = join_status(tmp[i], j, ft_itoa(g_status));
-	else
+	else if (!ft_isspace(tmp[i][j + 1]))
 		return (not_env(cmds, i, j, new_envp));
 	*cmds = tmp;
 	j = j + 1;
@@ -56,4 +56,12 @@ char	**expand_dir(char **cmds)
 		i++;
 	}
 	return (cmds);
+}
+
+void	set_oldpwd(t_env *envp)
+{
+	char	*old_pwd;
+
+	old_pwd = ft_strjoin("OLDPWD=", ft_get_env(envp->env, "PWD"));
+	exec_exports(old_pwd, envp);
 }

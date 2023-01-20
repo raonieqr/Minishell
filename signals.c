@@ -13,7 +13,10 @@ void	handle_sig(int sig, siginfo_t *info, void *algo)
 	if (sig == SIGINT)
 	{
 		g_status = 130;
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		if (RL_ISSTATE(RL_STATE_READCMD))
+			ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		else
+			write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}

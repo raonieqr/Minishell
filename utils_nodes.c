@@ -38,10 +38,16 @@ void	*node_change(t_list *list, t_list *temp)
 	return (NULL);
 }
 
-t_list	*return_node(t_list *list)
+t_list	*return_node(t_list *list, int check, char **args)
 {
 	t_list	*temp;
 
+	if (check == -20)
+	{
+		free_split(args);
+		ft_freenode(list);
+		return (NULL);
+	}
 	if (!list)
 		return (NULL);
 	if (!list->cmd)

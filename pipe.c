@@ -65,11 +65,10 @@ int	check_command_pipe(t_list *list)
 	int		out;
 	int		childs;
 	int		i;
-	t_list *temp;
+	t_list	*temp;
 
 	out = dup(0);
 	temp = list;
-	i = 0;
 	pipe(fd);
 	pipe(fd + 2);
 	childs = see_pipe(fd, list);

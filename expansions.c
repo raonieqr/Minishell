@@ -19,7 +19,7 @@ char	*get_sub(char *str)
 	char	*new_str;
 
 	i = 0;
-	while (str[i] && !ft_ismetachar(str[i]))
+	while (str[i] && !ft_ismetachar(str[i]) && !ft_isspace(str[i]))
 		i++;
 	new_str = ft_substr(str, 0, i);
 	return (new_str);

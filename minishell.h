@@ -20,10 +20,6 @@
 typedef struct s_cmd
 {
 	char			*envp;
-	char			**exp;
-	char			**cmd;
-	char			**argv;
-	char			*str;
 	char			*prompt;
 	char			*temp;
 	struct s_list	*list;
@@ -33,7 +29,6 @@ extern int			g_status;
 
 enum				e_error
 {
-	NDIR = 1,
 	PIPERR = 4,
 	MALLOC_ERR = 5,
 	SYNTAX = 6,
@@ -64,6 +59,7 @@ int					is_builtin(char **cmd);
 int					exec_builtin(t_list *cmds, t_env *envp);
 
 // CMD_BUILTINS
+void				print_break_line(char **cmd);
 int					exec_echo(char **cmd);
 int					exec_cd(t_list *cmds, t_env *envp);
 int					exec_pwd(void);
@@ -72,6 +68,7 @@ void				exec_env(t_env *envp);
 // CONFIG_CMD
 t_list				*cmd_init(void);
 int					check_for_cmd(char **input, int i);
+int					cmd_len(char **n_cmd, int i);
 char				**ft_add_cmd(char **n_cmd, char *args);
 
 // COPY_ENVP
@@ -103,6 +100,7 @@ char				*rmv_var(int start, int end, char *str);
 int					is_quote(char *str);
 int					expand_var(char ***cmds, int i, int j, t_env *new_envp);
 char				**expand_dir(char **cmds);
+void				set_oldpwd(t_env *envp);
 
 // EXPANSIONS
 char				*change_var(char *cmd, char *var, char *value, int pos_s);
@@ -130,17 +128,21 @@ int					ft_get_infile(t_list *node, char **args, int i);
 int					check_end(char *input, char *delimiter);
 char				*get_input(char *delimiter);
 int					here_docs(char *delimiter);
+char				*return_free(char *input);
 
 // NODES
+int					complement_fill_node(t_list *node, char **args, int i);
 int					fill_node(t_list *node, char **args, int i);
+void				ft_add_node(t_list **lst);
+int					verifying_fill_node(t_list *cmds, int check);
 t_list				*create_nodes(char **args, t_env *new_envp);
 
 // PARSER_2
-char				*cmd_prompt(char *input);
 char				*ft_new_trim(char *cmd);
 char				*check_temp(char *temp, char *input, int *i);
 int					return_swap(char ****cmds, char **tmp);
 void				exec_exit(t_list *cmds, t_env *envp);
+int					check_redir(char *prompt);
 
 // PARSER
 int					check_operator(char *prompt);
@@ -182,6 +184,13 @@ int					size_matrix(char **str);
 int					ft_len_char(char *str);
 char				*to_lower(char *cmd);
 
+// UTILS_NODES
+t_list				*second_last_node(t_list *list);
+void				*change_node(t_list *list);
+void				*node_change(t_list *list, t_list *temp);
+t_list				*return_node(t_list *list, int check, char **args);
+void				close_free(t_list *cur);
+
 // UTILS_PRINT_ENV
 int					exec_exports(char *cmd, t_env *envp);
 char				*ft_get_env(char **envp, char *var);
@@ -189,10 +198,4 @@ char				*get_var(char *cmd);
 char				*get_value(char *cmd);
 void				exec_unset(char *cmd, t_env *envp);
 
-// UTILS_NODES
-t_list				*return_node(t_list *list);
-void				close_free(t_list *cur);
-void				freetwo_voids(t_sh *s, t_env *s2);
-void				*change_node(t_list *list);
-void				*node_change(t_list *list, t_list *temp);
 #endif

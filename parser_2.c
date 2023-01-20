@@ -55,8 +55,39 @@ int	return_swap(char ****cmds, char **tmp)
 
 void	exec_exit(t_list *cmds, t_env *envp)
 {
-	ft_freenode(cmds);
 	free_split(envp->env);
+	ft_freenode(cmds);
 	free(envp);
 	exit(g_status);
+}
+
+int check_redir(char *prompt)
+{
+	char **splited;
+	int	pos;
+
+	pos = 0;
+	splited = ft_split(prompt, ' ');
+	if (!splited)
+		return (1);
+	while (splited[pos])
+	{
+		if (check_operator(splited[pos]) && !splited[pos + 1])
+		{
+			free_split(splited);
+			write(2, "syntax error near unexpected token `<'\n", 39);
+			g_status = 258;
+			return (1);
+		}
+		if ((check_operator(splited[pos + 1]) && check_operator(splited[pos])) && (splited[pos][0] != '|' || splited[pos + 1][0] == '|'))
+		{
+			free_split(splited);
+			write(2, "syntax error near unexpected token `<'\n", 39);
+			g_status = 258;
+			return (1);
+		}
+		pos++;
+	}
+	free_split(splited);
+	return (0);
 }

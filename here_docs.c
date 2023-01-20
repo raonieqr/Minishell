@@ -9,15 +9,22 @@ int	check_end(char *input, char *delimiter)
 	size = 0;
 	if (!input)
 		return (1);
+	if (g_status == 130)
+		return (1);
 	if (!ft_strncmp(input, delimiter, ft_strlen(delimiter)))
 		equal = 1;
 	if (ft_strlen(delimiter) == (ft_strlen(input) - 1))
 		size = 1;
 	if (size && equal)
 		return (1);
-	if (g_status == 130)
-		return (1);
 	return (0);
+}
+
+char	*return_free(char *input)
+{
+	if (input)
+		free(input);
+	return (NULL);
 }
 
 char	*get_input(char *delimiter)
@@ -43,7 +50,9 @@ char	*get_input(char *delimiter)
 		input = ft_strjoin(input, "\n");
 		free(temp_str);
 	}
-	free(input);
+	ft_free(&input);
+	if (g_status == 130)
+		return_free(returned_str);
 	return (returned_str);
 }
 
@@ -60,13 +69,15 @@ int	here_docs(char *delimiter)
 		return (-1);
 	}
 	input = get_input(delimiter);
-	write(fd[1], input, ft_strlen(input));
-	free(input);
-	close(fd[1]);
 	if (g_status == 130)
 	{
 		close(fd[0]);
+		close(fd[1]);
 		return (-1);
 	}
+	write(fd[1], input, ft_strlen(input));
+	if (input)
+		free(input);
+	close(fd[1]);
 	return (fd[0]);
 }

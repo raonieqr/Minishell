@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasilva <rasilva@student.42.rio>           +#+  +:+       +#+        */
+/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 13:35:52 by rasilva           #+#    #+#             */
-/*   Updated: 2022/05/13 13:56:55 by rasilva          ###   ########.fr       */
+/*   Created: 2023/01/19 13:48:30 by sdos-san          #+#    #+#             */
+/*   Updated: 2023/01/19 13:48:32 by sdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static	int	check(int a);

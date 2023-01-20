@@ -41,6 +41,7 @@ int	exec_cd(t_list *cmds, t_env *envp)
 	char	*temp;
 	char	*temp2;
 
+	set_oldpwd(envp);
 	if (!cmds->cmd[1])
 	{
 		temp2 = ft_get_env(envp->env, "HOME");
@@ -50,9 +51,8 @@ int	exec_cd(t_list *cmds, t_env *envp)
 		temp = ft_strjoin("PWD=", var);
 		exec_exports(temp, envp);
 		freethree_ptrs(&temp, &var, &temp2);
-		return (0);
 	}
-	if (chdir(cmds->cmd[1]) == -1)
+	else if (chdir(cmds->cmd[1]) == -1)
 		return (ft_perror(127, cmds->cmd[1], 0));
 	else
 	{
@@ -60,8 +60,8 @@ int	exec_cd(t_list *cmds, t_env *envp)
 		temp = ft_strjoin("PWD=", var);
 		exec_exports(temp, envp);
 		freetwo_ptrs(&temp, &var);
-		return (0);
 	}
+	return (0);
 }
 
 int	exec_pwd(void)

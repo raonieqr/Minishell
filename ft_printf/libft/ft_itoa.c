@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasilva <rasilva@student.42.rio>           +#+  +:+       +#+        */
+/*   By: sdos-san <sdos-san@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/14 18:35:28 by rasilva           #+#    #+#             */
-/*   Updated: 2022/05/14 19:05:13 by rasilva          ###   ########.fr       */
+/*   Created: 2023/01/19 13:50:31 by sdos-san          #+#    #+#             */
+/*   Updated: 2023/01/19 13:50:34 by sdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static size_t	size_number(int n);

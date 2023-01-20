@@ -42,7 +42,7 @@ void	print_prompt(t_sh *cmd)
 	cmd->temp = ft_strjoin("\033[0;32mMinishell@42rio:\033[0:39m", cmd->envp);
 	ft_free(&cmd->envp);
 	cmd->prompt = readline(cmd->temp);
-	if (cmd->prompt)
+	if (cmd->prompt && cmd->prompt[0])
 		add_history(cmd->prompt);
 	ft_free(&cmd->temp);
 }
