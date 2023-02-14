@@ -9,7 +9,7 @@ On Ubuntu, you can run the following command:
 
 On macOS, you can use the Homebrew package manager:  
 
--  brew install readline. 
+-  brew install readline 
 
 ## Compiling the Minishell
 To compile Minishell, simply type the following command at the command line:  
